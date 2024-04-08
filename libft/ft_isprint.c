@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/08 15:08:45 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/04/08 15:45:42 by nvillalt         ###   ########.fr       */
+/*   Created: 2023/10/05 14:28:57 by nvillalt          #+#    #+#             */
+/*   Updated: 2023/10/05 14:28:59 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_isprint(int c)
 {
-	printf("Holaaaaa! \n");
-	printf("Adios \n");
+	if (c >= 32 && c <= 126)
+		return (1);
 	return (0);
 }
