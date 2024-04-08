@@ -6,7 +6,7 @@
 /*   By: fmoran-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:35:04 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/04/08 21:44:08 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 21:53:13 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	control_n(char **str, int i, int *n_flag)
 	return (i);
 }
 
-static void	ft_echo(char **str)
+void	ft_echo(char **str)
 {
 	int	i;
 	int	n_flag;
@@ -70,10 +70,4 @@ static void	ft_echo(char **str)
 		printf("%s", str[i]);
 	if (n_flag != 0)
 		printf("\n");
-}
-
-int main(int argc, char **argv)
-{
-	ft_echo(argv);
-	return (0);
 }
