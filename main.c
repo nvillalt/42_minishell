@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid>       +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:08:45 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/04/08 15:39:14 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:45:42 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	main(int argc, char **argv)
 {
+	printf("Holaaaaa! \n");
 	printf("Adios \n");
 	return (0);
 }
