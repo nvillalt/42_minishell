@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:08:45 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/04/08 15:21:01 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:38:09 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	main(int argc, char **argv)
 {
-	printf("Hola! \n");
+	printf("Holaaaaa! \n");
 	return (0);
 }
