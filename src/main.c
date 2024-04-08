@@ -1,8 +1,11 @@
-#include "../inc/minishell.h"
+#include "../minishell.h"
 
-int	main(int argc, char **argv)
+// MAIN
+// DUPLICAR EL ENV
+
+int	main(int argc, char **argv, char **envp)
 {
-	printf("Holaaaaa! \n");
-	printf("Adios \n");
+	// DUPLICAR ENVP, strdup en doble matriz. Ver que no de segfault si me quitan en envp al empezar (que dé error y ya)
+	printf("Hola");
 	return (0);
 }
