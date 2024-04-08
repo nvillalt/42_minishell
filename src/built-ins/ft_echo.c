@@ -1,12 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/08 13:35:19 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/04/08 16:04:45 by fmoran-m         ###   ########.fr       */
+/*   Created: 2024/04/08 21:35:04 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/04/08 21:44:08 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../minishell.h"
 #include <stdio.h>
 
 static int	count_argc(char **str)
@@ -27,13 +31,16 @@ static int	control_n(char **str, int i, int *n_flag)
 	while (str[i] && ft_strncmp(str[i], "-n", 2) == 0)
 	{
 		while(str[i][j] && str[i][j] == 'n')
+		{
 			j++;
+		}
 		if(str[i][j])
 			break ;
 		else
 		{
 			*n_flag = 0;
 			i++;
+			j = 2;
 		}
 	}
 	return (i);
