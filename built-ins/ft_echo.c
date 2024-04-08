@@ -19,6 +19,26 @@ static int	count_argc(char **str)
 	return(i);
 }
 
+static int	control_n(char **str, int i, int *n_flag)
+{
+	int	j;
+	
+	j = 2;
+	while (str[i] && ft_strncmp(str[i], "-n", 2) == 0)
+	{
+		while(str[i][j] && str[i][j] == 'n')
+			j++;
+		if(str[i][j])
+			break ;
+		else
+		{
+			*n_flag = 0;
+			i++;
+		}
+	}
+	return (i);
+}
+
 static void	ft_echo(char **str)
 {
 	int	i;
@@ -33,11 +53,7 @@ static void	ft_echo(char **str)
 		return;
 	}
 	argc = count_argc(str);
-	if (ft_strncmp(str[i], "-n", 2) == 0 && ft_strlen(str[i]) == 2)
-	{
-		i++;
-		n_flag = 0;
-	}
+	i = control_n(str, i, &n_flag);
 	while(i < argc - 1)
 	{
 		printf("%s ", str[i]);
