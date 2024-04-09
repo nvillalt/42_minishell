@@ -15,4 +15,12 @@
 # include "inc/tokenizer.h"
 
 
+/* ····· general utils & functions ····· */
+
+// utils
+char	**env_dup(char **env);
+
+// free functions
+char	**free_matrix(char **matrix);
+
 #endif

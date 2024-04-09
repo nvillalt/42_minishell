@@ -1,0 +1,4 @@
+.DS_Store
+*.h.gch
+.vscode/
+a.out
