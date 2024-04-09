@@ -10,7 +10,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1) // meter mensaje de error aquí ????? - Control de que no intenten meter un argumento
 		return (1);
 	utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
-	prompt_loop(&utils);
+	utils.path = get_path(utils.env);
+	free_matrix(utils.path);
+	system("leaks -q minishell");
+	//prompt_loop(&utils);
 	// Función para liberar al final ????
 	return (0);
 }
