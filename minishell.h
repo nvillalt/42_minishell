@@ -14,4 +14,14 @@
 # include "inc/structs.h"
 # include "inc/tokenizer.h"
 
+
+/* ····· general utils & functions ····· */
+
+// utils
+char	**env_dup(char **env);
+int		prompt_loop(t_utils *utils);
+
+// free functions
+char	**free_matrix(char **matrix);
+
 #endif
