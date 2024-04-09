@@ -21,7 +21,10 @@
 char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
 
-// free functions
+// error_management
+int error_message(t_utils *utils);
+
+// free_functions
 char	**free_matrix(char **matrix);
 
 #endif
