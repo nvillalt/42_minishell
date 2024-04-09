@@ -15,7 +15,8 @@ INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h 
 RM = rm -f
 
 BUILT_INS = src/builtins/ft_echo.c \
-						src/builtins/ft_pwd.c
+						src/builtins/ft_pwd.c \
+						src/builtins/ft_env.c
 
 EXECUTOR = 
 

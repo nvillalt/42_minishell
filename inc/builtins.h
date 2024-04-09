@@ -3,4 +3,5 @@
 
 void	ft_echo(char **str);
 void	ft_pwd(char **env);
+void	ft_env(char **env);
 #endif

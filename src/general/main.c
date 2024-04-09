@@ -9,7 +9,7 @@ int	main(int argc, char **argv, char **envp)
 	utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 	//prompt_loop(&utils);
 	// Función para liberar al final ????
-	ft_pwd(utils.env);
+	ft_env(utils.env);
 	return (0);
 }
 
