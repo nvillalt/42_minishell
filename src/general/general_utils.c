@@ -1,12 +1,12 @@
 
 
 #include "../../minishell.h"
-
+/*
 static int	strcmp_spaces(char *str)
 {
 
 }
-
+*/
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
@@ -16,7 +16,7 @@ int	prompt_loop(t_utils *utils)
 		input = readline("minishell: ");
 		if (!input)
 			error_message(utils); // ¿¿Quizás codificar esto por tipos de error???
-		if (!input || ) // El primero es espacio; el segundo, tab.
+		if (!input) // El primero es espacio; el segundo, tab.
 		{
 			printf("%d", ft_strcmp(input, " \n"));
 			printf("debug\n");
@@ -55,3 +55,4 @@ char	**env_dup(char **env)
 	}
 	return (dup);
 }
+

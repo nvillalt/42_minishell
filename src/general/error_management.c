@@ -1,5 +1,3 @@
-
-
 #include "../../minishell.h"
 
 int error_message(t_utils *utils)

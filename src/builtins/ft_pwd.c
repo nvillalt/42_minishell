@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int main(int argc, char **argv, char **env)
+int ft_pwd(int argc, char **argv, char **env)
 {
 	char *str;
 	int	i;
