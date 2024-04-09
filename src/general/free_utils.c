@@ -1,5 +1,3 @@
-
-
 #include "../../minishell.h"
 
 char **free_matrix(char **matrix)

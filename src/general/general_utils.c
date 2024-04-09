@@ -18,8 +18,8 @@ int	prompt_loop(t_utils *utils)
 			error_message(utils); // ¿¿Quizás codificar esto por tipos de error???
 		if (!input) // El primero es espacio; el segundo, tab.
 		{
-			printf("%d", ft_strcmp(input, " \n"));
-			printf("debug\n");
+//			printf("%d", ft_strcmp(input, " \n"));
+//			printf("debug\n");
 			free(input);
 		}
 		else
