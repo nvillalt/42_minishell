@@ -13,7 +13,7 @@ typedef struct s_macro
 typedef struct s_utils
 {
 	char	**env; // Para el env duplicado
-
+	char	*prompt; // Guardar el string que entre desde readline
 
 } t_utils;
 

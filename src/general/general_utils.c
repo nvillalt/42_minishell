@@ -2,8 +2,6 @@
 
 #include "../../minishell.h"
 
-
-
 char	**env_dup(char **env)
 {
 	char	**dup;
@@ -27,4 +25,15 @@ char	**env_dup(char **env)
 		i++;
 	}
 	return (dup);
+}
+
+int	prompt_loop(t_utils *utils)
+{
+	char	*input;
+	
+	while (1)
+	{
+		readline("minishell: ");
+	}
+	return (1); // Va todo bien, no da errores
 }
