@@ -5,7 +5,12 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	// DUPLICAR ENVP, strdup en doble matriz. Ver que no de segfault si me quitan en envp al empezar (que dé error y ya)
-	printf("Hola");
+	char	*str;
+
+	while (1)
+	{
+		str = readline("minishell");
+		add_history(str);
+	}
 	return (0);
 }
