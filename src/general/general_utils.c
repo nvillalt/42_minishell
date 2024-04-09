@@ -23,17 +23,17 @@ int	prompt_loop(t_utils *utils)
 	{	
 		input = readline("minishell: ");
 		if (!input)
-			error_message(utils); // ¿¿Quizás codificar esto por tipos de error???
+			error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
 		if (!input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
 		{
-			// Hay que devolver algo aquí??? o imprimir
+			// ¿Hay que imprimir algo aquí?
 			free(input);
 		}
 		else
 		{
-			add_history(input);
+			add_history(input); // preguntar cómo funciona
 			free(input);
-			//create_tokens(utils);
+			
 		}
 	}
 	return (1);
