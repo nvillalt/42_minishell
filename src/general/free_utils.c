@@ -2,7 +2,7 @@
 
 #include "../../minishell.h"
 
-char **free_matrix(char **matrix)
+void	free_matrix(char **matrix)
 {
 	int	i;
 
@@ -13,5 +13,5 @@ char **free_matrix(char **matrix)
 		i++;
 	}
 	free(matrix);
-	return (matrix);
+	return ;
 }

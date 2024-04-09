@@ -12,6 +12,7 @@ typedef struct s_macro
 
 typedef struct s_utils
 {
+	char	**path; // Guardar los comandos de path por si hay que hacer rutas luego
 	char	**env; // Para el env duplicado
 	char	*prompt; // Guardar el string que entre desde readline
 

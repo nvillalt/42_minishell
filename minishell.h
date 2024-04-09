@@ -25,6 +25,6 @@ int		prompt_loop(t_utils *utils);
 int error_message(t_utils *utils);
 
 // free_functions
-char	**free_matrix(char **matrix);
+void  free_matrix(char **matrix);
 
 #endif

@@ -2,3 +2,5 @@
 *.h.gch
 .vscode/
 a.out
+*.o
+minishell

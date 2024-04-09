@@ -4,7 +4,15 @@
 
 static int	strcmp_spaces(char *str)
 {
+	int	i;
 
+	i = 0;
+	while(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '\0')
+		return (0);
+	else
+		return (1);
 }
 
 int	prompt_loop(t_utils *utils)
@@ -15,20 +23,20 @@ int	prompt_loop(t_utils *utils)
 	{	
 		input = readline("minishell: ");
 		if (!input)
-			error_message(utils); // ¿¿Quizás codificar esto por tipos de error???
-		if (!input || ) // El primero es espacio; el segundo, tab.
+			error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
+		if (!input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
 		{
-			printf("%d", ft_strcmp(input, " \n"));
-			printf("debug\n");
+			// ¿Hay que imprimir algo aquí?
 			free(input);
 		}
 		else
 		{
-			add_history(input);
+			add_history(input); // preguntar cómo funciona
 			free(input);
+			
 		}
 	}
-	return (1); // Va todo bien, no da errores
+	return (1);
 }
 
 char	**env_dup(char **env)
@@ -37,6 +45,8 @@ char	**env_dup(char **env)
 	size_t	i;
 
 	i = 0;
+	if (!env) //TODO: ver si mejor hacer exit aquí, si no hay env, salir del programa
+		return (NULL);
 	while (env[i] != NULL)
 		i++;
 	dup = ft_calloc(sizeof(char *), i + 1);
