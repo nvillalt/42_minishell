@@ -26,5 +26,6 @@ int error_message(t_utils *utils);
 
 // free_functions
 void  free_matrix(char **matrix);
-
+//printf double array
+void	print_env(char **env);
 #endif
