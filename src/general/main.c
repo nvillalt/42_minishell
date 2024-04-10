@@ -3,6 +3,31 @@
 
 #include "../../minishell.h"
 
+int	prompt_loop(t_utils *utils)
+{
+	char	*input;
+	
+	while (1)
+	{	
+		input = readline("minishell: ");
+		if (!input)
+			error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
+		if (!*input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
+			free(input);
+		else
+		{
+			add_history(input); // preguntar cómo funciona
+			ft_trimspaces(&input);
+			// -> Gestion de comillas + espacios entre comillas
+			// Empezar a pasar a lista de tokens - 1) ls, 2) -la 3)"ls -la" 4)| 
+
+			free(input);
+			
+		}
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
