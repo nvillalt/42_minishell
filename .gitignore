@@ -4,4 +4,4 @@
 a.out
 *.o
 minishell
-libft/libft.a
+libft/*.a

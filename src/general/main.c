@@ -17,10 +17,12 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input); // preguntar cómo funciona
-			ft_trimspaces(&input);
+			input = ft_trimspaces(input);
+			printf("%s\n", input);
+			//check_quotes(input);
+			//word_to_token(input);
 			// -> Gestion de comillas + espacios entre comillas
 			// Empezar a pasar a lista de tokens - 1) ls, 2) -la 3)"ls -la" 4)| 
-
 			free(input);
 			
 		}

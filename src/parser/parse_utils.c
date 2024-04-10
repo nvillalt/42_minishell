@@ -31,22 +31,14 @@ int	strcmp_spaces(char *str)
 		return (1);
 }
 
-int	ft_trimspaces(char **input)
+char	*ft_trimspaces(char *input)
 {
+	//TODO: revisar esta función para que gestione caracteres no imprimibles
 	char	*cpy;
-	int		len;
 	int		i;
 
 	i = 0;
-	len = ft_strlen(*input);
-	while(*input[i] == ' ' || (*input[i] >= 9 && *input[i] <= 13))
-		i++;
-	printf("%s\n%d\n", *input, i);
-	cpy = ft_substr(*input, i, len - i + 1);
-	if (!cpy)
-		return (0);
-	free(*input);
-	*input = cpy;
-	printf("%s\n", *input);
-	return (1);
+	cpy = ft_strtrim(input, " ");
+	free(input);
+	return (cpy);
 }
