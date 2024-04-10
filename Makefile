@@ -22,7 +22,7 @@ EXECUTOR =
 
 TOKENIZER =
 
-PARSER =
+PARSER =	src/parser/get_path.c
 
 GENERAL = src/general/main.c \
 					src/general/error_management.c \
