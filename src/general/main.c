@@ -4,8 +4,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
-	//if (argc > 1) // meter mensaje de error aquí ????? - Control de que no intenten meter un argumento
-		//return (1);
 	utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 	utils.path = get_path(utils.env);
 	//prompt_loop(&utils);
