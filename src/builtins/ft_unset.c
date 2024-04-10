@@ -52,6 +52,7 @@ static char **search_for_var(char **env, char *current_var)
     var_len = ft_strlen(join_var);
 	while(env[i] && ft_strncmp(env[i], join_var, var_len))
         i++;
+	free(join_var);
 	if (!env[i])
 	{
 		new_env = env_dup(env);
@@ -62,14 +63,14 @@ static char **search_for_var(char **env, char *current_var)
 	return (new_env);
 }
 
-void    ft_unset(char **env, char **var)
+char	**ft_unset(char **env, char **var)
 {
     int     index_var;
     char    **new_env;
 	char	**old_env;
 
 	if (!env || !*env || !var || !*var || !var[1])
-		return;
+		return NULL;
     index_var = 1;
     new_env = NULL;
 	old_env = env;
@@ -80,5 +81,5 @@ void    ft_unset(char **env, char **var)
 		old_env = new_env;
 		index_var++;
     }
-	print_env(new_env);
+	return (new_env);
 }
