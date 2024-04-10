@@ -8,9 +8,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 	utils.path = get_path(utils.env);
-	prompt_loop(&utils);
+	//prompt_loop(&utils);
+	ft_pwd(utils.env);
 	// Función para liberar al final ????
-	system("leaks -q minishell");
+	//system("leaks -q minishell");
 	return (0);
 }
 

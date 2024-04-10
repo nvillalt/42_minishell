@@ -1,7 +1,7 @@
 
 
 #include "../../minishell.h"
-/*
+
 static int	strcmp_spaces(char *str)
 {
 	int	i;
@@ -14,7 +14,7 @@ static int	strcmp_spaces(char *str)
 	else
 		return (1);
 }
-*/
+
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
@@ -65,7 +65,3 @@ char	**env_dup(char **env)
 	}
 	return (dup);
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> master
