@@ -8,7 +8,9 @@ CC = cc
 
 LM = make -C
 
-CFLAGS = -lreadline #-Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
+
+RLIB = -lreadline
 
 INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h inc/structs.h inc/tokenizer.h
 
@@ -34,7 +36,7 @@ OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} 
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)
-		$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBFT)
+		$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBFT) $(RLIB)
 
 all: $(NAME)
 

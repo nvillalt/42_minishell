@@ -15,6 +15,23 @@ static int	strcmp_spaces(char *str)
 		return (1);
 }
 
+static void	test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
+{
+	char **argv;
+	int	i;
+
+	i = 0;
+	argv = ft_split(input, ' ');
+	if (ft_strcmp(argv[0], "echo") == 0)
+		ft_echo(argv);
+	if (ft_strcmp(argv[0], "pwd") == 0)
+		ft_pwd();
+	if (ft_strcmp(argv[0], "env") == 0)
+		ft_env(env);
+	if (ft_strcmp(argv[0], "unset") == 0)
+		env = ft_unset(env, argv);
+}
+
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
@@ -32,6 +49,7 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input); // preguntar cómo funciona
+			test_builtins(input, utils->env);
 			free(input);
 		}
 	}
