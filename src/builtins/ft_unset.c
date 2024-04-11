@@ -1,5 +1,29 @@
 #include "../../minishell.h"
 
+static char **allocate_memory(char **dup, char **env, int index_jump)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while(env[i] != NULL)
+	{
+		if (i == index_jump)
+			i++;
+		dup[j] = ft_strdup(env[i]);
+		if (!dup[j])
+		{
+			perror(NULL);
+			free_matrix(dup);
+			exit(1);
+		}
+		i++;
+		j++;
+	}
+	return (dup);
+}
+
 static char	**create_new_env(char **env, int index_jump)
 {
 	char	**dup;
@@ -19,19 +43,7 @@ static char	**create_new_env(char **env, int index_jump)
 	}
 	i = 0;
 	j = 0;
-	while(env[i] != NULL)
-	{
-		if (i == index_jump)
-			i++;
-		dup[j] = ft_strdup(env[i]);
-		if (!dup[j])
-		{
-			free_matrix(dup);
-			return (dup);
-		}
-		i++;
-		j++;
-	}
+	dup = allocate_memory(dup, env, index_jump);
 	return (dup);
 }
 
@@ -48,7 +60,10 @@ static char **search_for_var(char **env, char *current_var)
 	new_env = NULL;
 	join_var = ft_strjoin(current_var, "=");
 	if (!join_var)
+	{
+		perror(NULL);
 		exit(1); //ESTO HAY QUE TOCARLO CORRECTAMENTE
+	}
     var_len = ft_strlen(join_var);
 	while(env[i] && ft_strncmp(env[i], join_var, var_len))
         i++;
@@ -56,6 +71,11 @@ static char **search_for_var(char **env, char *current_var)
 	if (!env[i])
 	{
 		new_env = env_dup(env);
+		if (!new_env)
+		{
+			perror(NULL);
+			exit (1);
+		}
 		return(new_env);
 	}
 	index_jump = i;
@@ -69,8 +89,8 @@ char	**ft_unset(char **env, char **var)
     char    **new_env;
 	char	**old_env;
 
-	if (!env || !*env || !var || !*var || !var[1])
-		return NULL;
+	if (!env || !var[1])
+		return (NULL);
     index_var = 1;
     new_env = NULL;
 	old_env = env;

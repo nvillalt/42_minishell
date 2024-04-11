@@ -15,7 +15,7 @@ static int	strcmp_spaces(char *str)
 		return (1);
 }
 
-static void	test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
+static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 {
 	char **argv;
 	int	i;
@@ -24,12 +24,14 @@ static void	test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 	argv = ft_split(input, ' ');
 	if (ft_strcmp(argv[0], "echo") == 0)
 		ft_echo(argv);
-	if (ft_strcmp(argv[0], "pwd") == 0)
+	else if (ft_strcmp(argv[0], "pwd") == 0)
 		ft_pwd();
-	if (ft_strcmp(argv[0], "env") == 0)
-		ft_env(env);
-	if (ft_strcmp(argv[0], "unset") == 0)
+	else if (ft_strcmp(argv[0], "env") == 0)
+		ft_env(env, argv);
+	else if (ft_strcmp(argv[0], "unset") == 0)
 		env = ft_unset(env, argv);
+	free_matrix(argv);
+	return (env);
 }
 
 int	prompt_loop(t_utils *utils)
@@ -49,7 +51,7 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input); // preguntar cómo funciona
-			test_builtins(input, utils->env);
+			utils->env = test_builtins(input, utils->env);
 			free(input);
 		}
 	}
@@ -62,7 +64,7 @@ char	**env_dup(char **env)
 	size_t	i;
 
 	i = 0;
-	if (!env) //TODO: ver si mejor hacer exit aquí, si no hay env, salir del programa
+	if (!env | !*env) //TODO: ver si mejor hacer exit aquí, si no hay env, salir del programa
 		return (NULL);
 	while (env[i] != NULL)
 		i++;
