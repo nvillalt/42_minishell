@@ -17,13 +17,13 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input); // preguntar cómo funciona
-			input = ft_trimspaces(input);
-			printf("%s\n", input);
-			//check_quotes(input);
-			//word_to_token(input);
+			input += ft_trimspaces(input);
+			if(!check_quotes(input))
+				error_message(utils);
+			word_to_token(input);
 			// -> Gestion de comillas + espacios entre comillas
 			// Empezar a pasar a lista de tokens - 1) ls, 2) -la 3)"ls -la" 4)| 
-			free(input);
+			//free(input);
 			
 		}
 	}
@@ -40,7 +40,9 @@ int	main(int argc, char **argv, char **envp)
 	utils.path = get_path(utils.env);
 	prompt_loop(&utils);
 	// Función para liberar al final ????
-	system("leaks -q minishell");
+	free_matrix(utils.env);
+	free_matrix(utils.path);
+	//system("leaks -q minishell");
 	return (0);
 }
 

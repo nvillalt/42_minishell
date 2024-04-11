@@ -13,6 +13,6 @@ char	**get_path(char **env);
 
 int		check_quotes(char *line);
 int		strcmp_spaces(char *str);
-char	*ft_trimspaces(char *input);
+int		ft_trimspaces(char *input);
 
 #endif

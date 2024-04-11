@@ -2,20 +2,26 @@
 #include "../../minishell.h"
 
 // Devuelve un número para avanzar cuando cheque cosas 
-int	check_quotes(char *line)
+int	check_quotes(char *str)
 {
-	// Contar las quotes (single y double + avanzar en la string)
 	int	i;
-	int	j;
+	int	sgl;
+	int	dbl;
 
 	i = 0;
-	j = 0;
-	while (line[i])
+	sgl = 0;
+	dbl = 0;
+	while (str[i])
 	{
-
+		if (str[i] == 39)
+			sgl++;
+		if (str[i] == 34)
+			dbl++;
 		i++;
 	}
-	return (1);
+	if (sgl % 2 == 0 && dbl % 2 == 0)
+		return (1);
+	return (0);
 }
 
 int	strcmp_spaces(char *str)
@@ -31,14 +37,12 @@ int	strcmp_spaces(char *str)
 		return (1);
 }
 
-char	*ft_trimspaces(char *input)
+int	ft_trimspaces(char *input)
 {
-	//TODO: revisar esta función para que gestione caracteres no imprimibles
-	char	*cpy;
-	int		i;
+	int	i;
 
 	i = 0;
-	cpy = ft_strtrim(input, " ");
-	free(input);
-	return (cpy);
+	while (input[i] == ' ' || (input[i] >= 9 && input[i] <= 13))
+		i++;
+	return (i);
 }
