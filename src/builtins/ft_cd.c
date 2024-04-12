@@ -58,12 +58,12 @@ static char	*search_for_home(char **env)
 	return (home);
 }
 
-static char	**change_to_home(char **env, char **cmd)
+static char	**change_to_home(char **env)
 {
 	char *home;
 
 	home = NULL;
-	home = search_for_home(env); // A lo mejor nos valía con un getenv y perror...
+	home = search_for_home(env);
 	if (!home)
 		return (env);
 	env = change_old_pwd(env);
@@ -75,7 +75,61 @@ static char	**change_to_home(char **env, char **cmd)
 	env = change_pwd(env);
 	return (env);
 }
-//CHEQUEAR QUE TANTO PWD COMO OLDPWD EXISTEN PARA NO TENER PROBLEMAS
+
+static int	check_pwds(char **env)
+{
+	int	i;
+
+	i = 0;
+	while(env[i] && ft_strncmp(env[i], "HOME", 4) != 0)
+		i++;
+	if (!env[i])
+		return (0);
+	i = 0;
+	while (env[i] && ft_strncmp(env[i], "OLDPWD", 6) != 0)
+		i++;
+	if(!env[i])
+		return (0);
+	return (1);
+}
+
+static char	**change_old_pwd_dir(char **env, char *old_pwd)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] && ft_strncmp(env[i], "OLDPWD", 6) != 0)
+		i++;
+	if (env[i] == NULL)
+		return (env);
+	free(env[i]);
+	env[i] = ft_strjoin("OLDPWD=", old_pwd);
+	if (!env[i])
+	{
+		free(old_pwd);
+		exit(1); //Liberaciones y demás
+	}
+	return (env);
+}
+
+static char	**change_to_directory(char **env, char *cmd)
+{
+	char *old_pwd;
+	char cwd[PATH_MAX + 1]; //Ojo con el +1
+
+	old_pwd = ft_strdup(getcwd(cwd, PATH_MAX));
+	if (chdir(cmd) == -1)
+	{
+		perror(NULL);
+		free(old_pwd);
+		return (env);
+	}
+	env = change_old_pwd_dir(env, old_pwd);
+	env = change_pwd(env);
+	return (env);
+}
+
+
 char **ft_cd(char **env, char **cmd)
 {
 	int	i;
@@ -85,13 +139,15 @@ char **ft_cd(char **env, char **cmd)
 		ft_putendl_fd("Can not reach variable PWD in the enviroment", STDERR_FILENO);
 		return (NULL);
 	}
+	if (!check_pwds(env))
+		return(env);
 	i = 0;
 	while(cmd[i])
 		i++;
 	if (i == 1)
-		env = change_to_home(env, cmd);
-	//else if (i == 2)
-		//env = change_to_directory(env, cmd);
+		env = change_to_home(env);
+	else if (i == 2)
+		env = change_to_directory(env, cmd[1]);
 	else
 	{
 		ft_putendl_fd("Error: This command does not accept more than 2 arguments", STDERR_FILENO);
