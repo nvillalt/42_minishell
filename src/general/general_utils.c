@@ -17,20 +17,22 @@ static int	strcmp_spaces(char *str)
 
 static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 {
-	char **argv;
+	char **cmd;
 	int	i;
 
 	i = 0;
-	argv = ft_split(input, ' ');
-	if (ft_strcmp(argv[0], "echo") == 0)
-		ft_echo(argv);
-	else if (ft_strcmp(argv[0], "pwd") == 0)
+	cmd = ft_split(input, ' ');
+	if (ft_strncmp(cmd[0], "echo", 4) == 0 && ft_strlen(cmd[0]) == 4)
+		ft_echo(cmd);
+	else if (ft_strncmp(cmd[0], "pwd", 3) == 0 && ft_strlen(cmd[0]) == 3)
 		ft_pwd();
-	else if (ft_strcmp(argv[0], "env") == 0)
-		ft_env(env, argv);
-	else if (ft_strcmp(argv[0], "unset") == 0)
-		env = ft_unset(env, argv);
-	free_matrix(argv);
+	else if (ft_strncmp(cmd[0], "env", 3) == 0 && ft_strlen(cmd[0]) == 3)
+		ft_env(env, cmd);
+	else if (ft_strncmp(cmd[0], "unset", 5) == 0 && ft_strlen(cmd[0]) == 5)
+		env = ft_unset(env, cmd);
+	else if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
+		env = ft_cd(env, cmd);
+	free_matrix(cmd);
 	return (env);
 }
 

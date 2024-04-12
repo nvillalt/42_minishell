@@ -20,6 +20,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/ft_pwd.c \
 						src/builtins/ft_env.c \
 						src/builtins/ft_unset.c \
+						src/builtins/ft_cd.c \
 
 EXECUTOR = 
 
