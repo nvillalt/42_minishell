@@ -15,25 +15,25 @@ INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h 
 RM = rm -f
 
 BUILT_INS = src/builtins/ft_echo.c \
-						src/builtins/ft_pwd.c
+			src/builtins/ft_pwd.c
 
 EXECUTOR = 
 
-TOKENIZER =
+TOKENIZER =	src/tokenizer/token_generator.c \
 
 PARSER =	src/parser/get_path.c \
 			src/parser/parse_utils.c
 
 GENERAL = src/general/main.c \
-					src/general/error_management.c \
-					src/general/free_utils.c \
-					src/general/general_utils.c
+			src/general/error_management.c \
+			src/general/free_utils.c \
+			src/general/general_utils.c
 
 OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o}
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)
-		$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBFT)
+		$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline
 
 all: $(NAME)
 

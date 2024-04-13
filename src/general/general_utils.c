@@ -2,6 +2,18 @@
 
 #include "../../minishell.h"
 
+void	init_utils(t_utils *utils)
+{
+	if (!utils->env || !utils->path)
+		error_message(utils);
+	utils->prompt = NULL;
+	utils->parse = NULL;
+	utils->token = NULL;
+	// utils->parse->builtin = NULL;
+	// utils->parse->cmd = NULL;
+	// utils->parse->redir->doc = NULL;
+	// utils->parse->redir->flag = -1;
+}
 
 char	**env_dup(char **env)
 {

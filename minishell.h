@@ -20,11 +20,13 @@
 // utils
 char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
+void	init_utils(t_utils *utils);
 
 // error_management
-int error_message(t_utils *utils);
+int		error_message(t_utils *utils);
 
 // free_functions
-void  free_matrix(char **matrix);
+void 	free_matrix(char **matrix);
+void	free_utils(t_utils *utils);
 
 #endif
