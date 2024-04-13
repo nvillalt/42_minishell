@@ -6,7 +6,7 @@ void	init_utils(t_utils *utils)
 {
 	if (!utils->env || !utils->path)
 		error_message(utils);
-	utils->prompt = NULL;
+	utils->heredoc = 0;
 	utils->parse = NULL;
 	utils->token = NULL;
 	// utils->parse->builtin = NULL;

@@ -1,3 +1,5 @@
+# RUN PROJECT: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.sup -s ./minishell
+
 NAME = minishell
 
 LIBFT = ./libft/libft.a
@@ -20,6 +22,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 EXECUTOR = 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
+			src/tokenizer/token_list.c
 
 PARSER =	src/parser/get_path.c \
 			src/parser/parse_utils.c
@@ -40,7 +43,7 @@ all: $(NAME)
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-debug: CFLAGS += -fsanitize=address -g3
+debug: CFLAGS += valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
 debug: $(NAME)
 
 clean:
