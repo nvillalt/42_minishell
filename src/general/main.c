@@ -18,14 +18,13 @@ int	prompt_loop(t_utils *utils)
 		{
 			add_history(input); // preguntar cómo funciona
 			input += ft_trimspaces(input);
-			if(!check_quotes(input))
+			if (!check_quotes(input))
 				error_message(utils);
-			printf("%s\n", input);
+			printf("%s\n", input); // Parseo, eliminar
 			word_to_token(utils, input);
 			// -> Gestion de comillas + espacios entre comillas
 			// Empezar a pasar a lista de tokens - 1) ls, 2) -la 3)"ls -la" 4)| 
 			//free(input);
-			
 		}
 	}
 	return (1);

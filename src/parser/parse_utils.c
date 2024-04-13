@@ -46,3 +46,29 @@ int	ft_trimspaces(char *input)
 		i++;
 	return (i);
 }
+
+int	check_redirections(t_utils *utils, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
+			error_message(utils);
+		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '|')
+			error_message(utils);
+		if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<')
+			error_message(utils);
+		if (input[i] == '|' && input[i + 1] == '<')
+			error_message(utils);
+		if (input[i] == '<' && input[i + 1] == '|')
+			error_message(utils);
+		if (input[i] == '|' && input[i + 1] == '|')
+			error_message(utils);
+		if (input[i] == '&' && input[i + 1] == '&')
+			error_message(utils);
+		i++;
+	}
+	return (1);
+}
