@@ -6,4 +6,5 @@ void	ft_pwd(void);
 void	ft_env(char **env, char **argv);
 char	**ft_unset(char **env, char **var);
 char	**ft_cd(char **env, char **cmd);
+void	ft_exit(char **cmd);
 #endif

@@ -32,6 +32,8 @@ static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 		env = ft_unset(env, cmd);
 	else if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
 		env = ft_cd(env, cmd);
+	else if (ft_strncmp(cmd[0], "exit", 2) == 0 && ft_strlen(cmd[0]) == 4)
+		ft_exit(cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
 	free_matrix(cmd);
 	return (env);
 }
