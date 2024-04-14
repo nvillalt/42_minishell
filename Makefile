@@ -1,4 +1,4 @@
-# RUN PROJECT: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.sup -s ./minishell
+# RUN PROJECT: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./minishell
 
 NAME = minishell
 
@@ -43,7 +43,7 @@ all: $(NAME)
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-debug: CFLAGS += valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+debug: CFLAGS += -fsanitize=address -g3
 debug: $(NAME)
 
 clean:

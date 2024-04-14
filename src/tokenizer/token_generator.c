@@ -23,11 +23,10 @@ int	remove_quotes(char *input)
 int	to_token(t_token **tokens, char *input, int i, int j)
 {
 	t_token	*token;
-	char	*str;
 
-	str = ft_substr(input, i, i + j);
-	printf("------ >%s\n", str);
-//	token = new_token();
+	token = new_token(input, i, j);
+	printf("------ >%s\n", token->str);
+	//add_token(tokens, token);
 	return (1);
 }
 
@@ -66,19 +65,21 @@ int	to_token_node(t_utils *utils, char *input)
 	<<< Comportamiento indefinido, here-string, creo que no hay que gestionarlo -> Error ??
 	*/
 
-int	add_redirection_to_token(t_token **tokens, char *input)
+int	redir_to_token(t_utils *utils, t_token **tokens, char *input)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	if (check_redirections)
+	if (check_redirections(utils, input))
 	{
 		j = 0;
+		printf("-->");
 		while (input[j] != 39 || input[j] != 34 ||
 			!(input[j] == ' ' || input[j] >= 9 && input[j] <= 13))
 			j++;
-		
+		to_token(tokens, input, i, j);
+		printf("~~%s\n", (*tokens)->str);
 	}
 	return (1);
 }
@@ -89,16 +90,16 @@ int	word_to_token(t_utils *utils, char *input)
 	int	j;
 
 	i = 0;
-	// while (input[i])
-	// {
+	while (input[i])
+	{
 		j = 0;
 		input += ft_trimspaces(input);
 		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
-			add_redirection_to_token(utils->token, input);
+			redir_to_token(utils, utils->token, input);
 		input += remove_quotes(input); // Quita la primera comilla
 		j = to_token_node(utils, input); // Pasa al nodo y dentro quita la comilla del final / medio >>>>>> Avanzar el puntero hasta lo que ya haya quitado
 		printf("%s\n", input);
-	// 	i += j;
-	// }
+		i += j;
+	}
 	return (1);
 }
