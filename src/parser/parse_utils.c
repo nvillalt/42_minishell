@@ -1,8 +1,49 @@
 
 #include "../../minishell.h"
 
-// Devuelve un número para avanzar cuando cheque cosas 
+int	is_whitespace(char	c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
+}
 
+int	whitespace_cmp(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] && is_whitespace(input[i]))
+		i++;
+	return (i);
+}
+
+int		check_quotes(char *line)
+{
+	int	count;
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	while (line[i])
+	{
+		if ((line[i] == 34 || line[i] == 39) && flag ==  0)
+		{
+			flag = line[i];
+			count++;
+		}
+		if (line[i] == flag)
+		{
+			flag = 0;
+			count++;
+		}
+		i++;
+	}
+	if (!flag && (count % 2 == 0))
+		return (0);
+	return (1);
+}
 
 int	check_redirections(t_utils *utils, char *input)
 {

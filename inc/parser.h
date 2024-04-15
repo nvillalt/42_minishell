@@ -14,9 +14,10 @@
 
 char	**get_path(char **env);
 
+int		is_whitespace(char c);
 int		check_quotes(char *line);
-int		strcmp_spaces(char *str);
-int		ft_trimspaces(char *input);
+int		whitespace_cmp(char *c);
+int		trim_spaces(char *input);
 int		check_redirections(t_utils *utils, char *input);
 
 #endif

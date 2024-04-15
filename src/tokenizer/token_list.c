@@ -13,11 +13,8 @@ t_token *new_token(char *input, int i, int j)
 	if (!new)
 		return (NULL);
 	str = ft_substr(input, i, i + j);
-	new->flag = -1;
 	new->str = str;
-	new->index = 0;
 	new->next = NULL;
-	new->prev = NULL;
 	return (new);
 }
 
@@ -36,5 +33,4 @@ void	add_token(t_token **tokens, t_token *new)
 	while (aux->next != NULL)
 		aux = aux->next;
 	aux->next = new;
-	new->prev = aux;
 }

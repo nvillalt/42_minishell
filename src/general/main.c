@@ -3,15 +3,23 @@
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
+	int		i;
+	int		len;
 	
 	while (1)
-	{	
+	{
+		i = 0;
+		len = ft_strlen(input);
 		input = readline("minishell: ");
-		if (!*input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
+		if (!*input || whitespace_cmp(input)) // El primero es espacio; el segundo, tab.
 			free(input);
 		else
 		{
-			
+			add_history(input);
+			if (check_quotes(input) /* && initial_pipe(input)*/)
+				error_message(utils); // A lo mejor aquí liberar input tmb
+			i += whitespace_cmp(input); // hace substr de esto para empezar a limpiar la string
+
 		}
 	}
 	return (1);
