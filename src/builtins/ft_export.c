@@ -3,69 +3,28 @@
 static void	print_extra_env(char **env)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while(env[i])
 	{
-		printf("%s\n", env[i]);
+		printf("declare -x ");
+		j = 0;
+		while(env[i][j] != '=')
+		{
+			printf("%c", env[i][j]);
+			j++;
+		}
+		printf("\"");
+		while(env[i][j])
+		{
+			printf("%c", env[i][j]);
+			j++;
+		}	
+		printf("\"");
+		printf("\n");
 		i++;
 	}
-}
-
-static char	*add_quotes(char *str)
-{
-	char *new;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	new = ft_calloc(ft_strlen(str) + 3, sizeof(char)); //Blindar
-	if (!new)
-		exit(1); //Liberar todo y al loro con el status
-	while(str[i] != '=')
-	{
-		new[j] = str[i];
-		i++;
-		j++;
-	}
-	new[j] = str[i];
-	i++;
-	j++;
-	new[j] = '"';
-	j++;
-	while(str[i])
-	{
-		new[j] = str[i];
-		j++;
-		i++;
-	}
-	new[j] = '"';
-	free(str);
-	return (new);
-}
-
-static char	*create_new_string(char *str)
-{
-	char	*temp;
-
-	str = add_quotes(str);
-	temp = ft_strjoin("declare -x ", str);
-	free(str);
-	return(temp);
-}
-
-static char	**add_extra_env(char **env)
-{
-	int		i;
-
-	i = 0;
-	while (env[i])
-	{
-		env[i] = create_new_string(env[i]);
-		i++;
-	}
-	return (env);
 }
 
 static void	swap_lines(char **str1, char **str2)
@@ -75,10 +34,10 @@ static void	swap_lines(char **str1, char **str2)
 
 	temp1 = ft_strdup(*str1);
 	if (!temp1)
-		exit(1); //AL LORO
+		exit(1);
 	temp2 = ft_strdup(*str2);
 	if (!temp2)
-		exit(1); //AL LORO
+		exit(1);
 	free(*str1);
 	free(*str2);
 	*str1 = temp2;
@@ -103,12 +62,53 @@ static int	print_export_env(char **env)
 		}
 		i++;
 	}
-	env = add_extra_env(env);
 	print_extra_env(env);
 	return (0);
 }
 
-int	ft_export(char **env, char **cmd)
+static char	**create_new_env(char **env, char *cmd)
+{
+	int		i;
+	char	**new_env;
+
+	i = 0;
+	while(env[i])
+		i++;
+	new_env = ft_calloc(i + 2, sizeof(char *));
+	if (!new_env)
+		exit(1); //AL LORO CON EL STATUS Y CON BORRAR LO QUE TOCA
+	i = 0;
+	while(env[i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		if (!new_env[i])
+			exit(1); //LIBERACIONES Y DEMÁS
+		i++;
+	}
+	new_env[i] = cmd; //AQUÍ ESTÁ ROTO
+	free_matrix(env);
+	return(new_env);
+}
+
+static char	**add_to_env(char **cmd, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while(cmd[i])
+	{
+		j = 0;
+		while(cmd[i][j] && cmd[i][j] != '=')
+			j++;
+		if (cmd[i][j])
+			env = create_new_env(env, cmd[i]);
+		i++;
+	}
+	return (env);
+}
+
+int	ft_export(char **env, char **cmd) //Vamos a pasar por referencia o dentro de la estructura un doble char ** como secreto para cuando haces un export sin =
 {
 	int		num;
 	char	**export_env;
@@ -124,6 +124,10 @@ int	ft_export(char **env, char **cmd)
 		export_env = env_dup(env);
 		print_export_env(export_env);
 		free(export_env);
+	}
+	else if (num > 1)
+	{
+		env = add_to_env(cmd, env);
 	}
 	return (0);
 }
