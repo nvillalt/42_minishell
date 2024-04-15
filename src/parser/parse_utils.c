@@ -20,7 +20,6 @@ int	whitespace_cmp(char *input)
 
 int		check_quotes(char *line)
 {
-	int	count;
 	int	flag;
 	int	i;
 
@@ -29,18 +28,12 @@ int		check_quotes(char *line)
 	while (line[i])
 	{
 		if ((line[i] == 34 || line[i] == 39) && flag ==  0)
-		{
 			flag = line[i];
-			count++;
-		}
-		if (line[i] == flag)
-		{
+		else if (line[i] == flag)
 			flag = 0;
-			count++;
-		}
 		i++;
 	}
-	if (!flag && (count % 2 == 0))
+	if (flag)
 		return (0);
 	return (1);
 }

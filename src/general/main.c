@@ -16,8 +16,8 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input);
-			if (check_quotes(input) /* && initial_pipe(input)*/)
-				error_message(utils); // A lo mejor aquí liberar input tmb
+			if (!check_quotes(input) /* && initial_pipe(input)*/)
+				printf("ERROR\n");
 			i += whitespace_cmp(input); // hace substr de esto para empezar a limpiar la string
 
 		}
