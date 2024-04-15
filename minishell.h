@@ -28,4 +28,5 @@ int error_message(t_utils *utils);
 void  free_matrix(char **matrix);
 //printf double array
 void	print_env(char **env);
+int	count_cmds(char **cmds);
 #endif

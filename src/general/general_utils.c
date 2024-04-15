@@ -32,8 +32,10 @@ static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 		env = ft_unset(env, cmd);
 	else if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
 		env = ft_cd(env, cmd);
-	else if (ft_strncmp(cmd[0], "exit", 2) == 0 && ft_strlen(cmd[0]) == 4)
+	else if (ft_strncmp(cmd[0], "exit", 4) == 0 && ft_strlen(cmd[0]) == 4)
 		ft_exit(cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
+	else if (ft_strncmp(cmd[0], "export", 6) == 0 && ft_strlen(cmd[0]) == 6)
+		ft_export(env, cmd);
 	free_matrix(cmd);
 	return (env);
 }
@@ -99,4 +101,14 @@ void	print_env(char **env)
 		printf("%s\n", env[i]);
 		i++;
 	}
+}
+
+int	count_cmds(char **cmds)
+{
+	int	i;
+
+	i = 0;
+	while(cmds[i])
+		i++;
+	return (i);
 }

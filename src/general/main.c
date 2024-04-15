@@ -10,7 +10,6 @@ int	main(int argc, char **argv, char **envp)
 	// Función para liberar al final ????
 	free_matrix(utils.env);
 	free_matrix(utils.path);
-	rl_clear_history();
 	return (0);
 }
 

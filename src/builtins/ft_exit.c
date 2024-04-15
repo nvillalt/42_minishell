@@ -1,15 +1,5 @@
 #include "../../minishell.h"
 
-static int	count_cmds(char **cmds)
-{
-	int	i;
-
-	i = 0;
-	while(cmds[i])
-		i++;
-	return (i);
-}
-
 static int	check_number_cmd(char *cmd)
 {
 	int	i;
