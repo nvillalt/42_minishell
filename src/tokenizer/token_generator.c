@@ -26,7 +26,7 @@ int	to_token(t_token **tokens, char *input, int i, int j)
 
 	token = new_token(input, i, j);
 	printf("------ >%s\n", token->str);
-	//add_token(tokens, token);
+	add_token(tokens, token);
 	return (1);
 }
 

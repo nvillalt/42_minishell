@@ -10,15 +10,15 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{	
 		input = readline("minishell: ");
-		if (!input)
-			error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
+		// if (!input)
+		// 	error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
 		if (!*input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
 			free(input);
 		else
 		{
 			add_history(input); // preguntar cómo funciona
 			input += ft_trimspaces(input);
-			if (!check_quotes(input))
+			if (!check_quotes(input)) // CORREGIR + PIPES
 				error_message(utils);
 			printf("%s\n", input); // Parseo, eliminar
 			word_to_token(utils, input);
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 	utils.path = get_path(utils.env);
-	init_utils(&utils);
+	//init_utils(&utils);
 	prompt_loop(&utils);
 	free_utils(&utils);
 	//system("leaks -q minishell");

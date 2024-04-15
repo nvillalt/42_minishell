@@ -9,7 +9,6 @@ void	init_utils(t_utils *utils)
 	utils->heredoc = 0;
 	utils->parse = NULL;
 	utils->token = NULL;
-	utils->token = NULL;
 }
 
 char	**env_dup(char **env)
