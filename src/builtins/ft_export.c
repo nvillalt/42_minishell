@@ -17,6 +17,21 @@ static char	**duplicate_env(char **env)
 	return (new_env);
 }
 
+static void print_no_value(char **env, int *i, int *j)
+{
+	printf("%c", env[*i][*j]);
+	*j++;
+	printf("%c", '\"');
+	while(env[*i][*j])
+	{
+		printf("%c", env[*i][*j]);
+		j++;
+	}
+	printf("%c", '\"');
+	printf("\n");
+	*i++;
+}
+
 static void	print_export_env(char **env)
 {
 	int	i;
@@ -38,19 +53,7 @@ static void	print_export_env(char **env)
 			printf("\n");
 		}
 		else
-		{
-			printf("%c", env[i][j]);
-			j++;
-			printf("%c", '\"');
-			while(env[i][j])
-			{
-				printf("%c", env[i][j]);
-				j++;
-			}
-			printf("%c", '\"');
-			printf("\n");
-			i++;
-		}
+			print_no_value(env, &i, &j);
 	}
 }
 
