@@ -26,12 +26,32 @@ static int	is_string_alpha(char *cmd)
 	int	i;
 
 	i = 0;
-	while (cmd[i] && ft_isalpha(cmd[i]))
+	while (cmd[i] && (ft_isalpha(cmd[i]) || cmd[i] == '=' || cmd[i] == '\"' || cmd[i] == '\''))
 		i++;
 	if (cmd[i] == 0)
 		return (1);
 	else
 		return (0);
+}
+
+static int	cmd_on_env(char **env, char *cmd)
+{
+	int	i;
+	int	j;
+	int	cmd_len;
+
+	i = 0;
+	cmd_len = ft_strlen(cmd);
+	while(env[i])
+	{
+		j = 0;
+		while(env[i][j] && env[i][j] != '=')
+			j++;
+		if (ft_strncmp(env[i], cmd, j + 1) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 static char	**add_to_env(char **env, char *cmd)
@@ -45,6 +65,22 @@ static char	**add_to_env(char **env, char *cmd)
 	return (env);
 }
 
+static char	**change_var(char **env, char *cmd)
+{
+	int	i;
+	int	var_len;
+
+	var_len = 0;
+	while(cmd[var_len] && cmd[var_len] != '=')
+		var_len++;
+	i = 0;
+	while(ft_strncmp(env[i], cmd, var_len) != 0)
+		i++;
+	free(env[i]);
+	env[i] = ft_strdup(cmd);
+	return(env);
+}
+
 char    **export_to_env(char **env, char **cmd)
 {
 	int i;
@@ -52,7 +88,13 @@ char    **export_to_env(char **env, char **cmd)
 	i = 1;
 	while(cmd[i])
 	{
-		env = add_to_env(env, cmd[i]);
+		if (cmd_on_env(env, cmd[i]))
+		{
+			printf("entra\n");
+			env = change_var(env, cmd[i]);
+		}
+		else
+			env = add_to_env(env, cmd[i]);
 		i++;
 	}
 	return (env);

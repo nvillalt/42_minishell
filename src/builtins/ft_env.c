@@ -13,6 +13,20 @@ static int	control_argv(char **argv)
 		return (0);
 }
 
+static int	equal_in_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	ft_env(char **env, char **argv)
 {
 	int	i;
@@ -27,7 +41,8 @@ void	ft_env(char **env, char **argv)
 	}
 	while(env[i])
 	{
-		printf("%s\n", env[i]);
+		if (equal_in_str(env[i]))
+			printf("%s\n", env[i]);
 		i++;
 	}
 }
