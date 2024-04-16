@@ -4,4 +4,6 @@
 t_token		*new_token(char *input, int i, int j);
 void		add_token(t_token **list, t_token *new);
 
+char		*trim_spaces(char *input);
+
 #endif

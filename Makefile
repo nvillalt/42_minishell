@@ -29,7 +29,8 @@ BUILT_INS = src/builtins/ft_echo.c \
 EXECUTOR = 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
-			src/tokenizer/token_list.c
+			src/tokenizer/token_list.c \
+			src/tokenizer/token_cleaner.c
 
 PARSER =	src/parser/get_path.c \
 			src/parser/parse_utils.c

@@ -15,7 +15,9 @@ int	whitespace_cmp(char *input)
 	i = 0;
 	while (input[i] && is_whitespace(input[i]))
 		i++;
-	return (i);
+	if (input[i])
+		return (i);
+	return (0);
 }
 
 int		check_quotes(char *line)
@@ -34,6 +36,20 @@ int		check_quotes(char *line)
 		i++;
 	}
 	if (flag)
+		return (0);
+	return (1);
+}
+
+int	initial_pipe(char *input)
+{
+	int	i;
+	int	len;
+
+	i = whitespace_cmp(input);
+	len = ft_strlen(input);
+	while (is_whitespace(input[len - 1]))
+		len--;
+	if (input[len - 1] == '|' || input[i] == '|')
 		return (0);
 	return (1);
 }

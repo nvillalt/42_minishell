@@ -3,23 +3,23 @@
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
-	int		i;
-	int		len;
+	char	*aux;
 	
 	while (1)
 	{
-		i = 0;
-		len = ft_strlen(input);
-		input = readline("minishell: ");
-		if (!*input || whitespace_cmp(input)) // El primero es espacio; el segundo, tab.
+		input = readline("minishell:");
+		if (!*input|| !*aux) // Saltar la linea en blanco
 			free(input);
 		else
 		{
+			if (aux)
+				free(aux);
 			add_history(input);
-			if (!check_quotes(input) /* && initial_pipe(input)*/)
-				printf("ERROR\n");
-			i += whitespace_cmp(input); // hace substr de esto para empezar a limpiar la string
-
+			if (!check_quotes(input) || !initial_pipe(input))
+				printf("ERROR\n"); // Liberación aquí o exit por error
+			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
+			free(input);
+			clean_tokens(utils, aux);
 		}
 	}
 	return (1);
@@ -39,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 	//init_utils(&utils);
 	prompt_loop(&utils);
 	free_utils(&utils);
-	//system("leaks -q minishell");
 	return (0);
 }
 

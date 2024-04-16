@@ -17,7 +17,7 @@ char	**get_path(char **env);
 int		is_whitespace(char c);
 int		check_quotes(char *line);
 int		whitespace_cmp(char *c);
-int		trim_spaces(char *input);
+int		initial_pipe(char *input);
 int		check_redirections(t_utils *utils, char *input);
 
 #endif
