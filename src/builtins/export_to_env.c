@@ -17,7 +17,6 @@ static char	**create_new_env(char **env, char *cmd)
 		i++;
 	}
 	new_env[i] = ft_strdup(cmd);
-	printf("%s\n%zu\n", new_env[i], ft_strlen(new_env[i]));
 	free_matrix(env);
 	return (new_env);
 }

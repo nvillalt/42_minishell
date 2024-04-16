@@ -17,7 +17,7 @@ static char	**duplicate_env(char **env)
 	return (new_env);
 }
 
-static void	print_extra_env(char **env)
+static void	print_export_env(char **env)
 {
 	int	i;
 	int	j;
@@ -25,22 +25,32 @@ static void	print_extra_env(char **env)
 	i = 0;
 	while(env[i])
 	{
-		printf("declare -x ");
 		j = 0;
-		while(env[i][j] != '=')
+		printf("declare -x ");
+		while(env[i][j] && env[i][j] != '=')
 		{
 			printf("%c", env[i][j]);
 			j++;
 		}
-		printf("\"");
-		while(env[i][j])
+		if (!env[i][j])
+		{
+			i++;
+			printf("\n");
+		}
+		else
 		{
 			printf("%c", env[i][j]);
 			j++;
-		}	
-		printf("\"");
-		printf("\n");
-		i++;
+			printf("%c", '\"');
+			while(env[i][j])
+			{
+				printf("%c", env[i][j]);
+				j++;
+			}
+			printf("%c", '\"');
+			printf("\n");
+			i++;
+		}
 	}
 }
 
@@ -95,9 +105,9 @@ char	**ft_export(char **env, char **cmd)
 	}
 	if (num == 1)
 	{
-		export_env = duplicate_env(env); //Al loro con este duplicado
-//		sort_export_env(export_env);
-		print_extra_env(export_env);
+		export_env = env_dup(env); //Al loro con este duplicado
+		sort_export_env(export_env);
+		print_export_env(export_env);
 		free_matrix(export_env);
 	}
 	else if (num > 1)
