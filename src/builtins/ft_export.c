@@ -98,7 +98,6 @@ char	**ft_export(char **env, char **cmd)
 	char	**export_env;
 
 	num = count_matrix(cmd);
-	printf("%d\n", num);
 	if (!env)
 	{
 		ft_putendl_fd("No enviroment founded", STDERR_FILENO);

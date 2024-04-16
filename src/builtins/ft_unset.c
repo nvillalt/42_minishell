@@ -57,27 +57,18 @@ static char **search_for_var(char **env, char *current_var)
 
     index_jump = 0;
     i = 0;
-	new_env = NULL;
 	join_var = ft_strjoin(current_var, "=");
 	if (!join_var)
 	{
 		perror(NULL);
-		exit(1); //ESTO HAY QUE TOCARLO CORRECTAMENTE
+		exit(1);
 	}
     var_len = ft_strlen(join_var);
 	while(env[i] && ft_strncmp(env[i], join_var, var_len))
         i++;
 	free(join_var);
 	if (!env[i])
-	{
-		new_env = env_dup(env);
-		if (!new_env)
-		{
-			perror(NULL);
-			exit (1);
-		}
-		return(new_env);
-	}
+		return(env);
 	index_jump = i;
 	new_env = create_new_env(env, index_jump);
 	return (new_env);

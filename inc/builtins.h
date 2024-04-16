@@ -9,4 +9,7 @@ char	**ft_cd(char **env, char **cmd); //Habrá que pasar el env por referencia y
 void	ft_exit(char **cmd);
 char	**ft_export(char **env, char **cmd);
 char    **export_to_env(char **env, char **cmd);
+char	**change_to_directory(char **env, char *cmd);
+char	**change_pwd(char **env);
+
 #endif
