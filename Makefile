@@ -23,6 +23,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/ft_cd.c \
 						src/builtins/ft_exit.c \
 						src/builtins/ft_export.c \
+						src/builtins/export_to_env.c \
 
 EXECUTOR = 
 

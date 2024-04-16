@@ -35,7 +35,7 @@ static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0 && ft_strlen(cmd[0]) == 4)
 		ft_exit(cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
 	else if (ft_strncmp(cmd[0], "export", 6) == 0 && ft_strlen(cmd[0]) == 6)
-		ft_export(env, cmd);
+		env = ft_export(env, cmd);
 	free_matrix(cmd);
 	return (env);
 }
@@ -103,7 +103,7 @@ void	print_env(char **env)
 	}
 }
 
-int	count_cmds(char **cmds)
+int	count_matrix(char **cmds)
 {
 	int	i;
 
