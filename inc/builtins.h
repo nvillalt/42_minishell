@@ -16,5 +16,4 @@ char	**unset_var_env(char **env, int index_jump);
 char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
 int		cmd_on_env(char **env, char *cmd);
-
 #endif

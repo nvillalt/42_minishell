@@ -34,7 +34,7 @@ int	cmd_on_env(char **env, char *cmd)
 		j = 0;
 		while(env[i][j] && env[i][j] != '=')
 			j++;
-		if (ft_strncmp(env[i], cmd, j + 1) == 0)
+		if (ft_strncmp(env[i], cmd, j) == 0)
 			return (1);
 		i++;
 	}
