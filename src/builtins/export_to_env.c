@@ -21,19 +21,6 @@ static char	**create_new_env(char **env, char *cmd)
 	return (new_env);
 }
 
-static int	is_string_alpha(char *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i] && (ft_isalpha(cmd[i]) || cmd[i] == '=' || cmd[i] == '\"' || cmd[i] == '\''))
-		i++;
-	if (cmd[i] == 0)
-		return (1);
-	else
-		return (0);
-}
-
 static int	cmd_on_env(char **env, char *cmd)
 {
 	int	i;
@@ -89,10 +76,7 @@ char    **export_to_env(char **env, char **cmd)
 	while(cmd[i])
 	{
 		if (cmd_on_env(env, cmd[i]))
-		{
-			printf("entra\n");
 			env = change_var(env, cmd[i]);
-		}
 		else
 			env = add_to_env(env, cmd[i]);
 		i++;

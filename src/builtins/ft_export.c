@@ -1,35 +1,18 @@
 #include "../../minishell.h"
 
-static char	**duplicate_env(char **env)
-{
-	int	i;
-	int	len;
-	char	**new_env;
-
-	i = 0;
-	len = count_matrix(env);
-	new_env = ft_calloc(len + 1, sizeof(char *));
-	while(env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	return (new_env);
-}
-
 static void print_no_value(char **env, int *i, int *j)
 {
 	printf("%c", env[*i][*j]);
-	*j++;
+	(*j)++;
 	printf("%c", '\"');
 	while(env[*i][*j])
 	{
 		printf("%c", env[*i][*j]);
-		j++;
+		(*j)++;
 	}
 	printf("%c", '\"');
 	printf("\n");
-	*i++;
+	(*i)++;
 }
 
 static void	print_export_env(char **env)
@@ -108,7 +91,7 @@ char	**ft_export(char **env, char **cmd)
 	}
 	if (num == 1)
 	{
-		export_env = env_dup(env); //Al loro con este duplicado
+		export_env = env_dup(env); //AL LORO CON ESTE DUPLICADO
 		sort_export_env(export_env);
 		print_export_env(export_env);
 		free_matrix(export_env);

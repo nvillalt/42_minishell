@@ -11,5 +11,6 @@ char	**ft_export(char **env, char **cmd);
 char    **export_to_env(char **env, char **cmd);
 char	**change_to_directory(char **env, char *cmd);
 char	**change_pwd(char **env);
+int		is_string_alpha(char *cmd);
 
 #endif
