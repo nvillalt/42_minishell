@@ -1,15 +1,15 @@
 #include "../../minishell.h"
 
-#include "../../minishell.h"
-
 static char **allocate_memory(char **dup, char **env, int index_jump)
 {
 	int	i;
 	int	j;
+	int env_len;
 
 	i = 0;
 	j = 0;
-	while(env[i] != NULL)
+	env_len = count_matrix(env);
+	while(i < env_len - 1)
 	{
 		if (i == index_jump)
 			i++;
@@ -23,6 +23,10 @@ static char **allocate_memory(char **dup, char **env, int index_jump)
 		i++;
 		j++;
 	}
+	if (i == j)
+		return(dup);
+	else
+		dup[j] = ft_strdup(env[i]);
 	return (dup);
 }
 
@@ -49,10 +53,25 @@ static char	**create_new_env(char **env, int index_jump)
 	return (dup);
 }
 
+static int	search_empty_var(char **env, char *current_var)
+{
+	int	i;
+	int	var_len;
+
+	i = 0;
+	var_len = ft_strlen(current_var);
+	while (env[i] && ft_strncmp(env[i], current_var, var_len))
+		i++;
+	if (!env[i])
+		return(-1);
+	else
+		return(i);
+}
+
 static char **search_for_var(char **env, char *current_var)
 {
-    size_t	i;
-    size_t	index_jump;
+    int		i;
+    int		index_jump;
     int		var_len;
 	char	**new_env;
 	char	*join_var;
@@ -72,13 +91,9 @@ static char **search_for_var(char **env, char *current_var)
 	free(join_var);
 	if (!env[i])
 	{
-		new_env = env_dup(env);
-		if (!new_env)
-		{
-			perror(NULL);
-			exit (1);
-		}
-		return(new_env);
+		i = search_empty_var(env, current_var);
+		if (i == -1)
+			return(env);
 	}
 	index_jump = i;
 	new_env = create_new_env(env, index_jump);
