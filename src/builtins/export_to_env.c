@@ -21,7 +21,7 @@ static char	**create_new_env(char **env, char *cmd)
 	return (new_env);
 }
 
-static int	cmd_on_env(char **env, char *cmd)
+int	cmd_on_env(char **env, char *cmd)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,7 @@ static int	cmd_on_env(char **env, char *cmd)
 	return (0);
 }
 
-static char	**add_to_env(char **env, char *cmd)
+char	**add_to_env(char **env, char *cmd)
 {
 	if(!is_string_alpha(cmd))
 	{
@@ -52,7 +52,7 @@ static char	**add_to_env(char **env, char *cmd)
 	return (env);
 }
 
-static char	**change_var(char **env, char *cmd)
+char	**change_var(char **env, char *cmd)
 {
 	int	i;
 	int	var_len;

@@ -46,6 +46,11 @@ char	**change_to_directory(char **env, char *cmd)
 	char *old_pwd;
 	char cwd[PATH_MAX + 1]; //Ojo con el +1
 
+	if (ft_strlen(cmd) > PATH_MAX)
+	{
+		ft_putendl_fd("error: Path name too long", 2);
+		return (env);
+	}
 	old_pwd = ft_strdup(getcwd(cwd, PATH_MAX));
 	if (chdir(cmd) == -1)
 	{
