@@ -68,6 +68,6 @@ char	**ft_unset(char **env, char **var)
 		free_matrix(old_env);
 		old_env = new_env;
 		index_var++;
-    }
+	}
 	return (new_env);
 }

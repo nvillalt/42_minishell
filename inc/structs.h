@@ -27,4 +27,19 @@ typedef struct s_token
 	struct s_token	*prev;
 } t_token;
 
+typedef	struct s_parse
+{
+	char			**cmd;
+	int				built_in; //built-in - cmd
+	t_redir			*redirec;
+	struct s_parse	*next;
+}	t_parse;
+
+typedef struct	s_redir
+{
+	char			*doc;
+	int				redir_type; //tipo de redireccion
+	struct s_redir	*redir;
+}	t_redir;
+
 #endif
