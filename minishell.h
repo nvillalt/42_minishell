@@ -6,6 +6,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 # include "inc/builtins.h"
 # include "inc/executor.h"
@@ -13,8 +15,6 @@
 # include "inc/signals.h"
 # include "inc/structs.h"
 # include "inc/tokenizer.h"
-
-
 /* ····· general utils & functions ····· */
 
 // utils
@@ -29,4 +29,5 @@ void  free_matrix(char **matrix);
 //printf double array
 void	print_env(char **env);
 int	count_matrix(char **cmds);
+int	executor(t_utils *utils);
 #endif

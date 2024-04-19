@@ -1,5 +1,3 @@
-
-
 #include "../../minishell.h"
 
 static char	*find_env_path(char **env)

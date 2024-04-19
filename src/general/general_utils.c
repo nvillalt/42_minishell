@@ -57,7 +57,8 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input); // preguntar cómo funciona
-			utils->env = test_builtins(input, utils->env);
+			executor(utils);
+			//utils->env = test_builtins(input, utils->env);
 			free(input);
 		}
 	}
