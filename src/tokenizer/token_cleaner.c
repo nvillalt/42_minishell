@@ -17,7 +17,6 @@ char	*trim_spaces(char *input)
 	str = ft_substr(input, i, len - i + 1);
 	return(str);
 }
-
 char	*remove_quotes(char *process)
 {
 	int		i;
@@ -29,7 +28,6 @@ char	*remove_quotes(char *process)
 	printf("%s\n", aux);
 
 }
-
 // "    " | pinga | "" | holaaa CHECAR CON ESTO
 
 void	clean_tokens(t_utils *utils, char *aux)
