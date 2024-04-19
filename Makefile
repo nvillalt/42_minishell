@@ -1,3 +1,5 @@
+# RUN PROJECT: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./minishell
+
 NAME = minishell
 
 LIBFT = ./libft/libft.a
@@ -30,16 +32,19 @@ BUILT_INS = src/builtins/ft_echo.c \
 
 EXECUTOR = src/executor/executor.c
 
-TOKENIZER =
+TOKENIZER =	src/tokenizer/token_generator.c \
+			src/tokenizer/token_list.c \
+			src/tokenizer/token_cleaner.c
 
-PARSER = src/parser/get_path.c
+PARSER = src/parser/get_path.c \
+			src/parser/parse_utils.c
 
 SIGNAL = src/signals/signal_reception.c	
 
 GENERAL = src/general/main.c \
-					src/general/error_management.c \
-					src/general/free_utils.c \
-					src/general/general_utils.c
+			src/general/error_management.c \
+			src/general/free_utils.c \
+			src/general/general_utils.c
 
 VALGRIND			= valgrind
 VALGRIND_OPT		+= --suppressions=readline.supp

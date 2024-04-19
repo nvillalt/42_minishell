@@ -70,6 +70,30 @@ static char	**set_oldpwd(char **env)
 	}
 }
 
+int	prompt_loop(t_utils *utils)
+{
+	char	*input;
+	char	*aux;
+	
+	while (1)
+	{
+		input = readline("minishell:");
+		if (!*input) // Saltar la linea en blanco
+			free(input);
+		else
+		{
+			add_history(input);
+			if (!check_quotes(input) || !initial_pipe(input))
+				printf("ERROR\n"); // Liberación aquí o exit por error
+			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
+			free(input);
+			clean_tokens(utils, aux);
+			free_utils(utils);
+		}
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
@@ -83,16 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	utils.env = set_oldpwd(utils.env);
 	prompt_loop(&utils);
-	// Función para liberar al final ????
-	free_matrix(utils.env);
-	free_matrix(utils.path);
+	free_utils(&utils);
 	return (0);
 }
 
-// CHECK PARA IMPRIMIR LOS ENV
-// int	i = 0;
-// while (utils.env[i])
-// {
-// 	printf("%s\n", utils.env[i]);
-// 	i++;
-// }

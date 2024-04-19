@@ -2,19 +2,6 @@
 
 #include "../../minishell.h"
 
-static int	strcmp_spaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	else
-		return (1);
-}
-
 static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 {
 	char **cmd;
@@ -38,31 +25,6 @@ static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
 		env = ft_export(env, cmd);
 	free_matrix(cmd);
 	return (env);
-}
-
-int	prompt_loop(t_utils *utils)
-{
-	char	*input;
-	
-	while (1)
-	{	
-		input = readline("minishell: ");
-		if (!input)
-			error_message(utils); // ¿¿Quizás codificar esto por tipos de error??? -> un int por tipo
-		if (!input || !strcmp_spaces(input)) // El primero es espacio; el segundo, tab.
-		{
-			// ¿Hay que imprimir algo aquí?
-			free(input);
-		}
-		else
-		{
-			add_history(input); // preguntar cómo funciona
-			executor(utils);
-			//utils->env = test_builtins(input, utils->env);
-			free(input);
-		}
-	}
-	return (1);
 }
 
 char	**env_dup(char **env)

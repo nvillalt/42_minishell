@@ -13,3 +13,11 @@ void	free_matrix(char **matrix)
 	free(matrix);
 	return ;
 }
+
+void	free_utils(t_utils *utils)
+{
+	if (utils->env)
+		free_matrix(utils->env);
+	if (utils->path)
+		free_matrix(utils->path);
+}
