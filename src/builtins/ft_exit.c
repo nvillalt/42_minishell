@@ -38,7 +38,7 @@ void	ft_exit(char **cmd)
 	int				num;
 
 	status = 0;
-	num = count_cmds(cmd);
+	num = count_matrix(cmd);
 	if (num == 1)
 	{
 		printf("exit\n");

@@ -30,5 +30,5 @@ void 	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 //printf double array
 void	print_env(char **env);
-int	count_cmds(char **cmds);
+int	count_matrix(char **cmds);
 #endif
