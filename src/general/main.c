@@ -85,11 +85,12 @@ int	prompt_loop(t_utils *utils)
 			add_history(input);
 			if (!check_quotes(input) || !initial_pipe(input))
 				printf("ERROR\n"); // Liberación aquí o exit por error
-			dirty_parse(input, utils);
+			//dirty_parse(input, utils);
 			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			free(input);
 			clean_tokens(utils, aux);
 			//free_utils(utils);
+			free(aux);
 		}
 	}
 	return (1);
@@ -99,14 +100,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
-	if(!*envp)
-		utils.env = create_mini_env();
-	else
-	{
+	// if(!*envp)
+	// 	utils.env = create_mini_env();
+	// else
+	// {
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 		utils.path = get_path(utils.env);
-	}
-	utils.env = set_oldpwd(utils.env);
+	// }
+	// utils.env = set_oldpwd(utils.env);
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);

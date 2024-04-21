@@ -14,7 +14,7 @@ char	*trim_spaces(char *input)
 		return (NULL);
 	while (is_whitespace(input[len - 1]))
 		len--;
-	str = ft_substr(input, i, len - i + 1);
+	str = ft_substr(input, i, len - i);
 	return(str);
 }
 char	*remove_quotes(char *process)
@@ -42,13 +42,34 @@ y la palabra que venga ddetrás que va a ser la que tenga la flag*/
 
 void	clean_tokens(t_utils *utils, char *aux)
 {
-	t_token	**token_list;
+	char	*temp;
+	t_token	*token_list;
 	t_token	*token;
+	t_token	*tmp; // Solo para imprimir
 
+	token = NULL;
 	token_list = NULL;
 	while (*aux != '\0')
 	{
-		token = new_token(&aux);
-		add_token(token_list, token);
+		token = new_token(&aux); // Viene con memoria alojada
+		if (is_whitespace(token->str[0]))
+		{
+			temp = trim_spaces(token->str);
+			free(token->str);
+			token->str = temp;
+		}
+		printf("New Token: %s\n", token->str);
+		printf("New Token: %s\n", token->next);
+		add_token(&token_list, token);
 	}
+	printf("PRINTING LIST\n");
+	tmp = token_list;
+	printf("%s\n", tmp->str);
+	while (tmp->next != NULL)
+	{
+		tmp = tmp->next;
+		printf("-->%s\n", tmp->str);
+	}
+	clear_token_list(&token_list);
+	free_utils(utils);
 }

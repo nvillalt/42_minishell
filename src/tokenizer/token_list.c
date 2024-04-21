@@ -24,6 +24,21 @@ int	get_process(char *input, char **str)
 	*str = ft_substr(input, 0, i);
 	printf("%s\n", *str);
 }
+void	clear_token_list(t_token **token_list)
+{
+	t_token	*aux;
+	t_token	*next;
+
+	aux = *token_list;
+	while (aux->next != NULL)
+	{
+		next = aux->next;
+		free(aux);
+		aux = next;
+	}
+	free(aux);
+	*token_list = NULL;
+}
 
 t_token *new_token(char **input)
 {
@@ -45,19 +60,19 @@ t_token *new_token(char **input)
 	return (new);
 }
 
-void	add_token(t_token **tokens, t_token *new)
+void	add_token(t_token **token_list, t_token *new)
 {
-	t_token	*aux;
+	t_token	*tmp;
 
-	printf("Enters here\n");
-	if (tokens == NULL)
+	if (!token_list || !new)
+		return ;
+	if (*token_list == NULL)
 	{
-		printf("Doesn't enter here");
-		*tokens = new;
+		*token_list = new;
 		return ;
 	}
-	aux = *tokens;
-	while (aux->next != NULL)
-		aux = aux->next;
-	aux->next = new;
+	tmp = *token_list;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
 }
