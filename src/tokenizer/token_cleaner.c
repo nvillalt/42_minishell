@@ -30,20 +30,25 @@ char	*remove_quotes(char *process)
 }
 // "    " | pinga | "" | holaaa CHECAR CON ESTO
 
+/*- Buscar pipe -> Guardarme el nodo de los procesos 
+(Cuidado con la excepcion de "|")
+- Dentro de cada proceso ir leyendo letra a letra
+--> Si encuentro " tratarlo como una string lo que sea que lleve las comillas, 
+da igual cómo estén. Aunque estén entre medias
+--> Si no encuentro comillas, 
+saltar espacios/is_whitespace
+--> Ver redirecciones válidas/caracteres especiales 
+y la palabra que venga ddetrás que va a ser la que tenga la flag*/
+
 void	clean_tokens(t_utils *utils, char *aux)
 {
-	t_token	*token_list; // Contenido entre pipes
-	char	**process;
-	char	*tmp;
-	int		i;
+	t_token	**token_list;
+	t_token	*token;
 
-	i = 0;
-	process = ft_split(aux, '|');
-	free(aux);
-	while (process[i])
+	token_list = NULL;
+	while (*aux != '\0')
 	{
-		tmp = remove_quotes(process[i]);
-		i++;
+		token = new_token(&aux);
+		add_token(token_list, token);
 	}
-	free_matrix(process);
 }

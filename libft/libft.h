@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 16:23:25 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/03/08 17:51:48 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:27:03 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strrchr(const char *str, int c);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_strnstr(const char *haystack, const char *needle, size_t n);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strtrim(char const *s1, char const *set);
+char		*ft_substr(char *s, unsigned int start, size_t len);
+char		*ft_strtrim(char *s1, char const *set);
 char		**ft_split(char const *s, char c);
 
 t_list		*ft_lstnew(void *content);
