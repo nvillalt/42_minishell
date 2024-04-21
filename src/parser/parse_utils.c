@@ -49,7 +49,8 @@ int	initial_pipe(char *input)
 	len = ft_strlen(input);
 	while (is_whitespace(input[len - 1]))
 		len--;
-	if (input[len - 1] == '|' || input[i] == '|')
+	if (input[len - 1] == '|' || input[i] == '|' || input[len - 1] == '>'
+		|| (input[len - 1] == '>' && input[len - 2] == '>'))
 		return (0);
 	return (1);
 }
