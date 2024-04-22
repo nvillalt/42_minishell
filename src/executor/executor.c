@@ -1,174 +1,95 @@
 #include "../../minishell.h"
 
-static void	create_out(t_redir **redirec, char *token)
+static int	process_counter(t_parse *process)
 {
-	t_redir	*node;
-	t_redir	*head;
+	int	i;
 
-	node = malloc(sizeof(t_redir));
-	node->next = NULL;
-	node->doc = token;
-	node->redir_type = GREAT;
-	if (*redirec == NULL)
-		*redirec = node;
-	else
+	i = 0;
+	while(process)
 	{
-		head = *redirec;
-		while((*redirec)->next != NULL)
-			*redirec = (*redirec)->next;
-		(*redirec)->next = node;
-		*redirec = head;
+		process = process->next;
+		i++;
 	}
+	return (i);
 }
 
-static void	create_in(t_redir **redirec, char *token)
+static void	exec_cmd(t_utils *utils)
 {
-	t_redir	*node;
+	char	*path;
+
+	path = get_cmd_path(utils);
+	if (execve(path, utils->process->cmd, utils->env) == -1)
+		exit(1); //Perror,  free, close, exit
+}
+
+static void	execute_first_process(t_utils *utils, int *main_pipe)
+{
 	t_redir	*head;
+	int		i;
+	int		in_redir_count;
+	int		*infile_fds;
 
-	node = malloc(sizeof(t_redir));
-	node->next = NULL;
-	node->doc = token;
-	node->redir_type = MINUS;
-	if (*redirec == NULL)
-		*redirec = node;
-	else
+	in_redir_count = 0;
+	head = utils->process->redirec;
+	while(utils->process->redirec)
 	{
-		head = *redirec;
-		while((*redirec)->next != NULL)
-			*redirec = (*redirec)->next;
-		(*redirec)->next = node;
-		*redirec = head;
+		if (utils->process->redirec->redir_type = MINUS)
+			in_redir_count++;
+		utils->process->redirec = utils->process->redirec->next;
 	}
-}
-
-static void	create_out_append(t_redir **redirec, char *token)
-{
-	t_redir	*node;
-	t_redir	*head;
-
-	node = malloc(sizeof(t_redir));
-	node->next = NULL;
-	node->doc = token;
-	node->redir_type = APPEND;
-	if (*redirec == NULL)
-		*redirec = node;
-	else
-	{
-		head = *redirec;
-		while((*redirec)->next != NULL)
-			*redirec = (*redirec)->next;
-		(*redirec)->next = node;
-		*redirec = head;
-	}
-}
-
-static void	create_heredoc(t_redir **redirec, char *token)
-{
-	t_redir	*node;
-	t_redir	*head;
-
-	node = malloc(sizeof(t_redir));
-	node->next = NULL;
-	node->doc = token;
-	node->redir_type = HEREDOC;
-	if (*redirec == NULL)
-		*redirec = node;
-	else
-	{
-		head = *redirec;
-		while((*redirec)->next != NULL)
-			*redirec = (*redirec)->next;
-		(*redirec)->next = node;
-		*redirec = head;
-	}
-}
-
-void	create_new_parse_node(t_parse **process)
-{
-	t_parse	*node;
-	t_parse	*head;
-
-	node = malloc(sizeof(t_parse));
-	node->cmd = ft_calloc(20, sizeof(char *));
-	node->built_in = 0;
-	node->redirec = NULL;
-	node->next = NULL;
-	head = *process;
-	while((*process)->next != NULL)
-		*process = (*process)->next;
-	(*process)->next = node;
-	*process = (*process)->next;
-	*process = head;
-}
-
-static void print_cmds_and_docs(t_utils *utils)
-{
-	int i = 0;
+	utils->process->redirec = head;
+	infile_fds = malloc(in_redir_count * sizeof(int));
+	if (!infile_fds)
+		exit(1); //LIBERAR ABSOLUTAMENTE TODO Y SALIR
+	i = 0;
 	while (utils->process->redirec)
 	{
-		printf("REDIREC DOC: %s\n", utils->process->redirec->doc);
+		if (utils->process->redirec->redir_type = MINUS)
+		{
+			infile_fds[i] = open(utils->process->redirec->doc, O_RDONLY);
+			if (infile_fds[i] == -1)
+				exit(1); //EN REALIDAD NO HAY QUE SALIR. PRINTEAMOS ERROR Y LIBERAMOS TODO
+			i++;
+		}
 		utils->process->redirec = utils->process->redirec->next;
-		i++;
 	}
+	if (dup2(infile_fds[i - 1], STDIN_FILENO) == -1) //Nos aseguramos de ejecutar la redirección solo con el ultimo
+		exit(1); //LIBERAR, PERROR, CERRAR Y SALIR
 	i = 0;
-	while (utils->process->cmd[i])
+	while(i < in_redir_count)
 	{
-		printf("PROCESS CMD: %s\n",utils->process->cmd[i]);
+		if(close(infile_fds[i]) == -1)
+			exit(1); //LIBERAR, PERROR, CERRAR Y SALIR
 		i++;
 	}
+	free(infile_fds);
+	exec_cmd(utils);
 }
 
-void	dirty_parse(char *input, t_utils *utils)
+int	executor(t_utils *utils)
 {
-	char	**tokens;
-	int		i;
-	int		j;
+	int	process_list_len;
+	int	process_index;
+	int	main_pipe[2];
+	int	aux_pipe[2];
+	int	status;
+	pid_t pid;
 
-	i = 0;
-	j = 0;
-	utils->process = ft_calloc(1, sizeof(t_parse));
-	utils->process->cmd = ft_calloc(20, sizeof(char *));
-	utils->process->built_in = 0;
-	utils->process->redirec = NULL;
-	utils->process->next = NULL;
-	tokens = ft_split(input, ' ');
-	while(tokens[i])
+//	open_multiple_heredocs(utils->process);
+	process_list_len = process_counter(utils->process);
+	process_index = 1;
+	if (process_index == 1)
 	{
-		if (ft_strcmp(tokens[i], ">") == 0)
-		{
-			create_out(&utils->process->redirec, tokens[i + 1]);
-			i=i + 2;
-		}
-		else if (ft_strcmp(tokens[i], "<") == 0)
-		{
-			create_in(&utils->process->redirec, tokens[i + 1]);
-			i=i + 2;
-		}
-		else if (ft_strcmp(tokens[i], ">>") == 0)
-		{
-			create_out_append(&utils->process->redirec, tokens[i + 1]);
-			i=i + 2;
-		}
-		else if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			create_heredoc(&utils->process->redirec, tokens[i + 1]);
-			i=i + 2;
-		}
-		else if (ft_strcmp(tokens[i], "|") == 0)
-		{
-	 		print_cmds_and_docs(utils);
-			create_new_parse_node(&utils->process);
-			utils->process = utils->process->next;
-			j = 0;
-			i++;
-		}
-		else
-		{
-			utils->process->cmd[j] = ft_strdup(tokens[i]);
-			i++;
-			j++;
-		}
+		pid = fork();
+		if (pid == 0)
+			execute_first_process(utils, main_pipe);
+		wait(&status);
 	}
-	 print_cmds_and_docs(utils);
+	/*
+	else if (process_index < process_list_len)
+		execute_mid_process(utils, main_pipe, aux_pipe);
+	else if (process_index == process_list_len)
+		execute_last_process(utils, main_pipe);
+	*/
+	return (0);
 }

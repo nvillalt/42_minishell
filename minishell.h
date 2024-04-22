@@ -8,12 +8,14 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include "inc/structs.h"
 # include "libft/libft.h"
 # include "inc/builtins.h"
 # include "inc/executor.h"
 # include "inc/parser.h"
 # include "inc/signals.h"
-# include "inc/structs.h"
 # include "inc/tokenizer.h"
 /* ····· general utils & functions ····· */
 
@@ -31,6 +33,4 @@ void	free_utils(t_utils *utils);
 //printf double array
 void	print_env(char **env);
 int	count_matrix(char **cmds);
-int	executor(t_utils *utils);
-void	dirty_parse(char *input, t_utils *utils);
 #endif

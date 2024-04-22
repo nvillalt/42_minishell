@@ -30,7 +30,9 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/export_utils.c \
 						src/builtins/unset_var_env.c \
 
-EXECUTOR = src/executor/executor.c
+EXECUTOR = src/executor/executor.c \
+					src/executor/dirty_parse.c \
+					src/executor/get_cmd_path.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \
