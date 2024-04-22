@@ -64,11 +64,11 @@ void	clean_tokens(t_utils *utils, char *aux)
 	}
 	printf("PRINTING LIST\n");
 	tmp = token_list;
-	printf("%s\n", tmp->str);
+	int	i = 1;
 	while (tmp->next != NULL)
 	{
 		tmp = tmp->next;
-		printf("-->%s\n", tmp->str);
+		printf("-->Token %i: %s\n", i++, tmp->str);
 	}
 	//parse_tokens(utils, &token_list);
 	//clear_token_list(&token_list);

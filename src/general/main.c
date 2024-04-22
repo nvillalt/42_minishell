@@ -90,7 +90,7 @@ int	prompt_loop(t_utils *utils)
 			free(input);
 			clean_tokens(utils, aux);
 			//free_utils(utils);
-			free(aux);
+//			free(aux);
 		}
 	}
 	return (1);

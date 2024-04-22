@@ -17,7 +17,7 @@ int	get_process(char *input, char **str)
 			flag = input[i]; // Entro en estado de hay comillas, no salgo hasta que encuentre otras comillas
 		else if ((input[i] == 34 || input[i] == 39) && input[i] == flag)
 			flag = 0;
-		if (input[i] == '|' /* is_whitespace(input[i]) */ && flag == 0) // No ha entrado en el estado de comillas así que lo que encuentra, no es un caracter
+		if (is_whitespace(input[i]) && flag == 0) // No ha entrado en el estado de comillas así que lo que encuentra, no es un caracter
 			break ;
 		i++;
 	}
@@ -54,11 +54,12 @@ t_token *new_token(char **input)
 	if (!new)
 		return (NULL);
 	num = get_process(*input, &str);
-	if (*input != '\0') // Revisar aquí y ver que no hay problemas de memoria por el ft_substr
+	if (*input[0] != '\0') // Revisar aquí y ver que no hay problemas de memoria por el ft_substr
 		aux = ft_substr(*input, num, ft_strlen(*input));
 	free(*input);
 	*input = aux;
-	free(aux);
+	printf("%s\n", *input);
+//	free(aux);
 	printf("~~~~~~~~>str:%s\n", *input);
 	new->str = str;
 	new->next = NULL;
