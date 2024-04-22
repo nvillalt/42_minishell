@@ -5,6 +5,7 @@ typedef struct	s_redir
 {
 	char			*doc;
 	int				redir_type; //tipo de redireccion
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
