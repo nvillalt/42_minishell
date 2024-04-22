@@ -30,7 +30,7 @@ void 	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 //printf double array
 void	print_env(char **env);
-int	count_matrix(char **cmds);
-int	executor(t_utils *utils);
+int		count_matrix(char **cmds);
+int		executor(t_utils *utils);
 void	dirty_parse(char *input, t_utils *utils);
 #endif

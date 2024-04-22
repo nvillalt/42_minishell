@@ -18,6 +18,6 @@ int		is_whitespace(char c);
 int		check_quotes(char *line);
 int		whitespace_cmp(char *c);
 int		initial_pipe(char *input);
-int		check_redirections(t_utils *utils, char *input);
+int		check_redirections(char *input);
 
 #endif

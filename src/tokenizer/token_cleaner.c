@@ -70,6 +70,7 @@ void	clean_tokens(t_utils *utils, char *aux)
 		tmp = tmp->next;
 		printf("-->%s\n", tmp->str);
 	}
-	clear_token_list(&token_list);
-	free_utils(utils);
+	//parse_tokens(utils, &token_list);
+	//clear_token_list(&token_list);
+	//free_utils(utils);
 }

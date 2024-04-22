@@ -55,7 +55,7 @@ int	initial_pipe(char *input)
 	return (1);
 }
 
-int	check_redirections(t_utils *utils, char *input)
+int	check_redirections(char *input)
 {
 	int	i;
 
@@ -63,19 +63,19 @@ int	check_redirections(t_utils *utils, char *input)
 	while (input[i])
 	{
 		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
-			error_message(utils);
+			return (0);
 		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '|')
-			error_message(utils);
+			return (0);
 		if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<')
-			error_message(utils);
+			return (0);
 		if (input[i] == '|' && input[i + 1] == '<')
-			error_message(utils);
+			return (0);
 		if (input[i] == '<' && input[i + 1] == '|')
-			error_message(utils);
+			return (0);
 		if (input[i] == '|' && input[i + 1] == '|')
-			error_message(utils);
+			return (0);
 		if (input[i] == '&' && input[i + 1] == '&')
-			error_message(utils);
+			return (0);
 		i++;
 	}
 	return (1);
