@@ -32,7 +32,9 @@ BUILT_INS = src/builtins/ft_echo.c \
 
 EXECUTOR = src/executor/executor.c \
 					src/executor/dirty_parse.c \
-					src/executor/get_cmd_path.c
+					src/executor/get_cmd_path.c \
+					src/executor/here_docs.c \
+					src/executor/close_fds.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \

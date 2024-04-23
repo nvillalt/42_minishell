@@ -100,6 +100,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
+	utils.status = 0;
 	if(!*envp)
 		utils.env = create_mini_env();
 	else

@@ -9,6 +9,7 @@ static void	create_out(t_redir **redirec, char *token)
 	node->next = NULL;
 	node->doc = token;
 	node->redir_type = GREAT;
+	node->fd = -1;
 	if (*redirec == NULL)
 		*redirec = node;
 	else
@@ -30,6 +31,7 @@ static void	create_in(t_redir **redirec, char *token)
 	node->next = NULL;
 	node->doc = token;
 	node->redir_type = MINUS;
+	node->fd = -1;
 	if (*redirec == NULL)
 		*redirec = node;
 	else
@@ -51,6 +53,7 @@ static void	create_out_append(t_redir **redirec, char *token)
 	node->next = NULL;
 	node->doc = token;
 	node->redir_type = APPEND;
+	node->fd = -1;
 	if (*redirec == NULL)
 		*redirec = node;
 	else
@@ -69,9 +72,11 @@ static void	create_heredoc(t_redir **redirec, char *token)
 	t_redir	*head;
 
 	node = malloc(sizeof(t_redir));
-	node->next = NULL;
+	node->heredoc_file = NULL;
 	node->doc = token;
 	node->redir_type = HEREDOC;
+	node->next = NULL;
+	node->fd = -1;
 	if (*redirec == NULL)
 		*redirec = node;
 	else
@@ -135,27 +140,32 @@ void	dirty_parse(char *input, t_utils *utils)
 	utils->process->built_in = 0;
 	utils->process->redirec = NULL;
 	utils->process->next = NULL;
+	utils->process->redirec_head = NULL;
 	tokens = ft_split(input, ' ');
 	while(tokens[i])
 	{
 		if (ft_strcmp(tokens[i], ">") == 0)
 		{
 			create_out(&utils->process->redirec, tokens[i + 1]);
+			utils->process->redirec_head = utils->process->redirec;
 			i=i + 2;
 		}
 		else if (ft_strcmp(tokens[i], "<") == 0)
 		{
 			create_in(&utils->process->redirec, tokens[i + 1]);
+			utils->process->redirec_head = utils->process->redirec;
 			i=i + 2;
 		}
 		else if (ft_strcmp(tokens[i], ">>") == 0)
 		{
 			create_out_append(&utils->process->redirec, tokens[i + 1]);
+			utils->process->redirec_head = utils->process->redirec;
 			i=i + 2;
 		}
 		else if (ft_strcmp(tokens[i], "<<") == 0)
 		{
 			create_heredoc(&utils->process->redirec, tokens[i + 1]);
+			utils->process->redirec_head = utils->process->redirec;
 			i=i + 2;
 		}
 		else if (ft_strcmp(tokens[i], "|") == 0)
