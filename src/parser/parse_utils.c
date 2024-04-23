@@ -52,31 +52,29 @@ int	initial_pipe(char *input)
 	if (input[len - 1] == '|' || input[i] == '|' || input[len - 1] == '>'
 		|| (input[len - 1] == '>' && input[len - 2] == '>'))
 		return (0);
+	if ((input[len - 1] == '>' && input[len - 2] == '<')
+		|| input[len - 1] == '<' && input[len - 2 == '>'])
+		return (0);
 	return (1);
 }
 
 int	check_redirections(char *input)
 {
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
-			return (0);
-		if (input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '|')
-			return (0);
-		if (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<')
-			return (0);
-		if (input[i] == '|' && input[i + 1] == '<')
-			return (0);
-		if (input[i] == '<' && input[i + 1] == '|')
-			return (0);
-		if (input[i] == '|' && input[i + 1] == '|')
-			return (0);
-		if (input[i] == '&' && input[i + 1] == '&')
-			return (0);
-		i++;
-	}
+	if (input[0] == '>' && input[1] == '>' && input[2] == '>')
+		return (0);
+	if (input[0] == '>' && input[1] == '>' && input[2] == '|')
+		return (0);
+	if (input[0] == '<' && input[1] == '<' && input[2] == '<')
+		return (0);
+	if (input[0] == '|' && input[1] == '<')
+		return (0);
+	if (input[0] == '<' && input[1] == '|')
+		return (0);
+	if (input[0] == '|' && input[1] == '|')
+		return (0);
+	if (input[0] == '>' && input[1] == '<')
+		return (0);
+	if (input[0] == '<' && input[1] == '>')
+		return (0);
 	return (1);
 }

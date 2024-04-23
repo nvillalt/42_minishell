@@ -58,19 +58,18 @@ void	clean_tokens(t_utils *utils, char *aux)
 			free(token->str);
 			token->str = temp;
 		}
-		printf("New Token: %s\n", token->str);
-		printf("New Token: %s\n", token->next);
 		add_token(&token_list, token);
 	}
 	printf("PRINTING LIST\n");
 	tmp = token_list;
 	int	i = 1;
+	printf("-->Token %d: %s\n", i++, tmp->str);
 	while (tmp->next != NULL)
 	{
 		tmp = tmp->next;
-		printf("-->Token %i: %s\n", i++, tmp->str);
+		printf("-->Token %d: %s\n", i++, tmp->str);
 	}
-	//parse_tokens(utils, &token_list);
-	//clear_token_list(&token_list);
+	parse_tokens(utils, &token_list);
+	//clear_token_list(&token_list); // Liberar aquí toda la lista
 	//free_utils(utils);
 }

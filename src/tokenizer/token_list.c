@@ -23,7 +23,7 @@ int	get_process(char *input, char **str)
 	}
 	*str = ft_substr(input, 0, i);
 	printf("%s\n", *str);
-	//return (i);
+//	return (i);
 }
 void	clear_token_list(t_token **token_list)
 {
@@ -60,7 +60,7 @@ t_token *new_token(char **input)
 	*input = aux;
 	printf("%s\n", *input);
 //	free(aux);
-	printf("~~~~~~~~>str:%s\n", *input);
+//	printf("~~~~~~~~>str:%s\n", *input);
 	new->str = str;
 	new->next = NULL;
 	return (new);

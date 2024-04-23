@@ -85,12 +85,14 @@ int	prompt_loop(t_utils *utils)
 			add_history(input);
 			if (!check_quotes(input) || !initial_pipe(input))
 				printf("ERROR\n"); // Liberación aquí o exit por error
-			//dirty_parse(input, utils);
+			else
+			{
 			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			free(input);
 			clean_tokens(utils, aux);
 			//free_utils(utils);
 //			free(aux);
+			}
 		}
 	}
 	return (1);
