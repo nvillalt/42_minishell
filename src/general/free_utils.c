@@ -60,6 +60,7 @@ void	free_utils(t_utils *utils)
 
 void	free_lists(t_utils	*utils)
 {
+	utils->process->redirec = utils->process->redirec_head;
 	if (utils->process->redirec)
 		free_redir_list(utils->process);
 	if (utils->process)

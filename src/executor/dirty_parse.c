@@ -7,7 +7,7 @@ static void	create_out(t_redir **redirec, char *token)
 
 	node = malloc(sizeof(t_redir));
 	node->next = NULL;
-	node->doc = token;
+	node->doc = ft_strdup(token);
 	node->redir_type = GREAT;
 	node->fd = -1;
 	if (*redirec == NULL)
@@ -29,7 +29,7 @@ static void	create_in(t_redir **redirec, char *token)
 
 	node = malloc(sizeof(t_redir));
 	node->next = NULL;
-	node->doc = token;
+	node->doc = ft_strdup(token);
 	node->redir_type = MINUS;
 	node->fd = -1;
 	if (*redirec == NULL)
@@ -51,7 +51,7 @@ static void	create_out_append(t_redir **redirec, char *token)
 
 	node = malloc(sizeof(t_redir));
 	node->next = NULL;
-	node->doc = token;
+	node->doc = ft_strdup(token);
 	node->redir_type = APPEND;
 	node->fd = -1;
 	if (*redirec == NULL)
@@ -73,7 +73,7 @@ static void	create_heredoc(t_redir **redirec, char *token)
 
 	node = malloc(sizeof(t_redir));
 	node->heredoc_file = NULL;
-	node->doc = token;
+	node->doc = ft_strdup(token);
 	node->redir_type = HEREDOC;
 	node->next = NULL;
 	node->fd = -1;
@@ -182,5 +182,6 @@ void	dirty_parse(char *input, t_utils *utils)
 			j++;
 		}
 	}
+	free_matrix(tokens);
 	//print_cmds_and_docs(utils);
 }

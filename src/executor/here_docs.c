@@ -51,8 +51,7 @@ static void	open_here_doc(t_utils *utils, t_parse *process, int temp_num)
 	{
 		if (buffer)
 			free(buffer);
-		write(STDERR_FILENO, "> ", 2);
-		buffer = get_next_line(STDIN_FILENO);
+		buffer = readline("> ");
 		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
