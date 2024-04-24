@@ -40,7 +40,22 @@ saltar espacios/is_whitespace
 --> Ver redirecciones válidas/caracteres especiales 
 y la palabra que venga ddetrás que va a ser la que tenga la flag*/
 
-//int	clean_tokens()
+int	clean_tokens(t_utils *utils, char *aux)
+{
+	t_token	*token_list;
+	t_token	*token;
+	char	*temp;
+
+	token_list = NULL;
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (0);
+	printf("Puntero en clean tokens: %p\n", &aux);
+	temp = new_token(&token, &aux);
+
+	parse_tokens(utils, &token_list);
+	return (1);
+}
 
 // void	clean_tokens(t_utils *utils, char *aux)
 // {

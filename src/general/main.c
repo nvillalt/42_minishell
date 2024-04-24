@@ -101,8 +101,8 @@ int	prompt_loop(t_utils *utils)
 			{
 			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input); // A veces me da un double free -> no da leaks
-			clean_tokens(utils, aux);
-			//free_utils(utils);
+			if (!clean_tokens(utils, aux)) // Para ver que no ha dado error de malloc
+				free_utils(utils);
 //			free(aux);
 			}
 		}

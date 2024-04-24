@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:09:06 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/04/24 18:02:51 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:37:41 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		i++;
 	}
 	substr[i] = '\0';
-	free(s);
 	return (substr);
 }
