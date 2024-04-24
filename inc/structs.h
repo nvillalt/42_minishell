@@ -32,6 +32,7 @@ typedef struct s_utils
 	char	**env; // Para el env duplicado
 	t_parse	*process;
 	int		status;
+	pid_t	*pid_array;
 } t_utils;
 
 #endif

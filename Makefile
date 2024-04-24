@@ -34,7 +34,8 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/dirty_parse.c \
 					src/executor/get_cmd_path.c \
 					src/executor/here_docs.c \
-					src/executor/close_fds.c
+					src/executor/close_fds.c \
+					src/executor/execute_first_process.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \
