@@ -36,7 +36,10 @@ int		check_quotes(char *line)
 		i++;
 	}
 	if (flag)
+	{
+		ft_putstr_fd("Error: unclosed quotes", 2);
 		return (0);
+	}
 	return (1);
 }
 
@@ -49,12 +52,23 @@ int	initial_pipe(char *input)
 	len = ft_strlen(input);
 	while (is_whitespace(input[len - 1]))
 		len--;
-	if (input[len - 1] == '|' || input[i] == '|' || input[len - 1] == '>'
-		|| (input[len - 1] == '>' && input[len - 2] == '>'))
+	if (input[len - 1] == '|' || input[i] == '|')
+	{
+		ft_putstr_fd("error. unexpected '|'.", 2);
 		return (0);
-	if ((input[len - 1] == '>' && input[len - 2] == '<')
-		|| input[len - 1] == '<' && input[len - 2 == '>'])
+	}
+	if ((input[len - 1] == '>' && input[len - 2] == '<') || input[len - 1] == '<' && input[len - 2 == '>']
+		|| input[len - 1] == '>' && input[len - 2] == '>' && input[len - 3] == '>')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `>>'", 2);
 		return (0);
+	}
+	if (input[len - 1] == '>' || (input[len - 1] == '>' && input[len - 2] == '>')
+		|| input[len - 1] == '<' || (input[len - 1] == '<' && input[len - 2] == '<'))
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'", 2);
+		return (0);
+	}
 	return (1);
 }
 

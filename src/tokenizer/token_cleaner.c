@@ -40,36 +40,38 @@ saltar espacios/is_whitespace
 --> Ver redirecciones válidas/caracteres especiales 
 y la palabra que venga ddetrás que va a ser la que tenga la flag*/
 
-void	clean_tokens(t_utils *utils, char *aux)
-{
-	char	*temp;
-	t_token	*token_list;
-	t_token	*token;
-	t_token	*tmp; // Solo para imprimir
+//int	clean_tokens()
 
-	token = NULL;
-	token_list = NULL;
-	while (*aux != '\0')
-	{
-		token = new_token(&aux); // Viene con memoria alojada
-		if (is_whitespace(token->str[0]))
-		{
-			temp = trim_spaces(token->str);
-			free(token->str);
-			token->str = temp;
-		}
-		add_token(&token_list, token);
-	}
-	printf("PRINTING LIST\n");
-	tmp = token_list;
-	int	i = 1;
-	printf("-->Token %d: %s\n", i++, tmp->str);
-	while (tmp->next != NULL)
-	{
-		tmp = tmp->next;
-		printf("-->Token %d: %s\n", i++, tmp->str);
-	}
-	parse_tokens(utils, &token_list);
-	//clear_token_list(&token_list); // Liberar aquí toda la lista
-	//free_utils(utils);
-}
+// void	clean_tokens(t_utils *utils, char *aux)
+// {
+// 	char	*temp;
+// 	t_token	*token_list;
+// 	t_token	*token;
+// 	t_token	*tmp; // Solo para imprimir
+
+// 	token = NULL;
+// 	token_list = NULL;
+// 	while (*aux != '\0')
+// 	{
+// 		token = new_token(&aux); // Viene con memoria alojada
+// 		// if (is_whitespace(token->str[0]))
+// 		// {
+// 		// 	temp = trim_spaces(token->str);
+// 		// 	free(token->str);
+// 		// 	token->str = temp;
+// 		// }
+// 		add_token(&token_list, token);
+// 	}
+// 	printf("PRINTING LIST\n");
+// 	tmp = token_list;
+// 	int	i = 1;
+// 	printf("-->Token %d: %s\n", i++, tmp->str);
+// 	while (tmp->next != NULL)
+// 	{
+// 		tmp = tmp->next;
+// 		printf("-->Token %d: %s\n", i++, tmp->str);
+// 	}
+// 	parse_tokens(utils, &token_list);
+// 	//clear_token_list(&token_list); // Liberar aquí toda la lista
+// 	//free_utils(utils);
+// }

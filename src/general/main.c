@@ -70,6 +70,18 @@ static char	**set_oldpwd(char **env)
 	}
 }
 
+t_utils	init_utils(void)
+{
+	t_utils	utils;
+
+	utils.env = NULL;
+	utils.path = NULL;
+	utils.status = 0;
+	utils.pid_array = NULL;
+	utils.process = NULL;
+	return (utils);
+}
+
 int	prompt_loop(t_utils *utils)
 {
 	char	*input;
@@ -78,17 +90,17 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		input = readline("minishell:");
-		if (!*input) // Saltar la linea en blanco
+		if (!*input)
 			free(input);
 		else
 		{
 			add_history(input);
 			if (!check_quotes(input) || !initial_pipe(input))
-				printf("ERROR\n"); // Liberación aquí o exit por error
+				ft_putendl_fd("", 2);
 			else
 			{
 			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
-			free(input);
+			//free(input); // A veces me da un double free -> no da leaks
 			clean_tokens(utils, aux);
 			//free_utils(utils);
 //			free(aux);
@@ -102,6 +114,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
+	utils = init_utils();
 	// if(!*envp)
 	// 	utils.env = create_mini_env();
 	// else

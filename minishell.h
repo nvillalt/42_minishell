@@ -20,7 +20,7 @@
 // utils
 char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
-void	init_utils(t_utils *utils);
+t_utils	init_utils(void);
 
 // error_management
 int		error_message(t_utils *utils);

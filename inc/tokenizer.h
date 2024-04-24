@@ -7,6 +7,6 @@ void		parse_tokens(t_utils *utils, t_token **token_list);
 void		clear_token_list(t_token **token_list);
 
 char		*trim_spaces(char *input);
-void		clean_tokens(t_utils *utils, char *aux);
+int			clean_tokens(t_utils *utils, char *aux);
 
 #endif
