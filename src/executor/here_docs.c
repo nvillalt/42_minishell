@@ -20,7 +20,7 @@ static int	ft_strncmp_heredoc(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-static void	open_here_doc(t_utils *utils, t_parse *process, int temp_num)
+static int	open_here_doc(t_utils *utils, t_parse *process, int temp_num)
 {
 	char	*buffer;
 	int		limiter_len;
@@ -28,24 +28,13 @@ static void	open_here_doc(t_utils *utils, t_parse *process, int temp_num)
 
 	process->redirec->heredoc_file = ft_strjoin(".temp", ft_itoa(temp_num));
 	if (!process->redirec->heredoc_file)
-	{
-		free_utils(utils);
-		close_fds(utils->process, utils);
-		perror(NULL);
-		exit(1); //LIBERAR TODO 
-	}
+		return (0);
 	buffer = NULL;
 	buffer_len = 0;
 	limiter_len = ft_strlen(process->redirec->doc);
 	process->redirec->fd = open(process->redirec->heredoc_file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (process->redirec->fd == -1)
-	{
-		free_lists(utils);
-		close_fds(utils->process, utils);
-		perror(NULL); //Liberar absolutamente todo
-		utils->status = 1;
-		return;
-	}
+		return (0);
 	while (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
 	{
@@ -59,9 +48,10 @@ static void	open_here_doc(t_utils *utils, t_parse *process, int temp_num)
 	}
 	free(buffer);
 	utils->status = 0;
+	return (1);
 }
 
-void	open_multiple_heredocs(t_utils *utils, t_parse *process)
+int	open_multiple_heredocs(t_utils *utils, t_parse *process)
 {
 	int	temp_num;
 
@@ -72,13 +62,13 @@ void	open_multiple_heredocs(t_utils *utils, t_parse *process)
 		{
 			if (process->redirec->redir_type == HEREDOC)
 			{
-				open_here_doc(utils, process, temp_num);
-				if (utils->status != 0)
-					return ;
+				if (!open_here_doc(utils, process, temp_num))
+					return (0);
 				temp_num++;
 			}
 			process->redirec = process->redirec->next;
 		}
 		process = process->next;
 	}
+	return (1);
 }

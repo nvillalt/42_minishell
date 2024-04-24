@@ -5,12 +5,15 @@ static void	exec_cmd(t_utils *utils, t_parse *current_process)
 	char	*path;
 
 	path = get_cmd_path(utils);
+	if (!path)
+		path = utils->path[0];
 	if (execve(path, current_process->cmd, utils->env) == -1)
 	{
-		perror(NULL);
+		ft_putstr_fd(current_process->cmd[0], 2);
+		ft_putendl_fd(" :command not found", 2);
 		close_fds(utils->process, utils);
 		free_utils(utils);
-		exit(1); //Perror,  free, close, exit
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -39,12 +42,7 @@ static void	open_infiles(t_utils *utils, t_parse *process)
 		{
 			process->redirec->fd = open(utils->process->redirec->doc, O_RDONLY);
 			if (process->redirec->fd == -1)
-			{
-				perror(NULL);
-				close_fds(utils->process, utils);
-				free_utils(utils);
-				exit(1);
-			}
+				exit_process(utils);
 		}
 		process->redirec = process->redirec->next;
 	}
@@ -60,13 +58,9 @@ void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO
 		open_infiles(utils, utils->process);
 		last_infile_fd = get_last_infile(utils->process);
 		if (dup2(last_infile_fd, STDIN_FILENO) == -1) //Nos aseguramos de ejecutar la redirección solo con el ultimo
-		{
-			perror(NULL);
-			close_fds(utils->process, utils);
-			free_utils(utils);
-			exit(1);
-		}
+			exit_process(utils);
 		close_fds(utils->process, utils); //OJO! ESTAMOS CERRANDO HEREDOCS DE MÁS
 	}
-	exec_cmd(utils, process);
+	if (process->cmd)
+		exec_cmd(utils, process);
 }
