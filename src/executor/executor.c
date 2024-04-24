@@ -24,7 +24,7 @@ void	executor(t_utils *utils)
 	if(!utils->pid_array)
 	{
 		perror(NULL);
-		close_fds(utils->process, utils);
+		close_unlink_fds(utils->process, utils);
 		free_utils(utils);
 		exit(1);
 	}
@@ -35,7 +35,7 @@ void	executor(t_utils *utils)
 		if (utils->pid_array[process_count - 1] == -1)
 		{
 			perror(NULL);
-			close_fds(utils->process, utils);
+			close_unlink_fds(utils->process, utils);
 			free_lists(utils);
 		}
 		if (utils->pid_array[process_count - 1] == 0)

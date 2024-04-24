@@ -6,30 +6,16 @@ static char	*get_command(t_utils *utils)
 
 	command = ft_strjoin("/", utils->process->cmd[0]);
 	if (!command)
+	{
+		perror(NULL);
+		close_fds(utils->process, utils);
+		free_utils(utils);
 		exit(1); //LIBERAR ABSOLUTAMENTE TODO
+	}
 	return (command);
 }
 
-static char	*get_path_env(char **env, char *command, int *pipex)
-{
-	int		i;
-	char	*mod_env;
-
-	i = 0;
-	while (env[i] && (ft_strncmp(env[i], "PATH=", 5)))
-		i++;
-	if (!env[i])
-	{
-		perror(NULL);
-		free(command);
-		//LIBERAR EL RESTO
-		exit(1);
-	}
-	mod_env = env[i] + 5;
-	return (mod_env);
-}
-
-static char	*get_def_path(char **path, char *command, t_utils *pipex)
+static char	*get_def_path(char **path, char *command, t_utils *utils)
 {
 	int		i;
 	int		found;
@@ -41,7 +27,12 @@ static char	*get_def_path(char **path, char *command, t_utils *pipex)
 	{
 		search = ft_strjoin(path[i], command);
 		if (!search)
-			exit(1); //Liberar absolutamente todo
+		{
+			perror(NULL);
+			close_fds(utils->process, utils);
+			free_utils(utils);
+			exit (1);
+		}
 		if (access(search, X_OK) == 0)
 			found = 1;
 		else

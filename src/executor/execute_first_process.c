@@ -7,6 +7,9 @@ static void	exec_cmd(t_utils *utils, t_parse *current_process)
 	path = get_cmd_path(utils);
 	if (execve(path, current_process->cmd, utils->env) == -1)
 	{
+		perror(NULL);
+		close_fds(utils->process, utils);
+		free_utils(utils);
 		exit(1); //Perror,  free, close, exit
 	}
 }
@@ -27,11 +30,8 @@ static int	get_last_infile(t_parse *process)
 	return(last_infile_fd);
 }
 
-void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO DE QUE NO EXISTAN INFILES DE NINGÚN TIPO
+static void	open_infiles(t_utils *utils, t_parse *process)
 {
-	int		in_redir_count;
-	int		last_infile_fd;
-
 	process->redirec = process->redirec_head;
 	while (process->redirec)
 	{
@@ -41,19 +41,32 @@ void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO
 			if (process->redirec->fd == -1)
 			{
 				perror(NULL);
+				close_fds(utils->process, utils);
 				free_utils(utils);
 				exit(1);
 			}
 		}
 		process->redirec = process->redirec->next;
 	}
-	last_infile_fd = get_last_infile(utils->process);
-	if (dup2(last_infile_fd, STDIN_FILENO) == -1) //Nos aseguramos de ejecutar la redirección solo con el ultimo
+}
+
+void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO DE QUE NO EXISTAN INFILES DE NINGÚN TIPO
+{
+	int		in_redir_count;
+	int		last_infile_fd;
+
+	if (process->redirec_head)
 	{
-		perror(NULL);
-		free_utils(utils);
-		exit(1);
+		open_infiles(utils, utils->process);
+		last_infile_fd = get_last_infile(utils->process);
+		if (dup2(last_infile_fd, STDIN_FILENO) == -1) //Nos aseguramos de ejecutar la redirección solo con el ultimo
+		{
+			perror(NULL);
+			close_fds(utils->process, utils);
+			free_utils(utils);
+			exit(1);
+		}
+		close_fds(utils->process, utils); //OJO! ESTAMOS CERRANDO HEREDOCS DE MÁS
 	}
-	close_fds(utils->process, utils); //OJO! ESTAMOS CERRANDO HEREDOCS DE MÁS
 	exec_cmd(utils, process);
 }
