@@ -88,7 +88,6 @@ int	prompt_loop(t_utils *utils)
 			dirty_parse(input, utils);
 			if(!executor(utils))
 				free_to_prompt(utils);
-			close_unlink_fds(utils->process, utils);
 			free_lists(utils);
 			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input);

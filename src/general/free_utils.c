@@ -24,6 +24,8 @@ void	free_redir_list(t_parse *process) //Libera todos los redir de todos los nod
 		{
 			if (process->redirec->doc)
 				free(process->redirec->doc);
+			if (process->redirec->heredoc_file)
+				free(process->redirec->heredoc_file);
 			temp = process->redirec;
 			process->redirec = process->redirec->next;
 			free(temp);

@@ -6,6 +6,7 @@ static void	create_out(t_redir **redirec, char *token)
 	t_redir	*head;
 
 	node = malloc(sizeof(t_redir));
+	node->heredoc_file = NULL;
 	node->next = NULL;
 	node->doc = ft_strdup(token);
 	node->redir_type = GREAT;
@@ -28,6 +29,7 @@ static void	create_in(t_redir **redirec, char *token)
 	t_redir	*head;
 
 	node = malloc(sizeof(t_redir));
+	node->heredoc_file = NULL;
 	node->next = NULL;
 	node->doc = ft_strdup(token);
 	node->redir_type = MINUS;
@@ -50,6 +52,7 @@ static void	create_out_append(t_redir **redirec, char *token)
 	t_redir	*head;
 
 	node = malloc(sizeof(t_redir));
+	node->heredoc_file = NULL;
 	node->next = NULL;
 	node->doc = ft_strdup(token);
 	node->redir_type = APPEND;

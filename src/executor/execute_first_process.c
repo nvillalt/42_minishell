@@ -48,7 +48,7 @@ static void	open_infiles(t_utils *utils, t_parse *process)
 	}
 }
 
-void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO DE QUE NO EXISTAN INFILES DE NINGÚN TIPO
+void	execute_first_process(t_utils *utils, t_parse *process)
 {
 	int		in_redir_count;
 	int		last_infile_fd;
@@ -57,10 +57,16 @@ void	execute_first_process(t_utils *utils, t_parse *process) //CONTROLAR EL CASO
 	{
 		open_infiles(utils, utils->process);
 		last_infile_fd = get_last_infile(utils->process);
-		if (dup2(last_infile_fd, STDIN_FILENO) == -1) //Nos aseguramos de ejecutar la redirección solo con el ultimo
+		if (dup2(last_infile_fd, STDIN_FILENO) == -1)
 			exit_process(utils);
 		close_fds(utils->process, utils); //OJO! ESTAMOS CERRANDO HEREDOCS DE MÁS
 	}
-	if (process->cmd)
+	if (process->cmd && process->cmd[0]) //Cuando llegue el parseo bueno es posible que toque cambiarlo
 		exec_cmd(utils, process);
+	else
+	{
+		close_fds(process, utils);
+		free_utils(utils);
+		exit(FUNC_SUCCESS);
+	}
 }
