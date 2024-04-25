@@ -6,7 +6,7 @@ static void	exec_cmd(t_utils *utils, t_parse *current_process)
 
 	path = get_cmd_path(utils);
 	if (!path)
-		path = utils->path[0];
+		path = utils->path[0]; //NO es muy correcto. En caso de que no encuentre la ruta le paso una cualquiera. Documentarse
 	if (execve(path, current_process->cmd, utils->env) == -1)
 	{
 		ft_putstr_fd(current_process->cmd[0], 2);

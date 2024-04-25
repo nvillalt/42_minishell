@@ -31,7 +31,7 @@ static int	open_here_doc(t_redir *redirec, int temp_num)
 	free(str_num);
 	if (!redirec->heredoc_file)
 		return (FUNC_FAILURE);
-	redirec->fd = open(redirec->heredoc_file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	redirec->fd = open(redirec->heredoc_file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (redirec->fd == -1)
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
@@ -51,7 +51,8 @@ static void	write_here_doc(t_parse *process)
 	{
 		if (buffer)
 			free(buffer);
-		buffer = readline("> ");
+		write(STDERR_FILENO, "> ", 2);
+		buffer = get_next_line(STDIN_FILENO);
 		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
