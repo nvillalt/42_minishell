@@ -31,7 +31,7 @@ static int	open_here_doc(t_redir *redirec, int temp_num)
 	free(str_num);
 	if (!redirec->heredoc_file)
 		return (FUNC_FAILURE);
-	redirec->fd = open(redirec->heredoc_file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	redirec->fd = open(redirec->heredoc_file, O_CREAT | O_RDONLY | O_APPEND, 0644);
 	if (redirec->fd == -1)
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
