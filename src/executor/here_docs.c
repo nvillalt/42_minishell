@@ -61,8 +61,6 @@ static void	write_here_doc(t_parse *process)
 	free(buffer);
 }
 
-
-
 static int	exec_here_doc(t_utils *utils, t_parse *process, int temp_num)
 {
 	if(!open_here_doc(process->redirec ,temp_num))
@@ -75,7 +73,7 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int temp_num)
 	return (FUNC_SUCCESS);
 }
 
-int	open_multiple_heredocs(t_utils *utils, t_parse *process)
+int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 {
 	int	temp_num;
 

@@ -18,7 +18,7 @@ int	executor(t_utils *utils)
 	int	process_list_len;
 
 	process_list_len = process_counter(utils->process);
-	if (!open_multiple_heredocs(utils, utils->process))
+	if (!create_multiple_heredocs(utils, utils->process))
 		return (FUNC_FAILURE);
 	utils->pid_array = ft_calloc(process_list_len, sizeof(pid_t));
 	if(!utils->pid_array)
