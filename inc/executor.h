@@ -12,4 +12,5 @@ void	close_unlink_fds(t_parse *process, t_utils *utils);
 int		execute_childs(t_utils *utils, int process_list_len);
 void	free_to_prompt(t_utils *utils);
 void	exit_process(t_utils *utils);
+void	unlink_files(t_parse *process);
 #endif
