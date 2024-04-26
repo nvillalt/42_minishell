@@ -44,6 +44,12 @@ static void	open_infiles(t_utils *utils, t_parse *process)
 			if (process->redirec->fd == -1)
 				exit_process(utils);
 		}
+		if (process->redirec->redir_type == HEREDOC)
+		{
+			process->redirec->fd = open(utils->process->redirec->heredoc_file, O_RDONLY);
+			if (process->redirec->fd == -1)
+				exit_process(utils);
+		}
 		process->redirec = process->redirec->next;
 	}
 }

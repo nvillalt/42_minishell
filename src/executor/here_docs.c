@@ -31,7 +31,7 @@ static int	open_here_doc(t_redir *redirec, int temp_num)
 	free(str_num);
 	if (!redirec->heredoc_file)
 		return (FUNC_FAILURE);
-	redirec->fd = open(redirec->heredoc_file, O_CREAT | O_RDONLY | O_APPEND, 0644);
+	redirec->fd = open(redirec->heredoc_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (redirec->fd == -1)
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
@@ -94,5 +94,6 @@ int	open_multiple_heredocs(t_utils *utils, t_parse *process)
 		}
 		process = process->next;
 	}
+	close_fds(utils->process, utils);
 	return (FUNC_SUCCESS);
 }
