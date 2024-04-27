@@ -1,0 +1,8 @@
+.DS_Store
+*.h.gch
+.vscode/
+a.out
+*.o
+minishell
+libft/libft.a
+exe
