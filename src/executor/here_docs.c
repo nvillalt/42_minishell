@@ -20,7 +20,7 @@ static int	ft_strncmp_heredoc(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-static int	open_here_doc(t_redir *redirec, int temp_num)
+static int	get_file_name(t_redir *redirec, int temp_num)
 {
 	char	*str_num;
 
@@ -31,6 +31,20 @@ static int	open_here_doc(t_redir *redirec, int temp_num)
 	free(str_num);
 	if (!redirec->heredoc_file)
 		return (FUNC_FAILURE);
+	return(FUNC_SUCCESS);
+}
+
+static int	open_here_doc(t_redir *redirec, int *temp_num)
+{
+	if (!get_file_name(redirec, *temp_num))
+		return (FUNC_FAILURE);
+	while(access(redirec->heredoc_file, F_OK) == 0)
+	{
+		++*temp_num;
+		printf("%ls\n", temp_num);
+		free(redirec->heredoc_file);
+		get_file_name(redirec, *temp_num);
+	}
 	redirec->fd = open(redirec->heredoc_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (redirec->fd == -1)
 		return (FUNC_FAILURE);
@@ -61,9 +75,9 @@ static void	write_here_doc(t_parse *process)
 	free(buffer);
 }
 
-static int	exec_here_doc(t_utils *utils, t_parse *process, int temp_num)
+static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 {
-	if(!open_here_doc(process->redirec ,temp_num))
+	if(!open_here_doc(process->redirec, temp_num))
 	{
 		utils->status = 1;
 		return(FUNC_FAILURE);
@@ -84,7 +98,7 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 		{
 			if (process->redirec->redir_type == HEREDOC)
 			{
-				if (!exec_here_doc(utils, process, temp_num))
+				if (!exec_here_doc(utils, process, &temp_num))
 					return (FUNC_FAILURE);
 				temp_num++;
 			}
