@@ -100,24 +100,34 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 	return (last_outfile_fd);
 }
 
-static void	redirec_outfile(t_utils *utils, t_parse *process)
+static int	redirec_outfile(t_utils *utils, t_parse *process)
 {
 	int	last_outfile_fd;
 
 	last_outfile_fd = open_outfiles(utils, process);
 	if (last_outfile_fd == -1)
-		return ;
+		return (FUNC_FAILURE);
 	if (dup2(last_outfile_fd, STDOUT_FILENO) == -1)
 		exit_process(utils);
 	close_fds(utils->process, utils); 
+	return (FUNC_SUCCESS);
 }
 
 void	execute_first_process(t_utils *utils, t_parse *process)
 {
 	int		in_redir_count;
 
+	close_pipe_fd(utils->main_pipe[0]);
 	redirec_infile(utils, process);
-	redirec_outfile(utils, process);
+	if (!redirec_outfile(utils, process))
+	{
+		if (process->next)
+		{
+			if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
+				exit_process(utils);
+		}
+	}
+	close_pipe_fd(utils->main_pipe[1]);
 	if (process->cmd && process->cmd[0]) //Cuando llegue el parseo bueno es posible que toque cambiarlo
 		exec_cmd(utils, process);
 	else

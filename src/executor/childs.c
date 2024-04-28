@@ -1,27 +1,62 @@
 #include "../../minishell.h"
 
-int	create_first_child(t_utils *utils, int process_count)
+static void	init_pipe(int *pipe)
 {
-	utils->pid_array[process_count - 1] = fork();
-	if (utils->pid_array[process_count - 1] == -1)
-		return(0);
-	if (utils->pid_array[process_count - 1] == 0)
-		execute_first_process(utils, utils->process); 
-	wait(&utils->status);
-	process_count++;
+	pipe[0] = -1;
+	pipe[1] = -1;
+}
+
+static int	wait_all_process(t_utils *utils)
+{
+	int	i;
+
+	i = 0;
+	while(i < utils->process_list_len)
+	{
+		if (waitpid(utils->pid_array[i], &utils->status, 0) == -1)
+			return (FUNC_FAILURE);
+		i++;
+	}
 	return (FUNC_SUCCESS);
 }
 
-int	execute_childs(t_utils *utils, int process_list_len)
+int	create_first_child(t_utils *utils, int process_index)
 {
-	int	process_count;
-
-	process_count = 1;
-	if (process_count == 1)
+	if (utils->process->next)
 	{
-		create_first_child(utils, process_count);
-		if (!create_first_child)
-			return (FUNC_FAILURE);
+		if (pipe(utils->main_pipe) == -1);
+			return(FUNC_FAILURE);
 	}
+	utils->pid_array[process_index] = fork();
+	if (utils->pid_array[process_index] == -1)
+		return(FUNC_FAILURE);
+	if (utils->pid_array[process_index] == 0)
+		execute_first_process(utils, utils->process);
+	return (FUNC_SUCCESS);
+}
+
+int	execute_childs(t_utils *utils, t_parse *process)
+{
+	int	process_index;
+
+	process_index = 0;
+	init_pipe(utils->main_pipe); //ESTO PODEMOS HACERLO EN EL INIT DE UTILS
+	init_pipe(utils->aux_pipe);
+	if (!create_first_child(utils, process_index))
+	process_index++;
+	process = process->next;
+	/*
+	while(process && process->next != NULL)
+	{
+		if (create_mid_process(utils, process) == -1)
+			return (FUNC_FAILURE);
+		process = process->next;
+		process_index++;
+	}
+	if (!create_last_child(utils, process) == -1)
+		return (FUNC_FAILURE);
+	*/
+	if (!wait_all_process(utils))
+		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
 }
