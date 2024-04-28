@@ -20,21 +20,6 @@ static int	wait_all_process(t_utils *utils)
 	return (FUNC_SUCCESS);
 }
 
-int	create_first_child(t_utils *utils, int process_index)
-{
-	if (utils->process->next)
-	{
-		if (pipe(utils->main_pipe) == -1);
-			return(FUNC_FAILURE);
-	}
-	utils->pid_array[process_index] = fork();
-	if (utils->pid_array[process_index] == -1)
-		return(FUNC_FAILURE);
-	if (utils->pid_array[process_index] == 0)
-		execute_first_process(utils, utils->process);
-	return (FUNC_SUCCESS);
-}
-
 int	execute_childs(t_utils *utils, t_parse *process)
 {
 	int	process_index;
@@ -43,6 +28,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	init_pipe(utils->main_pipe); //ESTO PODEMOS HACERLO EN EL INIT DE UTILS
 	init_pipe(utils->aux_pipe);
 	if (!create_first_child(utils, process_index))
+		return (FUNC_FAILURE);
 	process_index++;
 	process = process->next;
 	/*
@@ -53,9 +39,13 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		process = process->next;
 		process_index++;
 	}
-	if (!create_last_child(utils, process) == -1)
-		return (FUNC_FAILURE);
 	*/
+	close_pipe_fd(utils->main_pipe[1]);
+	if (process)
+	{
+		if (!create_last_child(utils, process, process_index) == -1)
+			return (FUNC_FAILURE);
+	}
 	if (!wait_all_process(utils))
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);

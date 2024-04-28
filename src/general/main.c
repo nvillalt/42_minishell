@@ -87,9 +87,9 @@ int	prompt_loop(t_utils *utils)
 				printf("ERROR\n"); // Liberación aquí o exit por error
 			dirty_parse(input, utils);
 			if(!executor(utils))
+				free_to_prompt_error(utils);
+			else
 				free_to_prompt(utils);
-			unlink_files(utils->process);
-			free_lists(utils);
 			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input);
 			//clean_tokens(utils, aux);

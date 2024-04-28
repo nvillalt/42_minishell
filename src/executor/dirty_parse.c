@@ -101,6 +101,7 @@ void	create_new_parse_node(t_parse **process)
 	node->cmd = ft_calloc(20, sizeof(char *));
 	node->built_in = 0;
 	node->redirec = NULL;
+	node->redirec_head = NULL;
 	node->next = NULL;
 	head = *process;
 	if (!*process)

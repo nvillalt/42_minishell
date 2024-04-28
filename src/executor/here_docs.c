@@ -106,6 +106,6 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 		}
 		process = process->next;
 	}
-	close_fds(utils->process, utils);
+	close_fds(process, utils);
 	return (FUNC_SUCCESS);
 }
