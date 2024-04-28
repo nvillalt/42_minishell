@@ -20,7 +20,7 @@ int	whitespace_cmp(char *input)
 	return (0);
 }
 
-int		check_quotes(char *line)
+int		check_quotes(char *line, t_utils *utils)
 {
 	int	flag;
 	int	i;
@@ -37,13 +37,14 @@ int		check_quotes(char *line)
 	}
 	if (flag)
 	{
-		ft_putstr_fd("Error: unclosed quotes", 2);
+		utils->status = 130;
+		ft_putstr_fd("Error: unclosed quotes\n", 2);
 		return (0);
 	}
 	return (1);
 }
 
-int	initial_pipe(char *input)
+int	initial_pipe(char *input, t_utils *utils)
 {
 	int	i;
 	int	len;
@@ -54,19 +55,8 @@ int	initial_pipe(char *input)
 		len--;
 	if (input[len - 1] == '|' || input[i] == '|')
 	{
-		ft_putstr_fd("error. unexpected '|'.", 2);
-		return (0);
-	}
-	if ((input[len - 1] == '>' && input[len - 2] == '<') || input[len - 1] == '<' && input[len - 2 == '>']
-		|| input[len - 1] == '>' && input[len - 2] == '>' && input[len - 3] == '>')
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `>>'", 2);
-		return (0);
-	}
-	if (input[len - 1] == '>' || (input[len - 1] == '>' && input[len - 2] == '>')
-		|| input[len - 1] == '<' || (input[len - 1] == '<' && input[len - 2] == '<'))
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'", 2);
+		utils->status = 127;
+		ft_putendl_fd("minishell: syntax error near end of line `|'", 2);
 		return (0);
 	}
 	return (1);
@@ -75,20 +65,23 @@ int	initial_pipe(char *input)
 int	check_redirections(char *input)
 {
 	if (input[0] == '>' && input[1] == '>' && input[2] == '>')
-		return (0);
+		return (2);
 	if (input[0] == '>' && input[1] == '>' && input[2] == '|')
-		return (0);
+		return (3);
 	if (input[0] == '<' && input[1] == '<' && input[2] == '<')
-		return (0);
+		return (4);
 	if (input[0] == '|' && input[1] == '<')
-		return (0);
+		return (5);
 	if (input[0] == '<' && input[1] == '|')
-		return (0);
+		return (6);
 	if (input[0] == '|' && input[1] == '|')
-		return (0);
+		return (7);
 	if (input[0] == '>' && input[1] == '<')
-		return (0);
+		return (8);
 	if (input[0] == '<' && input[1] == '>')
-		return (0);
+		return (9);
 	return (1);
 }
+
+// Ojo ls >| hola se entiende como ls >hola y ya, 
+// Pero ls |> hola se entiende como ls | "" >hola

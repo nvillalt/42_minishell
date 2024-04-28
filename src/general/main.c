@@ -95,16 +95,22 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input);
-			if (!check_quotes(input) || !initial_pipe(input))
-				ft_putendl_fd("", 2);
+			if (!check_quotes(input, utils) || !initial_pipe(input, utils)) // Segun mi ubuntu
+				printf("");
 			else
 			{
-			aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
-			//free(input); // A veces me da un double free -> no da leaks
-			if (!clean_tokens(utils, aux)) // Para ver que no ha dado error de malloc
-				free_utils(utils);
-//			free(aux);
+				aux = trim_spaces(input);
+				free(input);
+				utils->status = get_tokens(aux, utils);
+				// t_token	*print = utils->tokens;
+				// while (print->next != NULL)
+				// {
+				// 	printf(".%s\n", print->str);
+				// 	print = print->next;
+				// }
+				//parse_nodes(utils);
 			}
+			printf("%d\n", utils->status);
 		}
 	}
 	return (1);
@@ -127,4 +133,3 @@ int	main(int argc, char **argv, char **envp)
 	free_utils(&utils);
 	return (0);
 }
-

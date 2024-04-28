@@ -22,7 +22,7 @@ typedef	struct s_parse
 
 typedef struct s_token
 {
-	char			*str;
+	char						*str;
 	struct s_token	*next;
 } t_token;
 
