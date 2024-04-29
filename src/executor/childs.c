@@ -27,7 +27,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	process_index = 0;
 	init_pipe(utils->main_pipe); //ESTO PODEMOS HACERLO EN EL INIT DE UTILS
 	init_pipe(utils->aux_pipe);
-	if (!create_first_child(utils, process_index))
+	if (!create_first_child(utils, process, process_index))
 		return (FUNC_FAILURE);
 	process_index++;
 	process = process->next;
@@ -46,6 +46,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		if (!create_last_child(utils, process, process_index) == -1)
 			return (FUNC_FAILURE);
 	}
+	close_pipe_fd(&utils->main_pipe[0]);
 	if (!wait_all_process(utils))
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);

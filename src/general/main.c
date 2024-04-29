@@ -86,7 +86,7 @@ int	prompt_loop(t_utils *utils)
 			if (!check_quotes(input) || !initial_pipe(input))
 				printf("ERROR\n"); // Liberación aquí o exit por error
 			dirty_parse(input, utils);
-			if(!executor(utils))
+			if(!executor(utils, utils->process))
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);

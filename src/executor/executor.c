@@ -22,13 +22,13 @@ static int	create_pid_array(t_utils *utils)
 	return(FUNC_SUCCESS);
 }
 
-int	executor(t_utils *utils)
+int	executor(t_utils *utils, t_parse *process)
 {
 	if (!create_multiple_heredocs(utils, utils->process))
 		return (FUNC_FAILURE);
 	if (!create_pid_array(utils))
 		return (FUNC_FAILURE);
-	if (!execute_childs(utils, utils->process))
+	if (!execute_childs(utils, process))
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
 }

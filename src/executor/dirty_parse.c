@@ -95,7 +95,6 @@ static void	create_heredoc(t_redir **redirec, char *token)
 void	create_new_parse_node(t_parse **process)
 {
 	t_parse	*node;
-	t_parse	*head;
 
 	node = malloc(sizeof(t_parse));
 	node->cmd = ft_calloc(20, sizeof(char *));
@@ -103,14 +102,12 @@ void	create_new_parse_node(t_parse **process)
 	node->redirec = NULL;
 	node->redirec_head = NULL;
 	node->next = NULL;
-	head = *process;
 	if (!*process)
 		*process = node;
 	while((*process)->next != NULL)
 		*process = (*process)->next;
 	(*process)->next = node;
 	*process = (*process)->next;
-	*process = head;
 }
 
 static void print_cmds_and_docs(t_utils *utils)
@@ -134,6 +131,7 @@ static void print_cmds_and_docs(t_utils *utils)
 void	dirty_parse(char *input, t_utils *utils)
 {
 	char	**tokens;
+	t_parse	*head;
 	int		i;
 	int		j;
 
@@ -145,6 +143,7 @@ void	dirty_parse(char *input, t_utils *utils)
 	utils->process->redirec = NULL;
 	utils->process->next = NULL;
 	utils->process->redirec_head = NULL;
+	head = utils->process;
 	tokens = ft_split(input, ' ');
 	while(tokens[i])
 	{
@@ -186,6 +185,7 @@ void	dirty_parse(char *input, t_utils *utils)
 			j++;
 		}
 	}
+	utils->process = head;
 	free_matrix(tokens);
 	//print_cmds_and_docs(utils);
 }

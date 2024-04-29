@@ -4,7 +4,7 @@ void	exec_cmd(t_utils *utils, t_parse *current_process)
 {
 	char	*path;
 
-	path = get_cmd_path(utils);
+	path = get_cmd_path(utils, current_process);
 	if (!path)
 		path = utils->path[0]; //NO es muy correcto. En caso de que no encuentre la ruta le paso una cualquiera. Documentarse
 	if (execve(path, current_process->cmd, utils->env) == -1)
