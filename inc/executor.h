@@ -13,7 +13,7 @@ void	free_to_prompt_error(t_utils *utils);
 void	exit_process(t_utils *utils);
 void	unlink_files(t_parse *process);
 void	exit_process_noerror(t_utils *utils);
-void	close_pipe_fd(int pipe_fd);
+void	close_pipe_fd(int *pipe_fd);
 void	close_all_pipes(t_utils *utils);
 int		redirec_infile(t_utils *utils, t_parse *process);
 int		redirec_outfile(t_utils *utils, t_parse *process);

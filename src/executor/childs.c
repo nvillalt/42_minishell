@@ -40,7 +40,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		process_index++;
 	}
 	*/
-	close_pipe_fd(utils->main_pipe[1]);
+	close_pipe_fd(&utils->main_pipe[1]);
 	if (process)
 	{
 		if (!create_last_child(utils, process, process_index) == -1)

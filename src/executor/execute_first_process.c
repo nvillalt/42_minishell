@@ -3,7 +3,7 @@
 static void	execute_first_process(t_utils *utils, t_parse *process)
 {
 	redirec_infile(utils, process);
-	close_pipe_fd(utils->main_pipe[0]);
+	close_pipe_fd(&utils->main_pipe[0]);
 	if (!redirec_outfile(utils, process))
 	{
 		if (process->next)
@@ -12,7 +12,7 @@ static void	execute_first_process(t_utils *utils, t_parse *process)
 				exit_process(utils);
 		}
 	}
-	close_pipe_fd(utils->main_pipe[1]);
+	close_pipe_fd(&utils->main_pipe[1]);
 	if (process->cmd && process->cmd[0]) //Cuando llegue el parseo bueno es posible que toque cambiarlo
 		exec_cmd(utils, process);
 	else

@@ -16,19 +16,19 @@ void	unlink_files(t_parse *process)
 	}
 }
 
-void	close_pipe_fd(int pipe_fd)
+void	close_pipe_fd(int *pipe_fd)
 {
-	if (pipe_fd != -1)
-		close(pipe_fd);
-	pipe_fd = -1;
+	if (*pipe_fd != -1)
+		close(*pipe_fd);
+	*pipe_fd = -1;
 }
 
 void	close_all_pipes(t_utils *utils)
 {
-	close_pipe_fd(utils->main_pipe[0]);
-	close_pipe_fd(utils->main_pipe[1]);
-	close_pipe_fd(utils->aux_pipe[0]);
-	close_pipe_fd(utils->aux_pipe[1]);
+	close_pipe_fd(&utils->main_pipe[0]);
+	close_pipe_fd(&utils->main_pipe[1]);
+	close_pipe_fd(&utils->aux_pipe[0]);
+	close_pipe_fd(&utils->aux_pipe[1]);
 }
 
 void	close_fds(t_parse *process, t_utils *utils) 
