@@ -2,9 +2,13 @@
 
 static int	execute_last_process(t_utils *utils, t_parse *process)
 {
-	if (dup2(utils->main_pipe[0], STDIN_FILENO) == -1)
-		exit_process(utils);
+	if (!redirec_infile(utils, process))
+	{
+		if (dup2(utils->main_pipe[0], STDIN_FILENO) == -1)
+			exit_process(utils);
+	}
 	close_pipe_fd(&utils->main_pipe[0]);
+	redirec_outfile(utils, process);
 	exec_cmd(utils, process);
 }
 
