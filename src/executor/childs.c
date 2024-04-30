@@ -8,13 +8,27 @@ static void	init_pipe(int *pipe)
 
 static int	wait_all_process(t_utils *utils)
 {
-	int	i;
+	pid_t	pid;
+	int		status;
+	int		i;
 
 	i = 0;
 	while(i < utils->process_list_len)
 	{
-		if (waitpid(utils->pid_array[i], &utils->status, 0) == -1)
+		pid = wait(&status);
+		if (pid == -1)
 			return (FUNC_FAILURE);
+		if (pid == utils->pid_array[utils->process_list_len - 1])
+		{
+			if (WIFEXITED(status))
+				utils->status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				utils->status = 128 + WTERMSIG(status);
+			else if (WIFSTOPPED(status))
+				utils->status = 128 + WSTOPSIG(status);
+			else
+				utils->status = status;
+		}
 		i++;
 	}
 	return (FUNC_SUCCESS);
