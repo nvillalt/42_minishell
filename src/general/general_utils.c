@@ -2,31 +2,6 @@
 
 #include "../../minishell.h"
 
-static char	**test_builtins(char *input, char **env) //BORRAR EVENTUALMENTE
-{
-	char **cmd;
-	int	i;
-
-	i = 0;
-	cmd = ft_split(input, ' ');
-	if (ft_strncmp(cmd[0], "echo", 4) == 0 && ft_strlen(cmd[0]) == 4)
-		ft_echo(cmd);
-	else if (ft_strncmp(cmd[0], "pwd", 3) == 0 && ft_strlen(cmd[0]) == 3)
-		ft_pwd();
-	else if (ft_strncmp(cmd[0], "env", 3) == 0 && ft_strlen(cmd[0]) == 3)
-		ft_env(env, cmd);
-	else if (ft_strncmp(cmd[0], "unset", 5) == 0 && ft_strlen(cmd[0]) == 5)
-		env = ft_unset(env, cmd);
-	else if (ft_strncmp(cmd[0], "cd", 2) == 0 && ft_strlen(cmd[0]) == 2)
-		env = ft_cd(env, cmd);
-	else if (ft_strncmp(cmd[0], "exit", 4) == 0 && ft_strlen(cmd[0]) == 4)
-		ft_exit(cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
-	else if (ft_strncmp(cmd[0], "export", 6) == 0 && ft_strlen(cmd[0]) == 6)
-		env = ft_export(env, cmd);
-	free_matrix(cmd);
-	return (env);
-}
-
 char	**env_dup(char **env)
 {
 	char	**dup;

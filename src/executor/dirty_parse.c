@@ -1,5 +1,25 @@
 #include "../../minishell.h"
-
+/*
+void	exec_builtins(t_utils *utils, t_parse *process) //BORRAR EVENTUALMENTE
+{
+	if (ft_strncmp(process->cmd[0], "echo", 4) == 0 && ft_strlen(cmd[0]) == 4)
+		ft_echo(process->cmd);
+	else if (ft_strncmp(process->cmd[0], "pwd", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
+		ft_pwd();
+	else if (ft_strncmp(process->cmd[0], "env", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
+		ft_env(utils->env, process->cmd);
+	else if (ft_strncmp(process->cmd[0], "unset", 5) == 0 && ft_strlen(process->cmd[0]) == 5)
+		ft_unset(&utils->env, process->cmd);
+	else if (ft_strncmp(process->cmd[0], "cd", 2) == 0 && ft_strlen(process->cmd[0]) == 2)
+		ft_cd(&utils->env, process->cmd);
+	else if (ft_strncmp(process->cmd[0], "exit", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
+		ft_exit(process->cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
+	else if (ft_strncmp(process->cmd[0], "export", 6) == 0 && ft_strlen(process->cmd[0]) == 6)
+		ft_export(&utils->env, process->cmd);
+	free_matrix(process->cmd);
+	return (&utils->env);
+}
+*/
 static void	create_out(t_redir **redirec, char *token)
 {
 	t_redir	*node;

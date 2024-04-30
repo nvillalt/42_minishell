@@ -20,5 +20,6 @@ int		redirec_outfile(t_utils *utils, t_parse *process);
 int		create_first_child(t_utils *utils, t_parse *process, int process_index);
 void	exec_cmd(t_utils *utils, t_parse *current_process);
 int		create_last_child(t_utils *utils, t_parse *process, int process_index);
-int	create_mid_child(t_utils *utils, t_parse *process, int process_index);
+int		create_mid_child(t_utils *utils, t_parse *process, int process_index);
+int		exec_builtins(t_utils *utils, t_parse *process, int process_index);
 #endif

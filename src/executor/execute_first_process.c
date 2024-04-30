@@ -22,10 +22,15 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 		if (pipe(utils->main_pipe) == -1)
 			return(FUNC_FAILURE);
 	}
-	utils->pid_array[process_index] = fork();
-	if (utils->pid_array[process_index] == -1)
-		return(FUNC_FAILURE);
-	if (utils->pid_array[process_index] == 0)
-		execute_first_process(utils, process);
-	return (FUNC_SUCCESS);
+	if (process->built_in)
+		exec_builtins(utils, process, process_index);
+	else
+	{
+		utils->pid_array[process_index] = fork();
+		if (utils->pid_array[process_index] == -1)
+			return(FUNC_FAILURE);
+		if (utils->pid_array[process_index] == 0)
+			execute_first_process(utils, process);
+		return (FUNC_SUCCESS);
+	}
 }
