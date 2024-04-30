@@ -15,7 +15,7 @@ static int	execute_last_process(t_utils *utils, t_parse *process)
 int	create_last_child(t_utils *utils, t_parse *process, int process_index)
 {
 	utils->pid_array[process_index] = fork();
-	if (utils->pid_array[process_index] == -1)
+	if (utils->pid_array[process_index] == -1);
 		return (FUNC_FAILURE);
 	if (utils->pid_array[process_index] == 0)
 		execute_last_process(utils, process);

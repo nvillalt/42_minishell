@@ -10,14 +10,14 @@ static int	open_infiles(t_utils *utils, t_parse *process)
 	{
 		if (process->redirec->redir_type == MINUS)
 		{
-			process->redirec->fd = open(utils->process->redirec->doc, O_RDONLY);
+			process->redirec->fd = open(process->redirec->doc, O_RDONLY);
 			if (process->redirec->fd == -1)
 				exit_process(utils);
 			last_infile_fd = process->redirec->fd;
 		}
 		if (process->redirec->redir_type == HEREDOC)
 		{
-			process->redirec->fd = open(utils->process->redirec->heredoc_file, O_RDONLY);
+			process->redirec->fd = open(process->redirec->heredoc_file, O_RDONLY);
 			if (process->redirec->fd == -1)
 				exit_process(utils);
 			last_infile_fd = process->redirec->fd;

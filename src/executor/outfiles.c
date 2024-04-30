@@ -10,14 +10,14 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 	{
 		if (process->redirec->redir_type == GREAT)
 		{
-			process->redirec->fd = open(utils->process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 			if (process->redirec->fd == -1)
 				exit_process(utils);
 			last_outfile_fd = process->redirec->fd;
 		}
 		if (process->redirec->redir_type == APPEND)
 		{
-			process->redirec->fd = open(utils->process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
+			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
 			if (process->redirec->fd == -1)
 				exit_process(utils);
 			last_outfile_fd = process->redirec->fd;
