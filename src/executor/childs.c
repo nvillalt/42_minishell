@@ -31,15 +31,13 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		return (FUNC_FAILURE);
 	process_index++;
 	process = process->next;
-	/*
 	while(process && process->next != NULL)
 	{
-		if (create_mid_process(utils, process) == -1)
+		if (create_mid_child(utils, process, process_index) == -1)
 			return (FUNC_FAILURE);
 		process = process->next;
 		process_index++;
 	}
-	*/
 	close_pipe_fd(&utils->main_pipe[1]);
 	if (process)
 	{

@@ -41,7 +41,8 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/infiles.c \
 					src/executor/outfiles.c \
 					src/executor/exec_cmd.c \
-					src/executor/execute_last_process.c 
+					src/executor/execute_last_process.c \
+					src/executor/execute_mid_process.c 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \
