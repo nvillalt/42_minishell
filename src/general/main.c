@@ -102,13 +102,7 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
-				// t_token	*print = utils->tokens;
-				// while (print->next != NULL)
-				// {
-				// 	printf(".%s\n", print->str);
-				// 	print = print->next;
-				// }
-				//parse_nodes(utils);
+				free(aux);
 			}
 			printf("%d\n", utils->status);
 		}

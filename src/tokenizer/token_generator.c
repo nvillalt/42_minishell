@@ -27,6 +27,12 @@ int	get_substr(char *aux, int i)
 	flag = 0;
 	while (aux[i])
 	{
+		if ((aux[i] == 34 && aux[i + 1] == 34) || (aux[i + 1] == 39 && aux[i + 1] == 39)
+			&& !ft_strncmp(aux + 2, "echo", 4))
+			return (2);
+		else if (!ft_strncmp(aux, "echo", 4) && (aux[4] == 34 && aux[4 + 1] == 34)
+			|| (aux[4 + 1] == 39 && aux[4 + 1] == 39))
+			return (4);
 		if ((aux[i] == 34 || aux[i] == 39) && flag ==  0)
 			flag = aux[i];
 		else if (aux[i] == flag)
@@ -65,8 +71,16 @@ int	check_symbol(char *str)
 	return (1);
 }
 
+int	free_tokens(t_token **token_list, char *temp, int n)
+{
+	clear_token_list(token_list);
+	free(temp);
+	if (n == 1)
+		return (2); // Error de syntax error
+	return (0); // Ejecución exitosa
+}
 // Primero extraigo el token, luego compruebo como está. Si está mal, libero string + nodos que hubiera alojados.
-int	get_tokens(char	*aux, t_utils *utils) // Sigue leakeando en substr no sé por qué
+int	get_tokens(char	*aux, t_utils *utils)
 {
 	t_token	*token_list;
 	t_token	*token;
@@ -87,27 +101,22 @@ int	get_tokens(char	*aux, t_utils *utils) // Sigue leakeando en substr no sé po
 		if (check_symbol(temp) == 1) // Solo metes en el nodo la mierda si está bien, si no, no
 			token->str = temp;
 		if (!add_token(&token_list, token) || token->str == NULL) // Si no se ha guardado cosa en el nodo, liberar todo pq está mal.
-		{
-			clear_token_list(&token_list);
-			return (2); // Parece ser que esto es lo que retorna bash cuando hay unexpected token
-		}
+			return (free_tokens(&token_list, temp, 1)); // Parece ser que 2 es lo que retorna bash cuando hay unexpected token
 		while (is_whitespace(aux[j]))
 			j++;
 		i = j;
+		free(temp);
 	}
+	// t_token	*print;
 
-	t_token	*print;
-
-	print = token_list;
-	printf("print: %s\n", print->str);
-	while (print->next != NULL)
-	{
-		print = print->next;
-		printf("print: %s\n", print->str);
-	}
-	free(temp);
-	clear_token_list(&token_list);
-	return (0); // Exit con éxito, es 0
+	// print = token_list;
+	// printf("print: %s\n", print->str);
+	// while (print->next != NULL)
+	// {
+	// 	print = print->next;
+	// 	printf("print: %s\n", print->str);
+	// }
+	return(free_tokens(&token_list, temp, 0));
 }
 
 
