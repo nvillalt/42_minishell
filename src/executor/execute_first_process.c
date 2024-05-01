@@ -31,6 +31,6 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 			return(FUNC_FAILURE);
 		if (utils->pid_array[process_index] == 0)
 			execute_first_process(utils, process);
-		return (FUNC_SUCCESS);
 	}
+	return (FUNC_SUCCESS);
 }

@@ -13,7 +13,7 @@ static int	wait_all_process(t_utils *utils)
 	int	status;
 
 	i = 0;
-	while(i < utils->process_list_len)
+	while(i < (utils->process_list_len - utils->builtin_counter))
 	{
 		pid = wait(&status);
 		if (pid == -1)
@@ -38,7 +38,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	process = process->next;
 	while(process && process->next != NULL)
 	{
-		if (create_mid_child(utils, process, process_index) == -1)
+		if (!create_mid_child(utils, process, process_index))
 			return (FUNC_FAILURE);
 		process = process->next;
 		process_index++;
@@ -46,7 +46,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	close_pipe_fd(&utils->main_pipe[1]);
 	if (process)
 	{
-		if (!create_last_child(utils, process, process_index) == -1)
+		if (!create_last_child(utils, process, process_index))
 			return (FUNC_FAILURE);
 	}
 	close_pipe_fd(&utils->main_pipe[0]);

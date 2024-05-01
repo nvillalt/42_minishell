@@ -33,7 +33,7 @@ int	ft_env(char **env, char **argv)
 
 	i = 0;
 	if (!env)
-		return (FUNC_FAILURE) ; // CONSTRUIR PATH??
+		return (1) ; // CONSTRUIR PATH??
 	if (!control_argv(argv))
 	{
 		ft_putstr_fd("env: ", STDERR_FILENO);
@@ -41,7 +41,7 @@ int	ft_env(char **env, char **argv)
 		ft_putstr_fd(argv[1], STDERR_FILENO);
 		ft_putstr_fd("\' ", STDERR_FILENO);
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-		return (FUNC_FAILURE);
+		return (1);
 	}
 	while(env[i])
 	{
@@ -49,4 +49,5 @@ int	ft_env(char **env, char **argv)
 			printf("%s\n", env[i]);
 		i++;
 	}
+	return (0);
 }

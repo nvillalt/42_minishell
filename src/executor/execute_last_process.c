@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static int	execute_last_process(t_utils *utils, t_parse *process)
+static void	execute_last_process(t_utils *utils, t_parse *process)
 {
 	if (!redirec_infile(utils, process))
 	{

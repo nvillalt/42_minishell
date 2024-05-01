@@ -20,12 +20,14 @@ static int	handle_builtins(t_utils *utils, t_parse *process)
 		status = ft_export(utils, process->cmd);
 	return (status);
 }
+
 int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 {
 	int	status;
 
 	if (process->next || process_index != 0)
 	{
+		utils->builtin_counter = 0;
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
 			return(FUNC_FAILURE);
@@ -40,6 +42,7 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 	}
 	else
 	{
+		utils->builtin_counter = 1;
 		status = handle_builtins(utils, process);
 		utils->status = status;
 	}

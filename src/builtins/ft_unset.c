@@ -28,7 +28,7 @@ static int	search_for_set_var(char **env, char *current_var, int *index_jump)
 	}
     var_len = ft_strlen(join_var);
 	while(env[*index_jump] && ft_strncmp(env[*index_jump], join_var, var_len))
-		*index_jump++;
+		(*index_jump)++;
 	free(join_var);
 	return (FUNC_SUCCESS);
 }
