@@ -2,42 +2,23 @@
 
 static char	**change_old_pwd_dir(char **env, char *old_pwd)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	while (env[i] && ft_strncmp(env[i], "OLDPWD", 6) != 0)
 		i++;
 	if (env[i] == NULL)
 		return (env);
-	free(env[i]);
-	env[i] = ft_strjoin("OLDPWD=", old_pwd);
-	if (!env[i])
-	{
-		free(old_pwd);
-		exit(1); //Liberaciones y demás
-	}
-	return (env);
-}
-
-char	**change_pwd(char **env)
-{
-	char *temp;
-	char cwd[PATH_MAX + 1];
-	int	i;
-
-	i = 0;
-	while (env[i] && ft_strncmp(env[i], "PWD", 3) != 0)
-		i++;
-	if (env[i] == NULL)
-		return (env);
-	free(env[i]);
-	temp = ft_strdup(getcwd(cwd, PATH_MAX));
+	temp = ft_strjoin("OLDPWD=", old_pwd);
 	if (!temp)
-		exit(1); //Liberaciones y demás
-	env[i] = ft_strjoin("PWD=", temp);
-	if (!env[i])
-		exit(1); //Liberaciones y demás
-	free(temp);
+	{
+		perror(NULL);
+		free_matrix(env);
+		return (NULL);
+	}
+	free(env[i]);
+	env[i] = temp;
 	return (env);
 }
 
@@ -48,10 +29,16 @@ char	**change_to_directory(char **env, char *cmd)
 
 	if (ft_strlen(cmd) > PATH_MAX)
 	{
-		ft_putendl_fd("error: Path name too long", 2);
+		ft_putendl_fd("error: Path name too long", 2); //Al loro con esto
 		return (env);
 	}
 	old_pwd = ft_strdup(getcwd(cwd, PATH_MAX));
+	if (!old_pwd)
+	{
+		perror(NULL);
+		free_matrix(env);
+		return (NULL);
+	}
 	if (chdir(cmd) == -1)
 	{
 		perror(NULL);
@@ -59,6 +46,16 @@ char	**change_to_directory(char **env, char *cmd)
 		return (env);
 	}
 	env = change_old_pwd_dir(env, old_pwd);
+	if (!env)
+	{
+		free(old_pwd);
+		return (NULL);
+	}
 	env = change_pwd(env);
+	if (!env)
+	{
+		free(old_pwd);
+		return (NULL);
+	}
 	return (env);
 }

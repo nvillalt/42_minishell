@@ -2,23 +2,33 @@
 
 static char	**change_old_pwd(char **env)
 {
-	char *temp;
-	char cwd[PATH_MAX + 1];
-	int	i;
+	char	*temp;
+	char	*temp2;
+	char	cwd[PATH_MAX + 1];
+	int		i;
 
 	i = 0;
 	while (env[i] && ft_strncmp(env[i], "OLDPWD", 6) != 0)
 		i++;
 	if (env[i] == NULL)
 		return (env);
-	free(env[i]);
 	temp = ft_strdup(getcwd(cwd, PATH_MAX));
 	if (!temp)
-		exit(1); //Liberaciones y demás
-	env[i] = ft_strjoin("OLDPWD=", temp);
+	{
+		perror(NULL);
+		free_matrix(env);
+		return (NULL);
+	}
+	temp2 = ft_strjoin("OLDPWD=", temp);
 	if (!env[i])
-		exit(1); //Liberaciones y demás
+	{
+		perror(NULL);
+		free_matrix(env);
+		return (NULL);
+	}
 	free(temp);
+	free(env[i]);
+	env[i] = temp2;
 	return (env);
 }
 
@@ -31,7 +41,10 @@ static char	*search_for_home(char **env)
 	while(env[i] && ft_strncmp(env[i], "HOME", 4) != 0)
 		i++;
 	if (!env[i])
+	{
+		ft_putendl_fd("bash: cd: HOME not set", STDERR_FILENO);
 		return(NULL);
+	}
 	home = env[i] + 5;
 	return (home);
 }
@@ -40,59 +53,86 @@ static char	**change_to_home(char **env)
 {
 	char *home;
 
-	home = NULL;
 	home = search_for_home(env);
 	if (!home)
-		return (env);
+	{
+		free(env);
+		return (NULL);
+	}
 	env = change_old_pwd(env);
+	if (!env)
+		return (NULL);
 	if (chdir(home) == -1)
 	{
 		perror(NULL);
 		return (env);
 	}
-	env = change_pwd(env);
+	env = change_pwd(env);;
+	if (!env)
+		return (NULL);
 	return (env);
 }
 
-static int	check_pwds(char **env)
+char	**change_pwd(char **env)
 {
-	int	i;
+	char	*temp;
+	char	*temp2;
+	char	cwd[PATH_MAX + 1];
+	int		i;
 
 	i = 0;
-	while(env[i] && ft_strncmp(env[i], "HOME", 4) != 0)
+	while (env[i] && ft_strncmp(env[i], "PWD", 3) != 0)
 		i++;
-	if (!env[i])
-		return (0);
-	i = 0;
-	while (env[i] && ft_strncmp(env[i], "OLDPWD", 6) != 0)
-		i++;
-	if(!env[i])
-		return (0);
-	return (1);
-}
-
-char **ft_cd(char **env, char **cmd)
-{
-	int	i;
-	
-	if (env == NULL)
+	if (env[i] == NULL)
+		return (env);
+	temp = ft_strdup(getcwd(cwd, PATH_MAX));
+	if (!temp)
 	{
-		ft_putendl_fd("Can not reach variable PWD in the enviroment", STDERR_FILENO);
+		perror(NULL);
+		free_matrix(env);
 		return (NULL);
 	}
-	if (!check_pwds(env))
-		return(env);
+	temp2 = ft_strjoin("PWD=", temp);
+	if (!env[i])
+	{
+		perror(NULL);
+		free_matrix(env);
+		return (NULL);
+	}
+	free(temp);
+	free(env[i]);
+	env[i] = temp2;
+	return (env);
+}
+
+int	ft_cd(t_utils *utils, char **cmd)
+{
+	int		i;
+	char	**env;
+
 	i = 0;
+	env = env_dup(utils->env);
 	while(cmd[i])
 		i++;
 	if (i == 1)
+	{
 		env = change_to_home(env);
+		if (!env)
+			return (1);
+	}
 	else if (i == 2)
+	{
 		env = change_to_directory(env, cmd[1]);
+		if (!env)
+			return (1);
+	}
 	else
 	{
-		ft_putendl_fd("Error: This command does not accept more than 2 arguments", STDERR_FILENO);
-		return (NULL);
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
+		free_matrix(env);
+		return (1);
 	}
-	return (env);
+	free_matrix(utils->env);
+	utils->env = env;
+	return (0);
 }

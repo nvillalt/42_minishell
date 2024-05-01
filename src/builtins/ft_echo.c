@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 static int	count_argc(char **str)
 {
@@ -46,7 +45,7 @@ static int	control_n(char **str, int i, int *n_flag)
 	return (i);
 }
 
-void	ft_echo(char **str)
+int	ft_echo(char **str)
 {
 	int	i;
 	int	n_flag;
@@ -57,7 +56,7 @@ void	ft_echo(char **str)
 	if (str[1] == NULL)
 	{
 		printf("\n");
-		return;
+		return (1);
 	}
 	argc = count_argc(str);
 	i = control_n(str, i, &n_flag);
@@ -70,4 +69,5 @@ void	ft_echo(char **str)
 		printf("%s", str[i]);
 	if (n_flag != 0)
 		printf("\n");
+	return (0);
 }

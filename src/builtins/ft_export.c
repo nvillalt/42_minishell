@@ -40,21 +40,28 @@ static void	print_export_env(char **env)
 	}
 }
 
-static void	swap_lines(char **str1, char **str2)
+static int	swap_lines(char **str1, char **str2)
 {
 	char	*temp1;
 	char	*temp2;
 
 	temp1 = ft_strdup(*str1);
 	if (!temp1)
-		exit(1); //AL LORO
+	{
+		perror(NULL);
+		return (0);
+	}
 	temp2 = ft_strdup(*str2);
-	if (!temp2)
-		exit(1); //AL LORO
+	{
+		free(temp1);
+		perror(NULL);
+		return (0);
+	}
 	free(*str1);
 	free(*str2);
 	*str1 = temp2;
 	*str2 = temp1;
+	return (1);
 }
 
 static int	sort_export_env(char **env)
@@ -70,7 +77,8 @@ static int	sort_export_env(char **env)
 			j++;
 		if (env[i][j] > env[i + 1][j])
 		{
-			swap_lines(&env[i], &env[i + 1]);
+			if(!swap_lines(&env[i], &env[i + 1]))
+				return (0);
 			i = -1;
 		}
 		i++;
@@ -78,25 +86,36 @@ static int	sort_export_env(char **env)
 	return (0);
 }
 
-char	**ft_export(char **env, char **cmd)
+int	ft_export(t_utils *utils, char **cmd)
 {
 	int		num;
 	char	**export_env;
 
 	num = count_matrix(cmd);
-	if (!env)
 	{
-		ft_putendl_fd("No enviroment founded", STDERR_FILENO);
-		return (env);
+		ft_putendl_fd("minishell: env: No such file or directory", STDERR_FILENO);
+		return (127);
 	}
 	if (num == 1)
 	{
-		export_env = env_dup(env); //AL LORO CON ESTE DUPLICADO
-		sort_export_env(export_env);
+		export_env = env_dup(utils->env); //AL LORO CON ESTE DUPLICADO
+		if (!export_env)
+			return (1);
+		if(!sort_export_env(export_env))
+		{
+			free(export_env);
+			return (1);
+		}
 		print_export_env(export_env);
 		free_matrix(export_env);
 	}
 	else if (num > 1)
-		env = export_to_env(env, cmd);
-	return (env);
+	{
+		export_env = export_to_env(export_env, cmd);
+		if (!export_env)
+			return (1);
+	}
+	free(utils->env);
+	utils->env = export_env;
+	return (0);
 }
