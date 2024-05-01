@@ -111,22 +111,22 @@ int	get_tokens(char	*aux, t_utils *utils)
 	i = 0;
 	while (aux[i])
 	{
-		printf("COMIENZO DE VUELTA: %d\n", i);
+		//printf("COMIENZO DE VUELTA: %d\n", i);
 		j = get_substr(aux, i);
-		printf("----> %d\n~~~~~> %d\n", j, i);
+		//printf("----> %d\n~~~~~> %d\n", j, i);
 		if (!new_token(&token) && utils->token_list != NULL)
 			clear_token_list(&utils->token_list);
 		temp = ft_substr(aux, i, (j - i));
-		printf("Temp:%s\nCantidad: %d\nInicio: %d\n", temp, j, i);
+		//printf("Temp:%s\nCantidad: %d\nInicio: %d\n", temp, j, i);
 		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // Solo metes en el nodo la mierda si está bien, si no, no
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL) // Si no se ha guardado cosa en el nodo, liberar todo pq está mal.
 			return (free_tokens(&utils->token_list, temp, 1)); // Parece ser que 2 es lo que retorna bash cuando hay unexpected token
 		while (is_whitespace(aux[j]))
 			j++;
-		printf("::::: %d\n", j);
+		//printf("::::: %d\n", j);
 		i = j;
-		printf("!!!!!!!!! %d\n", i);
+		//printf("!!!!!!!!! %d\n", i);
 	}
 	return (0);
 }

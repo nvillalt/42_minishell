@@ -25,7 +25,7 @@ int	clear_token_list(t_token **token_list)
 int	new_token(t_token **new)
 {
 	*new = ft_calloc(sizeof(t_token), 1);
-	if (!new)
+	if (!(*new))
 		return (0);
 	(*new)->str = NULL;
 	(*new)->next = NULL;

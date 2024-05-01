@@ -20,4 +20,6 @@ int		whitespace_cmp(char *c);
 int		initial_pipe(char *input, t_utils *utils);
 int		check_redirections(char *input);
 
+int     parse_tokens(t_utils *utils);
+
 #endif

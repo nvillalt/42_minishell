@@ -3,7 +3,6 @@
 
 int			new_token(t_token **token);
 int			add_token(t_token **list, t_token *new);
-int			parse_tokens(t_utils *utils, t_token **token_list);
 int			clear_token_list(t_token **token_list);
 int			get_tokens(char	*aux, t_utils *utils);
 
