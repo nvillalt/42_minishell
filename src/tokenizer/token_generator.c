@@ -14,6 +14,8 @@ char	*trim_spaces(char *input)
 	len = ft_strlen(input);
 	if (*input == '\0')
 		return (NULL);
+	if (i == len)
+		return (NULL);
 	while (is_whitespace(input[len - 1]))
 		len--;
 	str = ft_substr(input, i, len - i);
@@ -30,9 +32,11 @@ int	get_substr(char *aux, int i)
 		if ((aux[i] == 34 && aux[i + 1] == 34) || (aux[i + 1] == 39 && aux[i + 1] == 39)
 			&& !ft_strncmp(aux + 2, "echo", 4))
 			return (2);
-		else if (!ft_strncmp(aux, "echo", 4) && (aux[4] == 34 && aux[4 + 1] == 34)
-			|| (aux[4 + 1] == 39 && aux[4 + 1] == 39))
+		if (!ft_strncmp(aux, "echo", 4))
+		{
+			printf("Entraste");
 			return (4);
+		}
 		if ((aux[i] == 34 || aux[i] == 39) && flag ==  0)
 			flag = aux[i];
 		else if (aux[i] == flag)
@@ -95,45 +99,48 @@ int	check_expand(char *temp)
 // Primero extraigo el token, luego compruebo como está. Si está mal, libero string + nodos que hubiera alojados.
 int	get_tokens(char	*aux, t_utils *utils)
 {
-	t_token	*token_list;
 	t_token	*token;
 	char	*temp;
 	int		i;
 	int		j;
 
-	token_list = NULL;
 	token = NULL;
-	i = 0;
 	j = 0;
+	if (aux == NULL)
+		return (0);
+	i = 0;
 	while (aux[i])
 	{
+		printf("COMIENZO DE VUELTA: %d\n", i);
 		j = get_substr(aux, i);
-		if (!new_token(&token) && token_list != NULL)
-			clear_token_list(&token_list);
+		printf("----> %d\n~~~~~> %d\n", j, i);
+		if (!new_token(&token) && utils->token_list != NULL)
+			clear_token_list(&utils->token_list);
 		temp = ft_substr(aux, i, (j - i));
+		printf("Temp:%s\nCantidad: %d\nInicio: %d\n", temp, j, i);
 		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // Solo metes en el nodo la mierda si está bien, si no, no
 			token->str = temp;
-//		printf("---->%s\n", token->str);
-		if (!add_token(&token_list, token) || token->str == NULL) // Si no se ha guardado cosa en el nodo, liberar todo pq está mal.
-			return (free_tokens(&token_list, temp, 1)); // Parece ser que 2 es lo que retorna bash cuando hay unexpected token
+		if (!add_token(&utils->token_list, token) || token->str == NULL) // Si no se ha guardado cosa en el nodo, liberar todo pq está mal.
+			return (free_tokens(&utils->token_list, temp, 1)); // Parece ser que 2 es lo que retorna bash cuando hay unexpected token
 		while (is_whitespace(aux[j]))
 			j++;
+		printf("::::: %d\n", j);
 		i = j;
-	//	free(temp);
+		printf("!!!!!!!!! %d\n", i);
 	}
-	t_token	*print;
-
-	print = token_list;
-	printf("print: %s\n", print->str);
-	while (print->next != NULL)
-	{
-		print = print->next;
-		printf("print: %s\n", print->str);
-	}
-	return(free_tokens(&token_list, temp, 0));
+	return (0);
 }
 
+//PRINTING NODES
+	// t_token	*print;
 
+	// print = utils->token_list;
+	// printf("print: %s\n", print->str);
+	// while (print->next != NULL)
+	// {
+	// 	print = print->next;
+	// 	printf("print: %s\n", print->str);
+	// }
 
 
 // PREVIOUS CODE

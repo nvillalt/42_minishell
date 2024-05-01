@@ -79,6 +79,7 @@ t_utils	init_utils(void)
 	utils.status = 0;
 	utils.pid_array = NULL;
 	utils.process = NULL;
+	utils.token_list = NULL;
 	return (utils);
 }
 
@@ -96,12 +97,22 @@ int	prompt_loop(t_utils *utils)
 		{
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils)) // Segun mi ubuntu
-				printf("");
+				utils->status = 130;
 			else
 			{
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
+				//utils->status = parse_tokens();
+				t_token	*print;
+
+				print = utils->token_list;
+				printf("print: %s\n", print->str);
+				while (print->next != NULL)
+				{
+					print = print->next;
+					printf("print: %s\n", print->str);
+				}
 				free(aux);
 			}
 			printf("%d\n", utils->status);

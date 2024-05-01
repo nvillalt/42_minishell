@@ -15,9 +15,7 @@ int	whitespace_cmp(char *input)
 	i = 0;
 	while (input[i] && is_whitespace(input[i]))
 		i++;
-	if (input[i])
-		return (i);
-	return (0);
+	return (i);
 }
 
 int		check_quotes(char *line, t_utils *utils)
@@ -25,6 +23,8 @@ int		check_quotes(char *line, t_utils *utils)
 	int	flag;
 	int	i;
 
+	if (*line == '\0' || line == NULL)
+		return (-1);
 	flag = 0;
 	i = 0;
 	while (line[i])
@@ -37,8 +37,7 @@ int		check_quotes(char *line, t_utils *utils)
 	}
 	if (flag)
 	{
-		utils->status = 130;
-		ft_putstr_fd("Error: unclosed quotes\n", 2);
+		ft_putstr_fd("minishell: syntax error `unclosed quotes'\n", 2);
 		return (0);
 	}
 	return (1);
@@ -49,13 +48,16 @@ int	initial_pipe(char *input, t_utils *utils)
 	int	i;
 	int	len;
 
+	if (*input == '\0' || input == NULL)
+		return (-1);
 	i = whitespace_cmp(input);
 	len = ft_strlen(input);
+	if (i == len)
+		return (-1);
 	while (is_whitespace(input[len - 1]))
 		len--;
 	if (input[len - 1] == '|' || input[i] == '|')
 	{
-		utils->status = 127;
 		ft_putendl_fd("minishell: syntax error near end of line `|'", 2);
 		return (0);
 	}

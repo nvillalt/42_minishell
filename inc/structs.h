@@ -5,6 +5,7 @@ typedef struct	s_redir
 {
 	char			*doc; // NULL
 	char			*heredoc_file; //NULL
+	int				heredoc_flag;
 	int				redir_type; // a -1
 	int				fd; // -1
 	struct s_redir	*next;
@@ -22,7 +23,7 @@ typedef	struct s_parse
 
 typedef struct s_token
 {
-	char						*str;
+	char			*str;
 	struct s_token	*next;
 } t_token;
 
@@ -31,6 +32,7 @@ typedef struct s_utils
 	char	**path; // Guardar los comandos de path por si hay que hacer rutas luego
 	char	**env; // Para el env duplicado
 	t_parse	*process;
+	t_token *token_list;
 	int		status; // a 0
 	pid_t	*pid_array; // A NULL
 } t_utils;
