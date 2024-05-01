@@ -103,7 +103,8 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
-				//utils->status = parse_tokens();
+				free(aux);
+				utils->status = parse_tokens(utils);
 				t_token	*print;
 
 				print = utils->token_list;
@@ -113,7 +114,6 @@ int	prompt_loop(t_utils *utils)
 					print = print->next;
 					printf("print: %s\n", print->str);
 				}
-				free(aux);
 			}
 			printf("%d\n", utils->status);
 		}
