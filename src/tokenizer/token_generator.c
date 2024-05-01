@@ -79,6 +79,19 @@ int	free_tokens(t_token **token_list, char *temp, int n)
 		return (2); // Error de syntax error
 	return (0); // Ejecución exitosa
 }
+
+int	check_expand(char *temp)
+{
+	if (((temp[0] == 34 || temp[0] == 39) && temp[1] == '$')
+		||((temp[0] == '$' && temp[1] == ' '))
+		|| (temp[0] == '$' && temp[1] == '\0')
+		|| (temp[0] == '$' && temp[1] == '='))
+	{
+		ft_putendl_fd("minishell: command not found: $", 2);
+		return (0);
+	}
+	return (1);
+}
 // Primero extraigo el token, luego compruebo como está. Si está mal, libero string + nodos que hubiera alojados.
 int	get_tokens(char	*aux, t_utils *utils)
 {
@@ -98,24 +111,25 @@ int	get_tokens(char	*aux, t_utils *utils)
 		if (!new_token(&token) && token_list != NULL)
 			clear_token_list(&token_list);
 		temp = ft_substr(aux, i, (j - i));
-		if (check_symbol(temp) == 1) // Solo metes en el nodo la mierda si está bien, si no, no
+		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // Solo metes en el nodo la mierda si está bien, si no, no
 			token->str = temp;
+//		printf("---->%s\n", token->str);
 		if (!add_token(&token_list, token) || token->str == NULL) // Si no se ha guardado cosa en el nodo, liberar todo pq está mal.
 			return (free_tokens(&token_list, temp, 1)); // Parece ser que 2 es lo que retorna bash cuando hay unexpected token
 		while (is_whitespace(aux[j]))
 			j++;
 		i = j;
-		free(temp);
+	//	free(temp);
 	}
-	// t_token	*print;
+	t_token	*print;
 
-	// print = token_list;
-	// printf("print: %s\n", print->str);
-	// while (print->next != NULL)
-	// {
-	// 	print = print->next;
-	// 	printf("print: %s\n", print->str);
-	// }
+	print = token_list;
+	printf("print: %s\n", print->str);
+	while (print->next != NULL)
+	{
+		print = print->next;
+		printf("print: %s\n", print->str);
+	}
 	return(free_tokens(&token_list, temp, 0));
 }
 
