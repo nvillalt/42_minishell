@@ -33,7 +33,10 @@ int	ft_env(char **env, char **argv)
 
 	i = 0;
 	if (!env)
-		return (1) ; // CONSTRUIR PATH??
+	{
+		ft_putendl_fd("minishell: env: No such file or directory", 2);
+		return (127) ; // CONSTRUIR PATH??
+	}
 	if (!control_argv(argv))
 	{
 		ft_putstr_fd("env: ", STDERR_FILENO);
@@ -41,7 +44,7 @@ int	ft_env(char **env, char **argv)
 		ft_putstr_fd(argv[1], STDERR_FILENO);
 		ft_putstr_fd("\' ", STDERR_FILENO);
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-		return (1);
+		return (127);
 	}
 	while(env[i])
 	{

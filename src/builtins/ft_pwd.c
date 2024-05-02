@@ -7,5 +7,5 @@ int ft_pwd(void)
 
 	str = getcwd(cwd, PATH_MAX);
 	printf("%s\n", str);
-	return (FUNC_SUCCESS);
+	return (0);
 }

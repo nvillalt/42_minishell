@@ -53,10 +53,10 @@ int	ft_echo(char **str)
 
 	i = 1;
 	n_flag = 1;
-	if (str[1] == NULL)
+	if (!str[1])
 	{
 		printf("\n");
-		return (1);
+		return (0);
 	}
 	argc = count_argc(str);
 	i = control_n(str, i, &n_flag);
