@@ -43,6 +43,7 @@ int		check_quotes(char *line, t_utils *utils)
 	return (1);
 }
 
+
 int	initial_pipe(char *input, t_utils *utils)
 {
 	int	i;

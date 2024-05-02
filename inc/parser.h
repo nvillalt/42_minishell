@@ -22,6 +22,8 @@
 
 char	**get_path(char **env);
 
+char	*clean_quotes(char *str);
+
 int		is_whitespace(char c);
 int		check_quotes(char *line, t_utils *utils);
 int		whitespace_cmp(char *c);

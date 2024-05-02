@@ -112,20 +112,30 @@ int	prompt_loop(t_utils *utils)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_utils	utils;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_utils	utils;
 
-	utils = init_utils();
-	// if(!*envp)
-	// 	utils.env = create_mini_env();
-	// else
-	// {
-		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
-		utils.path = get_path(utils.env);
-	// }
-	// utils.env = set_oldpwd(utils.env);
-	prompt_loop(&utils);
-	free_utils(&utils);
-	return (0);
+// 	utils = init_utils();
+// 	// if(!*envp)
+// 	// 	utils.env = create_mini_env();
+// 	// else
+// 	// {
+// 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
+// 		utils.path = get_path(utils.env);
+// 	// }
+// 	// utils.env = set_oldpwd(utils.env);
+// 	prompt_loop(&utils);
+// 	free_utils(&utils);
+// 	return (0);
+// }
+
+int main()
+{
+	char	*str = "b\"u\"enas";
+	char	*clean;
+
+	printf("Antes de quitar las comillas:%s\n", str);
+	clean = clean_quotes(str);
+	printf("Después de quitar las comillas:%s\n", clean);
 }
