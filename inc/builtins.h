@@ -17,5 +17,5 @@ char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
 int		cmd_on_env(char **env, char *cmd);
 void	free_mid_matrix(char **dup, int j);
-void	exit_process_custom(t_utils *utils, int status);
+void	exit_process_custom(t_utils *utils, unsigned char status);
 #endif

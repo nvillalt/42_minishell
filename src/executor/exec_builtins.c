@@ -1,8 +1,15 @@
 #include "../../minishell.h"
 
-static int	handle_builtins(t_utils *utils, t_parse *process)
+static int	restore_fds(int saved_stdin, int saved_stdout)
 {
-	int	status;
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	return (FUNC_SUCCESS);
+}
+
+unsigned char	handle_builtins(t_utils *utils, t_parse *process)
+{
+	unsigned char	status;
 
 	if (process->built_in == ECHO)
 		status = ft_echo(process->cmd);
@@ -23,11 +30,12 @@ static int	handle_builtins(t_utils *utils, t_parse *process)
 
 int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 {
-	int	status;
+	unsigned char	status;
+	int				saved_stdin;
+	int				saved_stdout;
 
 	if (process->next || process_index != 0)
 	{
-		utils->builtin_counter = 0;
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
 			return(FUNC_FAILURE);
@@ -39,9 +47,20 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 	}
 	else
 	{
+		printf("entra\n");
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
 		utils->builtin_counter = 1;
+		redirec_infile(utils, process);
+		if (!redirec_outfile(utils, process) && process->next)
+		{
+			if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
+				exit_process(utils);
+		}
+		close_pipe_fd(&utils->main_pipe[1]);
 		status = handle_builtins(utils, process);
 		utils->status = status;
+		restore_fds(saved_stdin, saved_stdout);
 	}
 	return (FUNC_SUCCESS);
 }

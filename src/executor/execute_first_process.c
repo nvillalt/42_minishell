@@ -2,6 +2,7 @@
 
 static void	execute_first_process(t_utils *utils, t_parse *process)
 {
+	close_pipe_fd(&utils->main_pipe[0]);
 	redirec_infile(utils, process);
 	if (!redirec_outfile(utils, process) && process->next)
 	{

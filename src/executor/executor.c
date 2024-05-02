@@ -24,6 +24,7 @@ static int	create_pid_array(t_utils *utils)
 
 int	executor(t_utils *utils, t_parse *process)
 {
+	utils->builtin_counter = 0;
 	if (!create_multiple_heredocs(utils, utils->process))
 		return (FUNC_FAILURE);
 	if (!create_pid_array(utils))

@@ -2,6 +2,8 @@
 
 static void	execute_mid_process(t_utils *utils, t_parse *process)
 {
+	unsigned char	status;
+
 	close_pipe_fd(&utils->aux_pipe[0]);
 	if (!redirec_infile(utils, process))
 	{
@@ -15,7 +17,13 @@ static void	execute_mid_process(t_utils *utils, t_parse *process)
 			exit_process(utils);
 	}
 	close_pipe_fd(&utils->aux_pipe[1]);
-	exec_cmd(utils, process);
+	if (process->built_in)
+	{
+		status = handle_builtins(utils, process);
+		exit_process_custom(utils, status);
+	}
+	else
+		exec_cmd(utils, process);
 }
 
 int	create_mid_child(t_utils *utils, t_parse *process, int process_index)
