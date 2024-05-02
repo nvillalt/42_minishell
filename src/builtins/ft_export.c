@@ -52,6 +52,7 @@ static int	swap_lines(char **str1, char **str2)
 		return (0);
 	}
 	temp2 = ft_strdup(*str2);
+	if (!temp2)
 	{
 		free(temp1);
 		perror(NULL);
@@ -78,12 +79,15 @@ static int	sort_export_env(char **env)
 		if (env[i][j] > env[i + 1][j])
 		{
 			if(!swap_lines(&env[i], &env[i + 1]))
-				return (0);
+			{
+				free_matrix(env);
+				return (FUNC_FAILURE);
+			}
 			i = -1;
 		}
 		i++;
 	} 
-	return (0);
+	return (FUNC_SUCCESS);
 }
 
 int	ft_export(t_utils *utils, char **cmd)
@@ -91,21 +95,19 @@ int	ft_export(t_utils *utils, char **cmd)
 	int		num;
 	char	**export_env;
 
+	export_env = env_dup(utils->env); //AL LORO CON ESTE DUPLICADO
+	if (!export_env)
+		return (1);
 	num = count_matrix(cmd);
+	if (!num)
 	{
 		ft_putendl_fd("minishell: env: No such file or directory", STDERR_FILENO);
 		return (127);
 	}
 	if (num == 1)
 	{
-		export_env = env_dup(utils->env); //AL LORO CON ESTE DUPLICADO
-		if (!export_env)
-			return (1);
 		if(!sort_export_env(export_env))
-		{
-			free(export_env);
 			return (1);
-		}
 		print_export_env(export_env);
 		free_matrix(export_env);
 	}
@@ -114,8 +116,8 @@ int	ft_export(t_utils *utils, char **cmd)
 		export_env = export_to_env(export_env, cmd);
 		if (!export_env)
 			return (1);
+		free(utils->env);
+		utils->env = export_env;
 	}
-	free(utils->env);
-	utils->env = export_env;
 	return (0);
 }

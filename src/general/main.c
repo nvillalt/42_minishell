@@ -93,7 +93,7 @@ int	prompt_loop(t_utils *utils)
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);
-			printf("%d\n", utils->status);
+			//printf("%d\n", utils->status);
 			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input);
 			//clean_tokens(utils, aux);

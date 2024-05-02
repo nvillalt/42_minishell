@@ -9,6 +9,7 @@ static char	**create_new_env(char **env, char *cmd)
 	new_env = ft_calloc(count_matrix(env) + 2, sizeof(char *));
 	if (!new_env)
 	{
+		free_matrix(env);
 		perror(NULL);
 		return (NULL);
 	}
@@ -17,6 +18,7 @@ static char	**create_new_env(char **env, char *cmd)
 		new_env[i] = ft_strdup(env[i]);
 		if (!new_env[i])
 		{
+			free_matrix(env);
 			free_mid_matrix(new_env, i);
 			perror(NULL);
 			return(NULL);
@@ -26,6 +28,7 @@ static char	**create_new_env(char **env, char *cmd)
 	new_env[i] = ft_strdup(cmd);
 	if (!new_env[i])
 	{
+		free_matrix(env);
 		free_mid_matrix(new_env, i);
 		perror(NULL);
 		return (NULL);
@@ -80,6 +83,7 @@ char	**change_var(char **env, char *cmd)
 	temp = ft_strdup(cmd);
 	if (!temp)
 	{
+		free_matrix(env);
 		perror (NULL);
 		return (NULL);
 	}
