@@ -24,11 +24,12 @@ static int	search_for_set_var(char **env, char *current_var, int *index_jump)
 	if (!join_var)
 	{
 		perror(NULL);
+		free_matrix(env);
 		return (FUNC_FAILURE);
 	}
     var_len = ft_strlen(join_var);
 	while(env[*index_jump] && ft_strncmp(env[*index_jump], join_var, var_len))
-		(*index_jump)++;
+		(*index_jump)++; //AQUÍ PUEDE ESTAR EL ERROR
 	free(join_var);
 	return (FUNC_SUCCESS);
 }
@@ -39,9 +40,9 @@ static char **search_for_var(char **env, char *current_var)
 	char	**new_env;
 
 	index_jump = 0;
-	if (search_for_set_var(env, current_var, &index_jump) == FUNC_FAILURE)
+	if (!search_for_set_var(env, current_var, &index_jump))
 		return (NULL);
-	if (!env[index_jump])
+	if (!env[index_jump]) // SI NO ENCUENTRA LA VARIABLE
 	{
 		index_jump = search_empty_var(env, current_var);
 		if (index_jump == -1)
@@ -60,12 +61,12 @@ int	ft_unset(t_utils *utils, char **cmd)
 	char	**old_env;
 
 	if (!cmd[1])
-		return (FUNC_SUCCESS);
+		return (0);
 	old_env = env_dup(utils->env);
 	if (!old_env)
 	{
 		perror(NULL);
-		return (FUNC_FAILURE);
+		return (1);
 	}
     index_var = 1;
     new_env = NULL;
@@ -73,16 +74,12 @@ int	ft_unset(t_utils *utils, char **cmd)
     {
 		new_env = search_for_var(old_env, cmd[index_var]);
 		if (!new_env)
-		{
-			free(utils->env);
-			utils->env = old_env;
-			return (FUNC_FAILURE);
-		}
+			return (1);
 		free_matrix(old_env);
 		old_env = new_env;
 		index_var++;
 	}
 	free(utils->env);
 	utils->env = old_env;
-	return (FUNC_SUCCESS);
+	return (0);
 }

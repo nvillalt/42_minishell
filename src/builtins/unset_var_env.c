@@ -13,7 +13,7 @@ void	free_mid_matrix(char **dup, int j)
 	free(dup);
 }
 
-static char **allocate_memory(char **dup, char **env, int index_jump, int env_len)
+static char **allocate_newenv(char **dup, char **env, int index_jump, int env_len)
 {
 	int	i;
 	int	j;
@@ -28,23 +28,12 @@ static char **allocate_memory(char **dup, char **env, int index_jump, int env_le
 		if (!dup[j])
 		{
 			perror(NULL);
+			free_matrix(env);
 			free_mid_matrix(dup, j);
 			return (NULL);
 		}
-		i++;
 		j++;
-	}
-	if (i == j)
-		return(dup);
-	else
-	{
-		dup[j] = ft_strdup(env[i]);
-		if (!dup[j])
-		{
-			perror(NULL);
-			free_mid_matrix(dup, j);
-			return (NULL);
-		}
+		i++;
 	}
 	return (dup);
 }
@@ -70,11 +59,8 @@ char	**unset_var_env(char **env, int index_jump)
 	i = 0;
 	j = 0;
 	env_len = count_matrix(env);
-	dup = allocate_memory(dup, env, index_jump, env_len);
+	dup = allocate_newenv(dup, env, index_jump, env_len);
 	if (!dup)
-	{
-		perror(NULL);
 		return (NULL);
-	}
 	return (dup);
 }
