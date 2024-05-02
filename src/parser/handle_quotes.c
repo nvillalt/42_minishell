@@ -66,6 +66,7 @@ static char *clean_single_quotes(char *str)
 	else if (str[len - 1] == 39 && str[len - 2] == 39)
 		return (ft_substr(str, i, len - 2));
 	ret = erase_quotes(str, 39);
+	return (ret);
 }
 
 char	*clean_quotes(char	*str)
@@ -89,7 +90,7 @@ char	*clean_quotes(char	*str)
 		}
 		i++;
 	}
-	if (ret == NULL) // Proteger esto con !ret tambien????
+	if (ret == NULL)
 		ret = ft_strdup(str);
 	return (ret);
 }

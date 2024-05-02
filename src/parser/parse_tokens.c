@@ -14,6 +14,7 @@ int init_process(t_parse **process)
     (*process)->redirec = NULL;
     (*process)->redirec_head = NULL;
     (*process)->next = NULL;
+    return (1);
 }
 
 int init_redir(t_redir **node)
@@ -26,6 +27,7 @@ int init_redir(t_redir **node)
     (*node)->doc = NULL;
     (*node)->redir_type = GREAT;
     (*node)->fd = -1;
+    return (1);
 }
 
 int create_outfile(t_redir **redir, char *document)
@@ -58,10 +60,12 @@ int parse_tokens(t_utils *utils)
     tokens = utils->token_list;
     while (tokens->next != NULL)
     {
-        if (!ft_strcmp(tokens->str, ">"))
+        if (!ft_strcmp(tokens->str, ">") ||  !ft_strcmp(tokens->str, ">|"))
         {
             create_outfile(&utils->process->redirec, tokens->next->str);
+            utils->process->redirec_head = utils->process->redirec;        
         }
+  //      printf("EN NODO DE REDIREC\n-%s-%d", utils->process->redirec->doc, utils->process->redirec->redir_type);
     }
     clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
     return (0);
