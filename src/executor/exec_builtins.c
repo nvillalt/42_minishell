@@ -15,7 +15,7 @@ static int	handle_builtins(t_utils *utils, t_parse *process)
 	if (process->built_in == CD)
 		status = ft_cd(utils, process->cmd);
 	if (process->built_in == EXIT)
-		status = ft_exit(process->cmd); //Ojo que como vamos a hacer exit habrá que liberar todo lo que tengamos hasta el momento
+		ft_exit(process->cmd, utils);
 	if (process->built_in == EXPORT)
 		status = ft_export(utils, process->cmd);
 	return (status);
@@ -34,10 +34,7 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 		if (utils->pid_array[process_index] == 0)
 		{
 			status = handle_builtins(utils, process);
-			close_all_pipes(utils);
-			close_fds(utils->process, utils);
-			free_utils(utils);
-			exit (status);
+			exit_process_custom(utils, status);
 		}
 	}
 	else

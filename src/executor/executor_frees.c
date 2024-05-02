@@ -30,3 +30,10 @@ void	exit_process_noerror(t_utils *utils)
 	free_utils(utils);
 	exit(EXIT_SUCCESS);
 }
+void	exit_process_custom(t_utils *utils, int status)
+{
+	close_all_pipes(utils);
+	close_fds(utils->process, utils);
+	free_utils(utils);
+	exit(status);
+}

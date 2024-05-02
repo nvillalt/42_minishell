@@ -6,7 +6,7 @@ int		ft_pwd(void);
 int		ft_env(char **env, char **argv);
 int		ft_unset(t_utils *utils, char **cmd);
 int		ft_cd(t_utils *utils, char **cmd);
-int		ft_exit(char **cmd);
+void	ft_exit(char **cmd, t_utils *utils);
 int		ft_export(t_utils *utils, char **cmd);
 char    **export_to_env(char **env, char **cmd);
 char	**change_to_directory(char **env, char *cmd);
@@ -17,4 +17,5 @@ char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
 int		cmd_on_env(char **env, char *cmd);
 void	free_mid_matrix(char **dup, int j);
+void	exit_process_custom(t_utils *utils, int status);
 #endif

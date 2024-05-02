@@ -43,6 +43,7 @@ static char	*search_for_home(char **env)
 	if (!env[i])
 	{
 		ft_putendl_fd("bash: cd: HOME not set", STDERR_FILENO);
+		free_matrix(env);
 		return(NULL);
 	}
 	home = env[i] + 5;
@@ -55,10 +56,7 @@ static char	**change_to_home(char **env)
 
 	home = search_for_home(env);
 	if (!home)
-	{
-		free(env);
 		return (NULL);
-	}
 	env = change_old_pwd(env);
 	if (!env)
 		return (NULL);
@@ -112,6 +110,11 @@ int	ft_cd(t_utils *utils, char **cmd)
 
 	i = 0;
 	env = env_dup(utils->env);
+	if (!env)
+	{
+		perror(NULL);
+		return (1);
+	}
 	while(cmd[i])
 		i++;
 	if (i == 1)

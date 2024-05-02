@@ -8,8 +8,8 @@ char	**env_dup(char **env)
 	size_t	i;
 
 	i = 0;
-	if (!env | !*env) //TODO: ver si mejor hacer exit aquí, si no hay env, salir del programa
-		return (NULL);
+//	if (!env | !*env) //TODO: ver si mejor hacer exit aquí, si no hay env, salir del programa
+	//	return (NULL);
 	while (env[i] != NULL)
 		i++;
 	dup = ft_calloc(sizeof(char *), i + 1);
@@ -21,7 +21,7 @@ char	**env_dup(char **env)
 		dup[i] = ft_strdup(env[i]);
 		if (!dup[i])
 		{
-			free_matrix(dup);
+			free_mid_matrix(dup, i);
 			return (dup);
 		}
 		i++;
