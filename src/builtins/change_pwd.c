@@ -4,7 +4,6 @@ char	**change_old_pwd(char **env)
 {
 	char	*temp;
 	char	*temp2;
-	char	cwd[PATH_MAX + 1];
 	int		i;
 
 	i = 0;
@@ -12,7 +11,7 @@ char	**change_old_pwd(char **env)
 		i++;
 	if (env[i] == NULL)
 		return (env);
-	temp = ft_strdup(getcwd(cwd, PATH_MAX));
+	temp = getcwd(NULL, 0);
 	if (!temp)
 	{
 		perror(NULL);
@@ -37,7 +36,6 @@ char	**change_pwd(char **env)
 {
 	char	*temp;
 	char	*temp2;
-	char	cwd[PATH_MAX + 1];
 	int		i;
 
 	i = 0;
@@ -45,7 +43,7 @@ char	**change_pwd(char **env)
 		i++;
 	if (env[i] == NULL)
 		return (env);
-	temp = ft_strdup(getcwd(cwd, PATH_MAX));
+	temp = getcwd(NULL, 0);
 	if (!temp)
 	{
 		perror(NULL);

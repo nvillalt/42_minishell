@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <limits.h>
 # include "inc/structs.h"
 # include "libft/libft.h"
 # include "inc/builtins.h"

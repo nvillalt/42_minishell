@@ -30,7 +30,8 @@ void	exit_with_number(t_utils *utils, char *cmd)
 		exit_process_custom(utils, 2);
 	}
 	status = ft_atoi(cmd);
-	printf("exit\n");
+	if (utils->process->next == NULL)
+		printf("exit\n");
 	exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 }
 
@@ -43,7 +44,8 @@ void	ft_exit(char **cmd, t_utils *utils)
 	num = count_matrix(cmd);
 	if (num == 1)
 	{
-		printf("exit\n");
+		if (utils->process->next == NULL)
+			printf("exit\n");
 		exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 	}
 	else if (num == 2)

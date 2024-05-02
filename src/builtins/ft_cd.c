@@ -20,9 +20,7 @@ static char	*search_for_home(char **env)
 
 static char	**change_to_directory(char **env, char *cmd)
 {
-	char cwd[PATH_MAX + 1]; //Ojo con el +1
-
-	if (ft_strlen(cmd) > PATH_MAX)
+	if (ft_strlen(cmd) > PATH_MAX) // AL LORO
 	{
 		perror(NULL);
 		free(env);

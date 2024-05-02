@@ -5,11 +5,14 @@ static char	**create_mini_env(void)
 	char	**env;
 	char	*new_cwd;
 	char	*join;
-	char	cwd[PATH_MAX + 1];
+	char	*cwd;
 
 	env = ft_calloc(4, sizeof(char *));
-	new_cwd = getcwd(new_cwd, PATH_MAX);
+	new_cwd = getcwd(NULL, 0);
+	if (!new_cwd)
+		exit (1); // AL LORO CON ESTAS LIBERACIONES 
 	env[0] = ft_strjoin("PWD=", new_cwd);
+	free(new_cwd);
 	if(!env[0])
 		exit(1); // Controlar
 	env[1] = ft_strdup("SHLVL=1");
@@ -106,7 +109,9 @@ int	main(int argc, char **argv, char **envp)
 
 	utils.status = 0;
 	if(!*envp)
+	{
 		utils.env = create_mini_env();
+	}
 	else
 	{
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
