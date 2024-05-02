@@ -104,6 +104,15 @@ int	prompt_loop(t_utils *utils)
 				free(input);
 				utils->status = get_tokens(aux, utils);
 				free(aux);
+				t_token	*print;
+
+				print = utils->token_list;
+				printf("print: %s\n", print->str);
+				while (print->next != NULL)
+				{
+					print = print->next;
+					printf("print: %s\n", print->str);
+				}
 				utils->status = parse_tokens(utils);
 			}
 			printf("%d\n", utils->status);
@@ -112,30 +121,20 @@ int	prompt_loop(t_utils *utils)
 	return (1);
 }
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_utils	utils;
-
-// 	utils = init_utils();
-// 	// if(!*envp)
-// 	// 	utils.env = create_mini_env();
-// 	// else
-// 	// {
-// 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
-// 		utils.path = get_path(utils.env);
-// 	// }
-// 	// utils.env = set_oldpwd(utils.env);
-// 	prompt_loop(&utils);
-// 	free_utils(&utils);
-// 	return (0);
-// }
-
-int main()
+int	main(int argc, char **argv, char **envp)
 {
-	char	*str = "b\"u\"enas";
-	char	*clean;
+	t_utils	utils;
 
-	printf("Antes de quitar las comillas:%s\n", str);
-	clean = clean_quotes(str);
-	printf("Después de quitar las comillas:%s\n", clean);
+	utils = init_utils();
+	// if(!*envp)
+	// 	utils.env = create_mini_env();
+	// else
+	// {
+		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
+		utils.path = get_path(utils.env);
+	// }
+	// utils.env = set_oldpwd(utils.env);
+	prompt_loop(&utils);
+	free_utils(&utils);
+	return (0);
 }
