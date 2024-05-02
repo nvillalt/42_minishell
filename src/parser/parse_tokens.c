@@ -18,9 +18,12 @@ int init_process(t_parse **process)
 
 int parse_tokens(t_utils *utils)
 {
-    t_parse *new_node;
+    t_parse *head;
+    t_token *token_head;
 
-    init_process(&new_node);
+    init_process(&head);
+    token_head = utils->token_list;
+    while (!ft_strcmp(utils->token_list->str, "|"))
 
     return (0);
 }

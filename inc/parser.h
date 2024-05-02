@@ -11,6 +11,14 @@
 #define MINUS 5
 #define BUILTIN 6
 
+#define ECHO 1
+#define PWD 2 
+#define ENV 3 
+#define UNSET 4 
+#define CD 5 
+#define EXIT 6 
+#define EXPORT 7 
+
 
 char	**get_path(char **env);
 
