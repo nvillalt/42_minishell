@@ -33,5 +33,6 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 		if (utils->pid_array[process_index] == 0)
 			execute_first_process(utils, process);
 	}
+	close_pipe_fd(&utils->main_pipe[1]);
 	return (FUNC_SUCCESS);
 }

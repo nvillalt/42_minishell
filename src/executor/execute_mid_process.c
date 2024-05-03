@@ -36,6 +36,7 @@ int	create_mid_child(t_utils *utils, t_parse *process, int process_index)
 		return (FUNC_FAILURE);
 	if (utils->pid_array[process_index] == 0)
 		execute_mid_process(utils, process);
+	close_pipe_fd(&utils->main_pipe[0]);
 	utils->main_pipe[0] = utils->aux_pipe[0];
 	utils->main_pipe[1] = utils->aux_pipe[1];
 	return (FUNC_SUCCESS);
