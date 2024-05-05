@@ -116,7 +116,7 @@ int	ft_export(t_utils *utils, char **cmd)
 		export_env = export_to_env(export_env, cmd);
 		if (!export_env)
 			return (1);
-		free(utils->env);
+		free_matrix(utils->env);
 		utils->env = export_env;
 	}
 	return (0);

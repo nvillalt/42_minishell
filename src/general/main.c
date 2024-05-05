@@ -93,7 +93,7 @@ int	prompt_loop(t_utils *utils)
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);
-			//printf("%d\n", utils->status);
+			printf("%d\n", utils->status);
 			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input);
 			//clean_tokens(utils, aux);
@@ -109,9 +109,7 @@ int	main(int argc, char **argv, char **envp)
 
 	utils.status = 0;
 	if(!*envp)
-	{
 		utils.env = create_mini_env();
-	}
 	else
 	{
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
@@ -119,8 +117,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	utils.env = set_oldpwd(utils.env);
 	utils.pid_array = NULL;
+	handle_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);
 }
-

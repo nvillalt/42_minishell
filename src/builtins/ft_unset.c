@@ -79,7 +79,7 @@ int	ft_unset(t_utils *utils, char **cmd)
 		old_env = new_env;
 		index_var++;
 	}
-	free(utils->env);
+	free_matrix(utils->env);
 	utils->env = old_env;
 	return (0);
 }

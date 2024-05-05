@@ -1,13 +1,12 @@
-/*#include "../../minishell.h"
+#include "../../minishell.h"
 
 static void	exec_sigint(int signal)
 {
-	printf("SIGINT\n");
+	printf("^C\n");
 }
 
 static void	exec_sigquit(int signal)
 {
-	printf("SIGQUIT\n");
 }
 
 static void	get_sigint(void)
@@ -29,7 +28,6 @@ static void	get_sigquit(void)
 
 void	handle_signals(void)
 {
-	get_sigint();
-	get_sigquit();
+//	get_sigint();
+//	get_sigquit();
 }
-*/
