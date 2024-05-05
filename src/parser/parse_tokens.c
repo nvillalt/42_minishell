@@ -30,6 +30,31 @@ int init_redir(t_redir **node, int type)
     (*node)->next = NULL;
     return (1);
 }
+static void	assign_builtins(t_utils *utils) //BORRAR EVENTUALMENTE
+{
+	t_parse *process;
+
+	process = utils->process;
+	while (process->next)
+		process = process->next;
+	if (ft_strncmp(process->cmd[0], "echo", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
+		process->built_in = ECHO;
+	else if (ft_strncmp(process->cmd[0], "pwd", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
+		process->built_in = PWD;
+	else if (ft_strncmp(process->cmd[0], "env", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
+		process->built_in = ENV;
+	else if (ft_strncmp(process->cmd[0], "unset", 5) == 0 && ft_strlen(process->cmd[0]) == 5)
+		process->built_in = UNSET;
+	else if (ft_strncmp(process->cmd[0], "cd", 2) == 0 && ft_strlen(process->cmd[0]) == 2)
+		process->built_in = CD;
+	else if (ft_strncmp(process->cmd[0], "exit", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
+		process->built_in = EXIT;
+	else if (ft_strncmp(process->cmd[0], "export", 6) == 0 && ft_strlen(process->cmd[0]) == 6)
+		process->built_in = EXPORT;
+	else
+		process->built_in = 0;
+}
+
 int add_redir(t_redir **redir_list, t_redir *new)
 {
     t_redir *head;
@@ -97,6 +122,44 @@ int create_file(t_redir **redir_list, char *document, int type, t_redir **head)
     return (1);
 }
 
+int create_process(t_parse **process_list, t_token **tokens)
+{
+    t_parse    *new;
+    t_token    *move;
+    int         counter;
+    int         i;
+
+    init_process(&new);
+    counter = 0;
+    i = 0;
+    move = *tokens;
+    while (move->next != NULL)
+    {
+        counter++;
+        if (!ft_strcmp(move->next->str, "|"))
+            break ;
+        move = move->next;
+    }
+    printf("Counter: %d\n", counter);
+    move = *tokens;
+    printf("EN TOKENS: %s\n\n", move->str);
+    while (i < counter)
+    {
+        printf("Entras?\n");
+        new->cmd = ft_calloc(sizeof(char *), counter + 1);
+        if (!new->cmd)
+            return (0);
+        new->cmd[i] = clean_quotes(move->str);
+        i++;
+    }
+    i = 0;
+    while (new->cmd[i])
+    {
+        printf("Comand: %s\n", new->cmd[i]);
+        i++;
+    }
+}
+
 int parse_tokens(t_utils *utils)
 {
     t_parse *head;
@@ -107,38 +170,25 @@ int parse_tokens(t_utils *utils)
     while (tokens->next != NULL)
     {
         if (!ft_strcmp(tokens->str, ">") ||  !ft_strcmp(tokens->str, ">|"))
-        {
             create_file(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
-            tokens = tokens->next; // Avanzo al siguiente token porque cuando salga de la condición ya avanzará otro más
-        }
         else if (!ft_strcmp(tokens->str, "<"))
-        {
             create_file(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
-            tokens = tokens->next;
-        }
         else if (!ft_strcmp(tokens->str, ">>"))
-        {
-            printf("ENtras?\n");
             create_file(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
-            tokens = tokens->next;
-        }
         else if (!ft_strcmp(tokens->str, "<<"))
-        {
             create_file(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
-            tokens = tokens->next;
-        }
         else
-            tokens = tokens->next;
+            create_process(&utils->process, &tokens);
+        tokens = tokens->next;
     }
     t_redir *print;
 
     print = utils->process->redirec_head;
-    while (print->next != NULL)
+    printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+    while(print->next != NULL)
     {
-        printf("Imprimelo:\n");
-        printf("redir type: %d\nredir doc: %s\nredir heredoc: %s\nheredoc flag: %d\n------\n", print->redir_type, print->doc, print->heredoc_file, print->heredoc_flag);
         print = print->next;
-        // << "hola" << hola <infile < "inf"ile >> append >out
+        printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
     }
     clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
     return (0);
