@@ -96,7 +96,7 @@ int free_redir(t_redir **redir_list)
     *redir_list = NULL;
     return (1);
 }
-int create_file(t_redir **redir_list, char *document, int type, t_redir **head)
+int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
 {
     t_redir *new;
 
@@ -170,13 +170,13 @@ int parse_tokens(t_utils *utils)
     while (tokens->next != NULL)
     {
         if (!ft_strcmp(tokens->str, ">") ||  !ft_strcmp(tokens->str, ">|"))
-            create_file(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
+            create_redir(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
         else if (!ft_strcmp(tokens->str, "<"))
-            create_file(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
+            create_redir(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
         else if (!ft_strcmp(tokens->str, ">>"))
-            create_file(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
+            create_redir(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
         else if (!ft_strcmp(tokens->str, "<<"))
-            create_file(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
+            create_redir(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
         else
             create_process(&utils->process, &tokens);
         tokens = tokens->next;
