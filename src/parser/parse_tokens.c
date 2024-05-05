@@ -76,6 +76,28 @@ int add_redir(t_redir **redir_list, t_redir *new)
     }
     return (1);
 }
+int add_process(t_parse **process_list, t_parse *new)
+{
+    t_parse *head;
+
+    if (!process_list || !new)
+        return (0);
+    if (*process_list == NULL)
+    {
+        *process_list = new;
+        return (1);
+    }
+    else
+    {
+        head = *process_list;
+        while ((*process_list)->next != NULL)
+            *process_list = (*process_list)->next;
+        (*process_list)->next = new;
+        *process_list = head;
+    }
+    printf("CONSIGO ENTRAR AQUI \n");
+    return (1);
+}
 int free_redir(t_redir **redir_list)
 {
     t_redir *aux;
@@ -95,6 +117,27 @@ int free_redir(t_redir **redir_list)
     free(aux);
     *redir_list = NULL;
     return (1);
+}
+
+int free_process(t_parse **process_list)
+{
+    t_parse *aux;
+    t_parse *next;
+
+    aux = *process_list;
+    while (aux->next != NULL)
+    {
+        next = aux->next;
+        if (aux->cmd)
+            free_matrix(aux->cmd);
+        if (aux->redirec_head)
+            free_redir(&aux->redirec_head);
+        free(aux);
+        aux = next;
+    }
+    free(aux);
+    *process_list = NULL;
+    return (1);   
 }
 int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
 {
@@ -129,9 +172,12 @@ int create_process(t_parse **process_list, t_token **tokens)
     int         counter;
     int         i;
 
-    init_process(&new);
+    if(!init_process(&new) && process_list != NULL) // *process_list o solo process_list -> Revisar tmb para redir_list
+    {
+        free_process(process_list);
+        return (0);
+    }
     counter = 0;
-    i = 0;
     move = *tokens;
     while (move->next != NULL)
     {
@@ -140,24 +186,28 @@ int create_process(t_parse **process_list, t_token **tokens)
             break ;
         move = move->next;
     }
-    printf("Counter: %d\n", counter);
     move = *tokens;
-    printf("EN TOKENS: %s\n\n", move->str);
+    i = 0;
     while (i < counter)
     {
-        printf("Entras?\n");
+        printf("que numero: %d\n", i);
         new->cmd = ft_calloc(sizeof(char *), counter + 1);
         if (!new->cmd)
             return (0);
         new->cmd[i] = clean_quotes(move->str);
+        printf("Comando de CMD ----> %s\n", new->cmd[i]);
+        move = move->next;
         i++;
     }
-    i = 0;
-    while (new->cmd[i])
+    printf("Cmds en new: %s\n", new->cmd[0]);
+    printf("AL FINAL: %s\n", move->str);
+    *tokens = move;
+    if (!add_process(process_list, new))
     {
-        printf("Comand: %s\n", new->cmd[i]);
-        i++;
+        free_process(process_list);
+        return (0);
     }
+    return (1);
 }
 
 int parse_tokens(t_utils *utils)
@@ -169,7 +219,7 @@ int parse_tokens(t_utils *utils)
     tokens = utils->token_list;
     while (tokens->next != NULL)
     {
-        if (!ft_strcmp(tokens->str, ">") ||  !ft_strcmp(tokens->str, ">|"))
+        if (!ft_strcmp(tokens->str, ">") || !ft_strcmp(tokens->str, ">|"))
             create_redir(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
         else if (!ft_strcmp(tokens->str, "<"))
             create_redir(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
@@ -179,16 +229,34 @@ int parse_tokens(t_utils *utils)
             create_redir(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
         else
             create_process(&utils->process, &tokens);
+        printf("Process tras create_process: %s\n", utils->process->next->cmd[0]);
+        printf("Tokens: %s \n", tokens->str);
         tokens = tokens->next;
+        printf("Tokens: %s \n", tokens->str);
     }
     t_redir *print;
 
     print = utils->process->redirec_head;
-    printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
-    while(print->next != NULL)
+    if (print != NULL)
     {
-        print = print->next;
-        printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+        printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+        while(print->next != NULL)
+        {
+            print = print->next;
+            printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+        }
+    }
+    t_parse *print_proc;
+
+    print_proc = utils->process;
+    if (print_proc != NULL)
+    {
+        printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+        while (print_proc->next != NULL)
+        {
+            print_proc = print_proc->next;
+            printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+        }
     }
     clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
     return (0);
