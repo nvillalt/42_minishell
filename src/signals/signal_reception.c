@@ -68,3 +68,9 @@ void	set_child_signals(void)
 	child_sigint();
 	child_sigquit();
 }
+
+void	heredoc_signals(void)
+{
+	child_sigint();
+	ignore_sigint();
+}
