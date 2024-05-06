@@ -31,5 +31,6 @@ int	executor(t_utils *utils, t_parse *process)
 		return (FUNC_FAILURE);
 	if (!execute_childs(utils, process))
 		return (FUNC_FAILURE);
+	set_signals();
 	return (FUNC_SUCCESS);
 }

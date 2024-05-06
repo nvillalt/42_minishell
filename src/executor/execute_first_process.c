@@ -2,6 +2,7 @@
 
 static void	execute_first_process(t_utils *utils, t_parse *process)
 {
+	set_child_signals();
 	close_pipe_fd(&utils->main_pipe[0]);
 	redirec_infile(utils, process);
 	if (!redirec_outfile(utils, process) && process->next)
@@ -23,6 +24,7 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 		if (pipe(utils->main_pipe) == -1)
 			return(FUNC_FAILURE);
 	}
+	ignore_signals();
 	if (process->built_in)
 		exec_builtins(utils, process, process_index);
 	else

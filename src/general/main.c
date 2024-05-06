@@ -81,7 +81,14 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		input = readline("minishell:");
-		if (!*input) // Saltar la linea en blanco
+		if (!input) // Saltar la linea en blanco;
+		{
+			printf("exit\n");
+			free_matrix(utils->env);
+			free_matrix(utils->path);
+			exit (0);
+		}
+		if (!*input)
 			free(input);
 		else
 		{
@@ -93,7 +100,6 @@ int	prompt_loop(t_utils *utils)
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);
-			printf("%d\n", utils->status);
 			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
 			//free(input);
 			//clean_tokens(utils, aux);
@@ -117,7 +123,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	utils.env = set_oldpwd(utils.env);
 	utils.pid_array = NULL;
-	handle_signals();
+	set_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);
