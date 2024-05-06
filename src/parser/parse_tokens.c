@@ -23,7 +23,7 @@ int init_redir(t_redir **node, int type)
     if (!node)
         return (0);
     (*node)->heredoc_file = NULL;
-    (*node)->heredoc_flag = 0;
+    (*node)->heredoc_flag = EXPAND;
     (*node)->doc = NULL;
     (*node)->redir_type = type;
     (*node)->fd = -1;
@@ -153,7 +153,7 @@ int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
     else if (type == HEREDOC)
     {
         if (assert_quotes(document))
-            new->heredoc_flag = 1;
+            new->heredoc_flag = NOT_EXPAND;
         new->heredoc_file = clean_quotes(document);
     }
     if (!add_redir(redir_list, new))
@@ -210,54 +210,55 @@ int create_process(t_parse **process_list, t_token **tokens)
     return (1);
 }
 
-int parse_tokens(t_utils *utils)
-{
-    t_parse *head;
-    t_token *tokens;
 
-    init_process(&utils->process);
-    tokens = utils->token_list;
-    while (tokens->next != NULL)
-    {
-        if (!ft_strcmp(tokens->str, ">") || !ft_strcmp(tokens->str, ">|"))
-            create_redir(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
-        else if (!ft_strcmp(tokens->str, "<"))
-            create_redir(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
-        else if (!ft_strcmp(tokens->str, ">>"))
-            create_redir(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
-        else if (!ft_strcmp(tokens->str, "<<"))
-            create_redir(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
-        // else
-        //     create_process(&utils->process, &tokens);
-        // printf("Process tras create_process: %s\n", utils->process->next->cmd[0]);
-        // printf("Tokens: %s \n", tokens->str);
-        tokens = tokens->next;
-        // printf("Tokens: %s \n", tokens->str);
-    }
-    t_redir *print;
+// int parse_tokens(t_utils *utils)
+// {
+//     t_parse *head;
+//     t_token *tokens;
 
-    print = utils->process->redirec_head;
-    if (print != NULL)
-    {
-        printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
-        while(print->next != NULL)
-        {
-            print = print->next;
-            printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
-        }
-    }
-    // t_parse *print_proc;
+//     init_process(&utils->process);
+//     tokens = utils->token_list;
+//     while (tokens->next != NULL)
+//     {
+//         if (!ft_strcmp(tokens->str, ">") || !ft_strcmp(tokens->str, ">|"))
+//             create_redir(&utils->process->redirec, tokens->next->str, GREAT, &utils->process->redirec_head);
+//         else if (!ft_strcmp(tokens->str, "<"))
+//             create_redir(&utils->process->redirec, tokens->next->str, MINUS, &utils->process->redirec_head);
+//         else if (!ft_strcmp(tokens->str, ">>"))
+//             create_redir(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
+//         else if (!ft_strcmp(tokens->str, "<<"))
+//             create_redir(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
+//         // else
+//         //     create_process(&utils->process, &tokens);
+//         // printf("Process tras create_process: %s\n", utils->process->next->cmd[0]);
+//         // printf("Tokens: %s \n", tokens->str);
+//         tokens = tokens->next;
+//         // printf("Tokens: %s \n", tokens->str);
+//     }
+//     t_redir *print;
 
-    // print_proc = utils->process;
-    // if (print_proc != NULL)
-    // {
-    //     printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
-    //     while (print_proc->next != NULL)
-    //     {
-    //         print_proc = print_proc->next;
-    //         printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
-    //     }
-    // }
-    clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
-    return (0);
-}
+//     print = utils->process->redirec_head;
+//     if (print != NULL)
+//     {
+//         printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+//         while(print->next != NULL)
+//         {
+//             print = print->next;
+//             printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
+//         }
+//     }
+//     // t_parse *print_proc;
+
+//     // print_proc = utils->process;
+//     // if (print_proc != NULL)
+//     // {
+//     //     printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+//     //     while (print_proc->next != NULL)
+//     //     {
+//     //         print_proc = print_proc->next;
+//     //         printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+//     //     }
+//     // }
+//     clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
+//     return (0);
+// }

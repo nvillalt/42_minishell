@@ -19,6 +19,8 @@
 #define EXIT 6 
 #define EXPORT 7 
 
+#define NOT_EXPAND 0
+#define EXPAND 1
 
 
 char	**get_path(char **env);
