@@ -5,11 +5,14 @@ static char	**create_mini_env(void)
 	char	**env;
 	char	*new_cwd;
 	char	*join;
-	char	cwd[PATH_MAX + 1];
+	char	*cwd;
 
 	env = ft_calloc(4, sizeof(char *));
-	new_cwd = getcwd(new_cwd, PATH_MAX);
+	new_cwd = getcwd(NULL, 0);
+	if (!new_cwd)
+		exit (1); // AL LORO CON ESTAS LIBERACIONES 
 	env[0] = ft_strjoin("PWD=", new_cwd);
+	free(new_cwd);
 	if(!env[0])
 		exit(1); // Controlar
 	env[1] = ft_strdup("SHLVL=1");
@@ -91,31 +94,29 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		input = readline("minishell:");
+		if (!input) // Saltar la linea en blanco;
+		{
+			printf("exit\n");
+			free_matrix(utils->env);
+			free_matrix(utils->path);
+			exit (0);
+		}
 		if (!*input)
 			free(input);
 		else
 		{
 			add_history(input);
-			if (!check_quotes(input, utils) || !initial_pipe(input, utils)) // Segun mi ubuntu
-				utils->status = 130;
+			if (!check_quotes(input) || !initial_pipe(input))
+				printf("ERROR\n"); // Liberación aquí o exit por error
+			dirty_parse(input, utils);
+			if(!executor(utils, utils->process))
+				free_to_prompt_error(utils);
 			else
-			{
-				aux = trim_spaces(input);
-				free(input);
-				utils->status = get_tokens(aux, utils);
-				free(aux);
-				t_token	*print;
-
-				print = utils->token_list;
-				printf("print: %s\n", print->str);
-				while (print->next != NULL)
-				{
-					print = print->next;
-					printf("print: %s\n", print->str);
-				}
-				utils->status = parse_tokens(utils);
-			}
-			printf("%d\n", utils->status);
+				free_to_prompt(utils);
+			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
+			//free(input);
+			//clean_tokens(utils, aux);
+			//free_utils(utils);
 		}
 	}
 	return (1);
@@ -132,8 +133,10 @@ int	main(int argc, char **argv, char **envp)
 	// {
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 		utils.path = get_path(utils.env);
-	// }
-	// utils.env = set_oldpwd(utils.env);
+	}
+	utils.env = set_oldpwd(utils.env);
+	utils.pid_array = NULL;
+	set_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);

@@ -1,6 +1,19 @@
 #include "../../minishell.h"
 
-static char **allocate_memory(char **dup, char **env, int index_jump, int env_len)
+void	free_mid_matrix(char **dup, int j)
+{
+	int	i;
+
+	i = 0;
+	while (i < j)
+	{
+		free(dup[i]);
+		i++;
+	}
+	free(dup);
+}
+
+static char **allocate_newenv(char **dup, char **env, int index_jump, int env_len)
 {
 	int	i;
 	int	j;
@@ -15,16 +28,13 @@ static char **allocate_memory(char **dup, char **env, int index_jump, int env_le
 		if (!dup[j])
 		{
 			perror(NULL);
-			free_matrix(dup);
-			exit(1);
+			free_matrix(env);
+			free_mid_matrix(dup, j);
+			return (NULL);
 		}
-		i++;
 		j++;
+		i++;
 	}
-	if (i == j)
-		return(dup);
-	else
-		dup[j] = ft_strdup(env[i]);
 	return (dup);
 }
 
@@ -42,13 +52,15 @@ char	**unset_var_env(char **env, int index_jump)
 	dup = ft_calloc(sizeof(char *), i); //NO SUMAMOS 1 PORQUE EN REALIDAD VAMOS A SALTARNOS UNA LÍNEA
 	if (!dup)
 	{
-		free(env);
+		free_matrix(env);
 		perror(NULL);
-		exit(1); //TOCARÁ LIBERAR MÁS COSAS. OJO CON EL VALOR DE SALIDA
+		return (NULL);
 	}
 	i = 0;
 	j = 0;
 	env_len = count_matrix(env);
-	dup = allocate_memory(dup, env, index_jump, env_len);
+	dup = allocate_newenv(dup, env, index_jump, env_len);
+	if (!dup)
+		return (NULL);
 	return (dup);
 }

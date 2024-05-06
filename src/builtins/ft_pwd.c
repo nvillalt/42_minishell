@@ -1,10 +1,16 @@
 #include "../../minishell.h"
 
-void ft_pwd(void)
+int ft_pwd(void)
 {
 	char *str;
-	char cwd[PATH_MAX + 1];
 
-	str = getcwd(cwd, PATH_MAX);
+	str = getcwd(NULL, 0);
+	if (!str)
+	{
+		perror(NULL);
+		return (1);
+	}
 	printf("%s\n", str);
+	free(str);
+	return (0);
 }

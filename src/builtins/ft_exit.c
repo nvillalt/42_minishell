@@ -17,22 +17,25 @@ static int	check_number_cmd(char *cmd)
 		return (0);
 }
 
-void	exit_with_number(char *cmd)
+void	exit_with_number(t_utils *utils, char *cmd)
 {
 	int status;
 
 	if (!check_number_cmd(cmd))
 	{
 		printf("exit\n");
-		ft_putendl_fd("Numeric argument required", 2);
-		exit(2);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		exit_process_custom(utils, 2);
 	}
 	status = ft_atoi(cmd);
-	printf("exit\n");
-	exit(status); //Tocará liberar todo lo que tenga hasta el momento, al loro
+	if (utils->process->next == NULL)
+		printf("exit\n");
+	exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 }
 
-void	ft_exit(char **cmd)
+void	ft_exit(char **cmd, t_utils *utils)
 {
 	unsigned char	status;
 	int				num;
@@ -41,15 +44,16 @@ void	ft_exit(char **cmd)
 	num = count_matrix(cmd);
 	if (num == 1)
 	{
-		printf("exit\n");
-		exit(status); //Tocará liberar todo lo que tenga hasta el momento, al loro
+		if (utils->process->next == NULL)
+			printf("exit\n");
+		exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 	}
 	else if (num == 2)
-		exit_with_number(cmd[1]);
+		exit_with_number(utils, cmd[1]);
 	else
 	{
 		printf("exit\n"); //Tocará liberar todo lo que tenga hasta el momento, al loro
-		ft_putendl_fd("Too many arguments", 2);
-		exit (1);
+		ft_putendl_fd("minishell: exit: No such file or directory", 2);
+		exit_process_custom(utils, 127);
 	}
 }

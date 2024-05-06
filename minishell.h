@@ -8,12 +8,15 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <limits.h>
+# include "inc/structs.h"
 # include "libft/libft.h"
 # include "inc/builtins.h"
 # include "inc/executor.h"
 # include "inc/parser.h"
 # include "inc/signals.h"
-# include "inc/structs.h"
 # include "inc/tokenizer.h"
 /* ····· general utils & functions ····· */
 
@@ -28,9 +31,8 @@ int		error_message(t_utils *utils);
 // free_functions
 void 	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
+void	free_lists(t_utils	*utils);
 //printf double array
 void	print_env(char **env);
-int		count_matrix(char **cmds);
-int		executor(t_utils *utils);
-void	dirty_parse(char *input, t_utils *utils);
+int	count_matrix(char **cmds);
 #endif

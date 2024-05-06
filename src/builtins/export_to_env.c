@@ -8,15 +8,31 @@ static char	**create_new_env(char **env, char *cmd)
 	i = 0;
 	new_env = ft_calloc(count_matrix(env) + 2, sizeof(char *));
 	if (!new_env)
-		exit(1); //Al loro con liberar todo
+	{
+		free_matrix(env);
+		perror(NULL);
+		return (NULL);
+	}
 	while(env[i])
 	{
 		new_env[i] = ft_strdup(env[i]);
 		if (!new_env[i])
-			exit(1); //Al loro con liberar todo
+		{
+			free_matrix(env);
+			free_mid_matrix(new_env, i);
+			perror(NULL);
+			return(NULL);
+		}
 		i++;
 	}
 	new_env[i] = ft_strdup(cmd);
+	if (!new_env[i])
+	{
+		free_matrix(env);
+		free_mid_matrix(new_env, i);
+		perror(NULL);
+		return (NULL);
+	}
 	free_matrix(env);
 	return (new_env);
 }
@@ -54,8 +70,9 @@ char	**add_to_env(char **env, char *cmd)
 
 char	**change_var(char **env, char *cmd)
 {
-	int	i;
-	int	var_len;
+	int		i;
+	char	*temp;
+	int		var_len;
 
 	var_len = 0;
 	while(cmd[var_len] && cmd[var_len] != '=')
@@ -63,8 +80,15 @@ char	**change_var(char **env, char *cmd)
 	i = 0;
 	while(ft_strncmp(env[i], cmd, var_len) != 0)
 		i++;
+	temp = ft_strdup(cmd);
+	if (!temp)
+	{
+		free_matrix(env);
+		perror (NULL);
+		return (NULL);
+	}
 	free(env[i]);
-	env[i] = ft_strdup(cmd);
+	env[i] = temp;
 	return(env);
 }
 
@@ -76,9 +100,17 @@ char    **export_to_env(char **env, char **cmd)
 	while(cmd[i])
 	{
 		if (cmd_on_env(env, cmd[i]))
+		{
 			env = change_var(env, cmd[i]);
+			if (!env)
+				return (NULL);
+		}
 		else
+		{
 			env = add_to_env(env, cmd[i]);
+			if (!env)
+				return (NULL);
+		}
 		i++;
 	}
 	return (env);

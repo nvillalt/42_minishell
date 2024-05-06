@@ -26,11 +26,24 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/ft_exit.c \
 						src/builtins/ft_export.c \
 						src/builtins/export_to_env.c \
-						src/builtins/change_to_directory.c \
+						src/builtins/change_pwd.c \
 						src/builtins/export_utils.c \
 						src/builtins/unset_var_env.c \
 
-EXECUTOR = src/executor/executor.c
+EXECUTOR = src/executor/executor.c \
+					src/executor/dirty_parse.c \
+					src/executor/get_cmd_path.c \
+					src/executor/here_docs.c \
+					src/executor/close_fds.c \
+					src/executor/executor_frees.c \
+					src/executor/execute_first_process.c \
+					src/executor/childs.c \
+					src/executor/infiles.c \
+					src/executor/outfiles.c \
+					src/executor/exec_cmd.c \
+					src/executor/execute_last_process.c \
+					src/executor/execute_mid_process.c \
+					src/executor/exec_builtins.c 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \

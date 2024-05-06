@@ -35,6 +35,10 @@ typedef struct s_utils
 	t_token *token_list;
 	int		status; // a 0
 	pid_t	*pid_array; // A NULL
+	int		main_pipe[2];
+	int		aux_pipe[2];
+	int		process_list_len;
+	int		builtin_counter;
 } t_utils;
 
 #endif

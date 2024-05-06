@@ -1,16 +1,49 @@
-/*#include "../../minishell.h"
+#include "../../minishell.h"
+
+static void	child_sigquit(void)
+{
+	t_sigaction	sa;
+
+	sa.sa_handler = SIG_DFL;
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+static void	child_sigint(void)
+{
+	t_sigaction	sa;
+
+	sa.sa_handler = SIG_DFL; //Puntero a función
+	sigaction(SIGINT, &sa, NULL);
+}
+
+static void	ignore_sigquit(void)
+{
+	t_sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+static void	ignore_sigint(void)
+{
+	t_sigaction	sa;
+
+	sa.sa_handler = SIG_IGN; //Puntero a función
+	sigaction(SIGINT, &sa, NULL);
+}
 
 static void	exec_sigint(int signal)
 {
-	printf("SIGINT\n");
+	write(STDERR_FILENO, "\n", 1);
+	if (signal == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-static void	exec_sigquit(int signal)
-{
-	printf("SIGQUIT\n");
-}
-
-static void	get_sigint(void)
+static void	parent_sigint(void)
 {
 	t_sigaction	sa;
 
@@ -18,18 +51,20 @@ static void	get_sigint(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
-static void	get_sigquit(void)
+void	set_signals(void)
 {
-	t_sigaction	sa;
-
-	sa.sa_handler = exec_sigquit; //Puntero a función
-	sa.sa_flags = 0;
-	sigaction(SIGQUIT, &sa, NULL);
+	parent_sigint();
+	ignore_sigquit();
 }
 
-void	handle_signals(void)
+void	ignore_signals(void)
 {
-	get_sigint();
-	get_sigquit();
+	ignore_sigint();
+	ignore_sigquit();
 }
-*/
+
+void	set_child_signals(void)
+{
+	child_sigint();
+	child_sigquit();
+}

@@ -27,17 +27,24 @@ static int	equal_in_str(char *str)
 	return (0);
 }
 
-void	ft_env(char **env, char **argv)
+int	ft_env(char **env, char **argv)
 {
 	int	i;
 
 	i = 0;
 	if (!env)
-		return ;
+	{
+		ft_putendl_fd("minishell: env: No such file or directory", 2);
+		return (127) ; // CONSTRUIR PATH??
+	}
 	if (!control_argv(argv))
 	{
-		ft_putendl_fd("Error: This command does not accept arguments", STDERR_FILENO);
-		return ;
+		ft_putstr_fd("env: ", STDERR_FILENO);
+		ft_putstr_fd("\'", STDERR_FILENO);
+		ft_putstr_fd(argv[1], STDERR_FILENO);
+		ft_putstr_fd("\' ", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		return (127);
 	}
 	while(env[i])
 	{
@@ -45,4 +52,5 @@ void	ft_env(char **env, char **argv)
 			printf("%s\n", env[i]);
 		i++;
 	}
+	return (0);
 }
