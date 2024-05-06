@@ -6,20 +6,36 @@ static void	init_pipe(int *pipe)
 	pipe[1] = -1;
 }
 
+static int	get_cmd_num(t_parse *process)
+{
+	int	cmd_num;
+
+	cmd_num = 0;
+	while(process)
+	{
+		if (process->cmd != NULL)
+			cmd_num++;
+		process = process->next;
+	}
+	return(cmd_num);
+}
+
 static int	wait_all_process(t_utils *utils)
 {
 	int	i;
 	int	pid;
 	int	status;
+	int	cmd_num;
 
 	i = 0;
-	while(i < (utils->process_list_len - utils->builtin_counter))
+	cmd_num = get_cmd_num(utils->process);
+	while(i < (cmd_num - utils->builtin_counter))
 	{
 		pid = wait(&status);
 		if (pid == -1)
 			return (FUNC_FAILURE);
-		if (pid == utils->pid_array[utils->process_list_len - 1])
-			utils->status = utils->process_list_len;
+		if (pid == utils->pid_array[cmd_num - 1])
+			utils->status = cmd_num;
 		i++;
 	}
 	return (FUNC_SUCCESS);
