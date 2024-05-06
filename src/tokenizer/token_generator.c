@@ -97,7 +97,7 @@ int	check_expand(char *temp)
 	}
 	return (1);
 }
-// Chequear el caso de echo"" porque da algunos problemas. El resto va bien
+
 int	get_tokens(char	*aux, t_utils *utils)
 {
 	t_token	*token;
