@@ -27,6 +27,7 @@ char	*clean_quotes(char *str);
 
 int		is_whitespace(char c);
 int		check_quotes(char *line, t_utils *utils);
+int	    assert_quotes(char *input);
 int		whitespace_cmp(char *c);
 int		initial_pipe(char *input, t_utils *utils);
 int		check_redirections(char *input);

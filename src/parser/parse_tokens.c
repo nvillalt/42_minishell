@@ -152,7 +152,7 @@ int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
         new->doc = clean_quotes(document);
     else if (type == HEREDOC)
     {
-        if (document[0] == 34 || document[0] == 39)
+        if (assert_quotes(document))
             new->heredoc_flag = 1;
         new->heredoc_file = clean_quotes(document);
     }
@@ -227,12 +227,12 @@ int parse_tokens(t_utils *utils)
             create_redir(&utils->process->redirec, tokens->next->str, APPEND, &utils->process->redirec_head);
         else if (!ft_strcmp(tokens->str, "<<"))
             create_redir(&utils->process->redirec, tokens->next->str, HEREDOC, &utils->process->redirec_head);
-        else
-            create_process(&utils->process, &tokens);
-        printf("Process tras create_process: %s\n", utils->process->next->cmd[0]);
-        printf("Tokens: %s \n", tokens->str);
+        // else
+        //     create_process(&utils->process, &tokens);
+        // printf("Process tras create_process: %s\n", utils->process->next->cmd[0]);
+        // printf("Tokens: %s \n", tokens->str);
         tokens = tokens->next;
-        printf("Tokens: %s \n", tokens->str);
+        // printf("Tokens: %s \n", tokens->str);
     }
     t_redir *print;
 
@@ -246,18 +246,18 @@ int parse_tokens(t_utils *utils)
             printf("IMPRIMO REDIR:\nDoc: %s\nHeredoc: %s\nRedir Type: %d\nHeredoc Flag: %d\n- - - - - -\n", print->doc, print->heredoc_file, print->redir_type, print->heredoc_flag);
         }
     }
-    t_parse *print_proc;
+    // t_parse *print_proc;
 
-    print_proc = utils->process;
-    if (print_proc != NULL)
-    {
-        printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
-        while (print_proc->next != NULL)
-        {
-            print_proc = print_proc->next;
-            printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
-        }
-    }
+    // print_proc = utils->process;
+    // if (print_proc != NULL)
+    // {
+    //     printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+    //     while (print_proc->next != NULL)
+    //     {
+    //         print_proc = print_proc->next;
+    //         printf("IMPRIMO PROCESO:\nCmd: %s\nBuilt-in: %d\n", print_proc->cmd[0],print_proc->built_in);
+    //     }
+    // }
     clear_token_list(&utils->token_list); // Ya no se va a necesitar más el token list
     return (0);
 }

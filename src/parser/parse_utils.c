@@ -43,6 +43,19 @@ int		check_quotes(char *line, t_utils *utils)
 	return (1);
 }
 
+int	assert_quotes(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == 34 || input[i] == 39)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	initial_pipe(char *input, t_utils *utils)
 {

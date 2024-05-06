@@ -144,7 +144,7 @@ int	main(int argc, char **argv, char **envp)
 		utils.path = get_path(utils.env);
 	}
 	utils.env = set_oldpwd(utils.env);
-	set_signals();
+	//set_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);
