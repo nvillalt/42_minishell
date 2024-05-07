@@ -3,32 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 09:11:45 by nvillalt          #+#    #+#             */
-/*   Updated: 2023/12/26 13:03:43 by nvillalt         ###   ########.fr       */
+/*   Created: 2023/10/30 19:08:06 by fmoran-m          #+#    #+#             */
+/*   Updated: 2023/10/31 19:45:14 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1024
-#endif
+# define GET_NEXT_LINE_H 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42 
+# endif
 
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdlib.h>
-# include <stddef.h>
+# include <stdio.h>
+# include <stdint.h>
+# include "libft.h"
 
-/* MAIN FILE FUNCTIONS */
-char	*get_next_line(int fd);
-
-/* AUXILIARY FUNCTIONS */
-void	*ft_calloc_gnl(size_t count, size_t size);
-char	*ft_strjoin_gnl(char *s1, char *s2);
-char	*ft_strdup_gnl(char *src);
-size_t	ft_strlen_gnl(char *str);
-int		ft_check_char(char *str, int c);
-
+char			*get_next_line(int fd);
+char			*ft_strjoin_gnl(char *s1, char *s2);
+size_t			ft_strlen_gnl(char *s);
+char			*ft_strdup_gnl(char *s1);
+char			*free_file(char **file);
 #endif

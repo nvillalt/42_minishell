@@ -1,29 +1,5 @@
 #include "../../minishell.h"
 
-static void	child_sigquit(void)
-{
-	t_sigaction	sa;
-
-	sa.sa_handler = SIG_DFL;
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-static void	child_sigint(void)
-{
-	t_sigaction	sa;
-
-	sa.sa_handler = SIG_DFL; //Puntero a función
-	sigaction(SIGINT, &sa, NULL);
-}
-
-static void	ignore_sigquit(void)
-{
-	t_sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
 static void	ignore_sigint(void)
 {
 	t_sigaction	sa;
@@ -43,34 +19,26 @@ static void	exec_sigint(int signal)
 	}
 }
 
-static void	parent_sigint(void)
-{
-	t_sigaction	sa;
-
-	sa.sa_handler = exec_sigint; //Puntero a función
-	sigaction(SIGINT, &sa, NULL);
-}
-
 void	set_signals(void)
 {
-	parent_sigint();
-	ignore_sigquit();
+	signal(SIGINT, exec_sigint);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	ignore_signals(void)
 {
-	ignore_sigint();
-	ignore_sigquit();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_child_signals(void)
 {
-	child_sigint();
-	child_sigquit();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	heredoc_signals(void)
 {
-	child_sigint();
-	ignore_sigint();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

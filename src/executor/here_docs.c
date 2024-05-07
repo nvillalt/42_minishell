@@ -54,6 +54,7 @@ static int	open_here_doc(t_redir *redirec, int *temp_num)
 static void	write_here_doc(t_parse *process)
 {	
 	char	*buffer;
+	char	*temp;
 	int		limiter_len;
 	int		buffer_len;
 
@@ -66,14 +67,17 @@ static void	write_here_doc(t_parse *process)
 	{
 		if (buffer)
 			free(buffer);
-		write(STDERR_FILENO, "> ", 2);
-		buffer = get_next_line(STDIN_FILENO);
+		buffer = readline("> ");
 		if (!buffer)
 		{
-			printf("\n");
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n");
 			return;
 		}
+		temp = ft_strjoin(buffer, "\n");
+		free(buffer);
+		if (!temp)
+			return; //PERROR Y DEMAS AL CAMBIAR LA FUNCION
+		buffer = temp;
 		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)

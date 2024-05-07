@@ -3,105 +3,122 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fmoran-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 09:10:25 by nvillalt          #+#    #+#             */
-/*   Updated: 2023/12/26 19:13:20 by nvillalt         ###   ########.fr       */
+/*   Created: 2023/10/31 15:38:48 by fmoran-m          #+#    #+#             */
+/*   Updated: 2023/10/31 20:03:22 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_free_saved(char *saved)
+int	is_intro(char *buf)
 {
-	char	*aux;
-	int		len;
+	int	i;
 
-	len = 0;
-	while (saved[len] != '\0' && saved[len] != '\n')
-		len++;
-	if (saved[len] == '\n')
-		len++;
-	aux = ft_strdup_gnl(saved + len);
-	free(saved);
-	if (!aux)
-		return (NULL);
-	return (aux);
+	if (!buf)
+		return (0);
+	i = 0;
+	while (buf[i])
+	{
+		if (buf[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-char	*ft_get_returned_line(char *saved)
+char	*read_line(int fd, char *file)
 {
-	char	*final;
-	int		len;
+	char	*buf;
+	char	*temp;
+	ssize_t	buf_read;
 
-	len = 0;
-	if (!saved || saved[len] == '\0')
-		return (NULL);
-	while (saved[len] != '\0' && saved[len] != '\n')
-		len++;
-	if (saved[len] ==  '\n')
-		len++;
-	final = ft_calloc_gnl(sizeof(char), len + 1); 	
-	if (!final)
-		return (NULL);
-	len = 0;
-	while (saved[len] != '\n' && saved[len] != '\0')
+	if (!file)
+		file = ft_strdup_gnl("");
+	buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buf)
+		return (free_file(&file));
+	buf_read = 1;
+	while (buf_read > 0 && !is_intro(buf))
 	{
-		final[len] = saved[len];
-		len++;
+		buf_read = read(fd, buf, BUFFER_SIZE);
+		if (buf_read == -1)
+			return (free(buf), free_file(&file));
+		buf[buf_read] = 0;
+		temp = ft_strjoin_gnl(file, buf);
+		if (!temp)
+			return (free (buf), free_file(&file));
+		free (file);
+		file = temp;
 	}
-	if (saved[len] == '\n')
-		final[len] = saved[len];
-	return (final);
+	free (buf);
+	return (file);
 }
 
-char	*ft_read_fd(int fd, char *saved)
+char	*new_line(char *file)
 {
-	char	*buffer; 
-	ssize_t	read_chars;
+	int		i;
+	int		j;
+	char	*line;
 
-	buffer = ft_calloc_gnl(sizeof(char), BUFFER_SIZE + 1);
-	if (!buffer)
+	i = 0;
+	j = 0;
+	while (file[i] != '\n' && file[i])
+		i++;
+	if (!file[i])
+		return (file);
+	i++;
+	line = (char *)ft_calloc(i + 1, sizeof(char));
+	if (!line)
 		return (NULL);
-	read_chars = 1;
-	while (read_chars > 0 && !ft_check_char(buffer, '\n'))
+	while (j < i)
 	{
-		read_chars = read(fd, buffer, BUFFER_SIZE);
-		if (read_chars == -1)
-		{
-			free(buffer);
-			free(saved);
-			saved = 0;
-			return (NULL);
-		}
-		buffer[read_chars] = '\0';
-		saved = ft_strjoin_gnl(saved, buffer);
+		line[j] = file[j];
+		j++;
 	}
-	free(buffer);
-	return (saved);
+	return (line);
+}
+
+char	*new_file(char *file, char *line)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!is_intro(file))
+		return (NULL);
+	i = ft_strlen_gnl(file);
+	j = ft_strlen_gnl(line);
+	str = (char *)ft_calloc((i - j) + 2, sizeof(char));
+	if (!str)
+		return (free_file(&file));
+	i = 0;
+	while (file[j])
+	{
+		str[i] = file[j];
+		i++;
+		j++;
+	}
+	free_file(&file);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*saved;
-	char	*final;
+	static char	*file;
+	char		*line;
 
-	saved = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	saved = ft_read_fd(fd, saved);
-	if (!saved)
+	file = read_line(fd, file);
+	if (!file)
 		return (NULL);
-	final = ft_get_returned_line(saved);
-	if (!final)
-	{
-		if (saved)
-		{
-			free(saved);
-			saved = 0;
-			return (NULL);
-		}
-	}
-	saved = ft_free_saved(saved);
-	return (final);
+	if (!*file)
+		return (free_file(&file));
+	line = new_line(file);
+	if (!line)
+		return (free_file(&file));
+	file = new_file(file, line);
+	return (line);
 }
