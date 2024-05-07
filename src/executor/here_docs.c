@@ -1,5 +1,42 @@
 #include "../../minishell.h"
 
+static char	*join_str(char *join, char const *s1, char const *s2) //ESTE HEREDOC PARA QUITAR EL \0 extra al leer el STDIN
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		join[i] = s2[j];
+		j++;
+		i++;
+	}
+	//join[i] = '\0';
+	return (join);
+}
+
+static char	*ft_strjoin_hd(char const *s1, char const *s2)
+{
+	size_t	len;
+	char	*join;
+
+	if (*s1 == '\0' && *s2 == '\0')
+		return (ft_strdup(""));
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	join = (char *)malloc(sizeof(char) * len);
+	if (!join)
+		return (0);
+	join = join_str(join, s1, s2);
+	return (join);
+}
+
 static int	ft_strncmp_heredoc(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -51,7 +88,7 @@ static int	open_here_doc(t_redir *redirec, int *temp_num)
 	return (FUNC_SUCCESS);
 }
 
-static void	write_here_doc(t_parse *process)
+static void	write_here_doc(t_parse *process, t_utils *utils)
 {	
 	char	*buffer;
 	char	*temp;
@@ -70,10 +107,11 @@ static void	write_here_doc(t_parse *process)
 		buffer = readline("> ");
 		if (!buffer)
 		{
+			close_fds(process, utils);
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n");
 			return;
 		}
-		temp = ft_strjoin(buffer, "\n");
+		temp = ft_strjoin_hd(buffer, "\n");
 		free(buffer);
 		if (!temp)
 			return; //PERROR Y DEMAS AL CAMBIAR LA FUNCION
@@ -83,7 +121,7 @@ static void	write_here_doc(t_parse *process)
 			|| limiter_len != buffer_len)
 			write(process->redirec->fd, buffer, buffer_len + 1);
 	}
-	//set_signals();
+	set_signals();
 	free(buffer);
 }
 
@@ -94,7 +132,7 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 		utils->status = 1;
 		return(FUNC_FAILURE);
 	}
-	write_here_doc(process);
+	write_here_doc(process, utils);
 	utils->status = 0;
 	return (FUNC_SUCCESS);
 }
