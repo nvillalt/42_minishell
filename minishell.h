@@ -11,6 +11,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <sys/ioctl.h>
 # include "inc/structs.h"
 # include "libft/libft.h"
 # include "inc/builtins.h"
@@ -19,6 +20,8 @@
 # include "inc/signals.h"
 # include "inc/tokenizer.h"
 /* ····· general utils & functions ····· */
+
+extern int	g_sigint;
 
 // utils
 char	**env_dup(char **env);

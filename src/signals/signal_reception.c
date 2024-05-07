@@ -1,13 +1,5 @@
 #include "../../minishell.h"
 
-static void	ignore_sigint(void)
-{
-	t_sigaction	sa;
-
-	sa.sa_handler = SIG_IGN; //Puntero a función
-	sigaction(SIGINT, &sa, NULL);
-}
-
 static void	exec_sigint(int signal)
 {
 	write(STDERR_FILENO, "\n", 1);
@@ -17,6 +9,11 @@ static void	exec_sigint(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+static void	heredoc_sigint(int signal)
+{
+	g_sigint = 1;
+	ioctl(0, TIOCSTI, "\n");
 }
 
 void	set_signals(void)
@@ -39,6 +36,6 @@ void	set_child_signals(void)
 
 void	heredoc_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, heredoc_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }

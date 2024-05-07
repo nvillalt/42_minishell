@@ -88,7 +88,7 @@ static int	open_here_doc(t_redir *redirec, int *temp_num)
 	return (FUNC_SUCCESS);
 }
 
-static void	write_here_doc(t_parse *process, t_utils *utils)
+static int	write_here_doc(t_parse *process, t_utils *utils)
 {	
 	char	*buffer;
 	char	*temp;
@@ -105,16 +105,21 @@ static void	write_here_doc(t_parse *process, t_utils *utils)
 		if (buffer)
 			free(buffer);
 		buffer = readline("> ");
+		if (g_sigint != 0)
+		{
+			free(buffer);
+			return (FUNC_FAILURE);
+		}
 		if (!buffer)
 		{
 			close_fds(process, utils);
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n");
-			return;
+			return(FUNC_SUCCESS);
 		}
 		temp = ft_strjoin_hd(buffer, "\n");
 		free(buffer);
 		if (!temp)
-			return; //PERROR Y DEMAS AL CAMBIAR LA FUNCION
+			return (FUNC_FAILURE); //PERROR Y DEMAS AL CAMBIAR LA FUNCION
 		buffer = temp;
 		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
@@ -123,6 +128,7 @@ static void	write_here_doc(t_parse *process, t_utils *utils)
 	}
 	set_signals();
 	free(buffer);
+	return (FUNC_SUCCESS);
 }
 
 static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
@@ -132,7 +138,8 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 		utils->status = 1;
 		return(FUNC_FAILURE);
 	}
-	write_here_doc(process, utils);
+	if (!write_here_doc(process, utils));
+		return (FUNC_FAILURE);
 	utils->status = 0;
 	return (FUNC_SUCCESS);
 }

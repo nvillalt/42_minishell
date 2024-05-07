@@ -122,6 +122,8 @@ int	prompt_loop(t_utils *utils)
 	return (1);
 }
 
+int	g_sigint;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;

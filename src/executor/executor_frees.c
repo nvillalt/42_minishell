@@ -8,7 +8,8 @@ void	free_to_prompt(t_utils *utils)
 }
 void	free_to_prompt_error(t_utils *utils)
 {
-	perror(NULL);
+	if (g_sigint == 0)
+		perror(NULL);
 	unlink_files(utils->process);
 	close_all_pipes(utils);
 	close_fds(utils->process, utils);
