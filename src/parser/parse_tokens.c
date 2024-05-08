@@ -193,36 +193,33 @@ int	handle_redirections(t_token **iterate, t_redir **redir_list, t_redir **redir
 	return (1);
 }
 
-int	assign_process(t_parse **node, char *str)
-{
-	char	**temp;
-	int		i;
-	int		j;
+int assign_process(t_parse **node, char *str) {
+    char **temp;
+    int i;
+    int j;
 
-	i = 0;
-	j = -1;
-	if ((*node)->cmd == NULL)
-	{
-		(*node)->cmd = ft_calloc(sizeof(char *), 2); // For null termination
-		if (!(*node)->cmd)
-			return (0);
-	}
-	else
-	{
-		while ((*node)->cmd[i])
-			i++;
-		temp = ft_calloc(sizeof(char *), i + 1);
-		if (!temp)
-			return (0);
-		while (++j < i)
-			temp[j] = (*node)->cmd[j];
-		free((*node)->cmd);
-		(*node)->cmd = temp;
-	}
-	(*node)->cmd[i] = clean_quotes(str);
-	if (!(*node)->cmd[i])
-		return (0);
-	return (1);
+    i = 0;
+    j = -1;
+    if ((*node)->cmd == NULL) {
+        (*node)->cmd = ft_calloc(sizeof(char *), 2); // For null termination
+        if (!(*node)->cmd)
+            return (0);
+    } else {
+        while ((*node)->cmd[i])
+            i++;
+        temp = ft_calloc(sizeof(char *), i + 2); // Allocate memory for the same number of elements
+        if (!temp)
+            return (0);
+        // Copy contents of (*node)->cmd to temp
+        while (++j <= i)
+            temp[j] = (*node)->cmd[j];
+        free((*node)->cmd);
+        (*node)->cmd = temp;
+    }
+    (*node)->cmd[i] = clean_quotes(str);
+    if (!(*node)->cmd[i])
+        return (0);
+    return (1);
 }
 
 int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
@@ -241,17 +238,17 @@ int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
 			handle_redirections(&i, &node->redirec, &node->redirec_head);
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
-		else
+		else if (ft_strcmp(i->str, "|"))
 			assign_process(&node, i->str);
 		i = i->next;
 	}
 	if (!add_process(process_list, node))
 		return (0);
-	int	j = 0;
-	while (node->cmd[j])
+	t_parse *print = *process_list;
+	while (print->next != NULL)
 	{
-		printf("DENTRO DE CMD: %s\n", node->cmd[j]);
-		j++;
+		printf("%s\n", print->cmd[0]);
+		print = print->next;
 	}
 	// Test: ls -la < infile >>append | wc -l "    hola"
 	*move = i->next;
@@ -267,10 +264,14 @@ int parse_tokens(t_utils *utils)
 	// if (move->next == NULL)
 	// 	single_token(utils);
 	while (move->next != NULL)
-	{
 		create_process(&utils->process, &utils->token_list, &move);
-	}
 	printf("Terminado");
+	t_parse *print = utils->process;
+	while (print->next != NULL)
+	{
+		printf("%s\n", print->cmd[0]);
+		print = print->next;
+	}
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
 	return (0);
