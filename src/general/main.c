@@ -93,6 +93,8 @@ int	prompt_loop(t_utils *utils)
 	
 	while (1)
 	{
+		g_sigint = 0;
+		set_signals();
 		input = readline("minishell:");
 		if (!input) // Saltar la linea en blanco;
 		{
@@ -137,7 +139,6 @@ int	main(int argc, char **argv, char **envp)
 		utils.path = get_path(utils.env);
 	}
 	utils.env = set_oldpwd(utils.env);
-	set_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
 	return (0);

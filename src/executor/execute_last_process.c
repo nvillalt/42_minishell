@@ -4,6 +4,7 @@ static void	execute_last_process(t_utils *utils, t_parse *process)
 {
 	unsigned char	status;
 
+	set_child_signals();
 	close_pipe_fd(&utils->main_pipe[1]);
 	if (!redirec_infile(utils, process))
 	{

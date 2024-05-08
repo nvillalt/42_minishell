@@ -1,5 +1,11 @@
 #include "../../minishell.h"
 
+static void	init_pipe(int *pipe)
+{
+	pipe[0] = -1;
+	pipe[1] = -1;
+}
+
 static int	process_counter(t_parse *process)
 {
 	int	i;
@@ -24,13 +30,15 @@ static int	create_pid_array(t_utils *utils)
 
 int	executor(t_utils *utils, t_parse *process)
 {
+	init_pipe(utils->main_pipe); //ESTO PODEMOS HACERLO EN EL INIT DE UTILS
+	init_pipe(utils->aux_pipe);
 	utils->builtin_counter = 0;
 	if (!create_multiple_heredocs(utils, utils->process))
 		return (FUNC_FAILURE);
 	if (!create_pid_array(utils))
 		return (FUNC_FAILURE);
+	ignore_signals();
 	if (!execute_childs(utils, process))
 		return (FUNC_FAILURE);
-	set_signals();
 	return (FUNC_SUCCESS);
 }

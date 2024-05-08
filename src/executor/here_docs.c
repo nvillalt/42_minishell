@@ -98,37 +98,38 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 	buffer = NULL;
 	buffer_len = 0;
 	limiter_len = ft_strlen(process->redirec->doc);
-	heredoc_signals();
 	while (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
 	{
 		if (buffer)
 			free(buffer);
 		buffer = readline("> ");
-		if (g_sigint != 0)
-		{
-			free(buffer);
-			return (FUNC_FAILURE);
-		}
 		if (!buffer)
 		{
 			close_fds(process, utils);
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n");
-			return(FUNC_SUCCESS);
+			return(1);
+		}
+		if (g_sigint != 0)
+		{
+			free(buffer);
+			return (0);
 		}
 		temp = ft_strjoin_hd(buffer, "\n");
-		free(buffer);
 		if (!temp)
-			return (FUNC_FAILURE); //PERROR Y DEMAS AL CAMBIAR LA FUNCION
+		{
+			free(buffer);
+			return (0); //PERROR Y DEMAS AL CAMBIAR LA FUNCION
+		}
+		free(buffer);
 		buffer = temp;
 		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
 			write(process->redirec->fd, buffer, buffer_len + 1);
 	}
-	set_signals();
 	free(buffer);
-	return (FUNC_SUCCESS);
+	return (1);
 }
 
 static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
@@ -138,7 +139,7 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 		utils->status = 1;
 		return(FUNC_FAILURE);
 	}
-	if (!write_here_doc(process, utils));
+	if (write_here_doc(process, utils) == 0)
 		return (FUNC_FAILURE);
 	utils->status = 0;
 	return (FUNC_SUCCESS);
@@ -149,6 +150,7 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 	int	temp_num;
 
 	temp_num = 1;
+	heredoc_signals();
 	while(process)
 	{
 		while(process->redirec)
@@ -164,5 +166,6 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 		process = process->next;
 	}
 	close_fds(process, utils);
+	set_signals();
 	return (FUNC_SUCCESS);
 }

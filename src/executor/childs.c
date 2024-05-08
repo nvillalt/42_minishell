@@ -1,11 +1,5 @@
 #include "../../minishell.h"
 
-static void	init_pipe(int *pipe)
-{
-	pipe[0] = -1;
-	pipe[1] = -1;
-}
-
 static int	get_cmd_num(t_parse *process)
 {
 	int	cmd_num;
@@ -46,8 +40,6 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	int	process_index;
 
 	process_index = 0;
-	init_pipe(utils->main_pipe); //ESTO PODEMOS HACERLO EN EL INIT DE UTILS
-	init_pipe(utils->aux_pipe);
 	if (!create_first_child(utils, process, process_index))
 		return (FUNC_FAILURE);
 	process_index++;

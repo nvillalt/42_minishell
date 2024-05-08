@@ -19,7 +19,7 @@ static void	heredoc_sigint(int signal)
 void	set_signals(void)
 {
 	signal(SIGINT, exec_sigint);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	ignore_signals(void)

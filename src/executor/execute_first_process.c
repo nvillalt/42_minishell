@@ -24,7 +24,6 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 		if (pipe(utils->main_pipe) == -1)
 			return(FUNC_FAILURE);
 	}
-	ignore_signals();
 	if (process->built_in)
 		exec_builtins(utils, process, process_index);
 	else
