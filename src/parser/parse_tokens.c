@@ -195,7 +195,6 @@ int	handle_redirections(t_token **iterate, t_redir **redir_list, t_redir **redir
 
 int	assign_process(t_parse **node, char *str)
 {
-	printf("Entras en assign process?\n");
 	char	**temp;
 	int		i;
 	int		j;
@@ -210,7 +209,7 @@ int	assign_process(t_parse **node, char *str)
 	}
 	else
 	{
-		while ((*node)->cmd[i] != NULL)
+		while ((*node)->cmd[i])
 			i++;
 		temp = ft_calloc(sizeof(char *), i + 1);
 		if (!temp)
@@ -220,15 +219,9 @@ int	assign_process(t_parse **node, char *str)
 		free((*node)->cmd);
 		(*node)->cmd = temp;
 	}
-	(*node)->cmd[i] = ft_strdup(str);
+	(*node)->cmd[i] = clean_quotes(str);
 	if (!(*node)->cmd[i])
 		return (0);
-	i = 0;
-	while ((*node)->cmd[i])
-	{
-		printf("DENTRO DE CMD: %s\n", (*node)->cmd[i]);
-		i++;
-	}
 	return (1);
 }
 
@@ -240,8 +233,8 @@ int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
 	node = NULL;
 	if (!init_process(&node) && process_list != NULL) // REVISAR LIBERACIONES
 		return (0);
-	i = *token_list;
-	while (ft_strcmp(i->str, "|") && i != NULL)
+	i = *move;
+	while (i->next != NULL)
 	{
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<") || !ft_strcmp(i->str, ">|")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
@@ -254,6 +247,12 @@ int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
 	}
 	if (!add_process(process_list, node))
 		return (0);
+	int	j = 0;
+	while (node->cmd[j])
+	{
+		printf("DENTRO DE CMD: %s\n", node->cmd[j]);
+		j++;
+	}
 	// Test: ls -la < infile >>append | wc -l "    hola"
 	*move = i->next;
 	return (1);
@@ -267,12 +266,11 @@ int parse_tokens(t_utils *utils)
 	// Gestionar aparte
 	// if (move->next == NULL)
 	// 	single_token(utils);
-	// while (move != NULL)
-	// {
-	create_process(&utils->process, &utils->token_list, &move);
-	move = move->next;
-	printf("Ahora mismo hay esto dentro %s\n", move->str);
-	// }
+	while (move->next != NULL)
+	{
+		create_process(&utils->process, &utils->token_list, &move);
+	}
+	printf("Terminado");
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
 	return (0);
