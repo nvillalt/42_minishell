@@ -2,7 +2,7 @@
 # define TOKENIZER_H
 
 // token_list.c
-int			new_token(t_token **token);
+int			new_token(t_token **new);
 int			add_token(t_token **list, t_token *new);
 int			clear_token_list(t_token **token_list);
 int	        free_tokens(t_token **token_list, char *temp, int n);
