@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 19:04:10 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:11:20 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	free_tokens(t_token **token_list, char *temp, int n)
 		free(temp);
 		return (2);
 	}
-	else if (n == 2)
-		free(temp);
 	return (0);
 }
 
@@ -31,7 +29,7 @@ int	clear_token_list(t_token **token_list)
 	t_token	*next;
 
 	aux = *token_list;
-	while (aux->next != NULL)
+	while (aux)
 	{
 		next = aux->next;
 		if (aux->str)

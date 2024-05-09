@@ -51,7 +51,9 @@ TOKENIZER =	src/tokenizer/token_generator.c \
 PARSER = src/parser/get_path.c \
 			src/parser/parse_utils.c \
 			src/parser/parse_tokens.c \
-			src/parser/handle_quotes.c 
+			src/parser/handle_quotes.c \
+			src/parser/handle_redirections.c \
+			src/parser/parser_nodes.c
 
 SIGNAL = src/signals/signal_reception.c	
 

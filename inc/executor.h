@@ -1,7 +1,9 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
+
 # define FUNC_FAILURE 0
 # define FUNC_SUCCESS 1
+
 void			dirty_parse(char *input, t_utils *utils);
 int				executor(t_utils *utils, t_parse *process);
 char			*get_cmd_path(t_utils *utils, t_parse *process);

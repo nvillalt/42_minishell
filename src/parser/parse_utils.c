@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/05/09 19:24:16 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_whitespace(char	c)
+int	is_whitespace(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
@@ -18,7 +29,7 @@ int	whitespace_cmp(char *input)
 	return (i);
 }
 
-int		check_quotes(char *line, t_utils *utils)
+int	check_quotes(char *line, t_utils *utils)
 {
 	int	flag;
 	int	i;
@@ -29,7 +40,7 @@ int		check_quotes(char *line, t_utils *utils)
 	i = 0;
 	while (line[i])
 	{
-		if ((line[i] == 34 || line[i] == 39) && flag ==  0)
+		if ((line[i] == 34 || line[i] == 39) && flag == 0)
 			flag = line[i];
 		else if (line[i] == flag)
 			flag = 0;
@@ -37,7 +48,7 @@ int		check_quotes(char *line, t_utils *utils)
 	}
 	if (flag)
 	{
-		ft_putstr_fd("minishell: syntax error `unclosed quotes'\n", 2);
+		ft_putstr_fd("syntax error `unclosed quotes'\n", 2);
 		return (0);
 	}
 	return (1);
@@ -72,29 +83,8 @@ int	initial_pipe(char *input, t_utils *utils)
 		len--;
 	if (input[len - 1] == '|' || input[i] == '|')
 	{
-		ft_putendl_fd("minishell: syntax error near end of line `|'", 2);
+		ft_putendl_fd("syntax error near end of line `|'", 2);
 		return (0);
 	}
-	return (1);
-}
-
-int	check_redirections(char *input)
-{
-	if (input[0] == '>' && input[1] == '>' && input[2] == '>')
-		return (2);
-	if (input[0] == '>' && input[1] == '>' && input[2] == '|')
-		return (3);
-	if (input[0] == '<' && input[1] == '<' && input[2] == '<')
-		return (4);
-	if (input[0] == '|' && input[1] == '<')
-		return (5);
-	if (input[0] == '<' && input[1] == '|')
-		return (6);
-	if (input[0] == '|' && input[1] == '|')
-		return (7);
-	if (input[0] == '>' && input[1] == '<')
-		return (8);
-	if (input[0] == '<' && input[1] == '>')
-		return (9);
 	return (1);
 }
