@@ -8,8 +8,7 @@ int			clear_token_list(t_token **token_list);
 int	        free_tokens(t_token **token_list, char *temp, int n);
 int			get_tokens(char	*aux, t_utils *utils);
 
-
+// token_generator.c
 char		*trim_spaces(char *input);
-int			clean_tokens(t_utils *utils, char *aux);
 
 #endif

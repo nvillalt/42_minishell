@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 19:02:46 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:05:43 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*trim_spaces(char *input)
 	return (str);
 }
 
-int	get_substr(char *aux, int i)
+static int	get_substr(char *aux, int i)
 {
 	int	flag;
 
@@ -59,7 +59,7 @@ int	get_substr(char *aux, int i)
 	return (i);
 }
 
-int	check_symbol(char *str)
+static int	check_symbol(char *str)
 {
 	int	i;
 
@@ -86,7 +86,7 @@ int	check_symbol(char *str)
 	return (1);
 }
 
-int	check_expand(char *temp)
+static int	check_expand(char *temp)
 {
 	if (((temp[0] == 34 || temp[0] == 39) && temp[1] == '$')
 		|| ((temp[0] == '$' && temp[1] == ' '))
@@ -127,14 +127,3 @@ int	get_tokens(char	*aux, t_utils *utils)
 	}
 	return (free_tokens(&utils->token_list, temp, 2));
 }
-
-//PRINTING NODES
-	// t_token	*print;
-
-	// print = utils->token_list;
-	// printf("print: %s\n", print->str);
-	// while (print->next != NULL)
-	// {
-	// 	print = print->next;
-	// 	printf("print: %s\n", print->str);
-	// }
