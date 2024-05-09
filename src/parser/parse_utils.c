@@ -98,6 +98,3 @@ int	check_redirections(char *input)
 		return (9);
 	return (1);
 }
-
-// Ojo ls >| hola se entiende como ls >hola y ya, 
-// Pero ls |> hola se entiende como ls | "" >hola

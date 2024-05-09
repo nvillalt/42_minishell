@@ -4,7 +4,7 @@
 
 #include  "../../minishell.h"
 
-int init_process(t_parse **process)
+int	init_process(t_parse **process)
 {
 	*process = ft_calloc(sizeof(t_parse), 1);
 	if (!(*process))
@@ -17,7 +17,7 @@ int init_process(t_parse **process)
 	return (1);
 }
 
-int init_redir(t_redir **node, int type)
+int	init_redir(t_redir **node, int type)
 {
 	*node = ft_calloc(sizeof(t_redir), 1);
 	if (!node)
@@ -30,12 +30,12 @@ int init_redir(t_redir **node, int type)
 	(*node)->next = NULL;
 	return (1);
 }
-static void	assign_builtins(t_utils *utils) //BORRAR EVENTUALMENTE
+static void	assign_builtins(t_utils *utils)
 {
 	t_parse *process;
 
 	process = utils->process;
-	while (process->next != NULL)
+	while (process)
 	{
 		if (ft_strncmp(process->cmd[0], "echo", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
 			process->built_in = ECHO;
@@ -57,7 +57,7 @@ static void	assign_builtins(t_utils *utils) //BORRAR EVENTUALMENTE
 	}
 }
 
-int add_redir(t_redir **redir_list, t_redir *new)
+int	add_redir(t_redir **redir_list, t_redir *new)
 {
 	t_redir *head;
 
@@ -78,7 +78,7 @@ int add_redir(t_redir **redir_list, t_redir *new)
 	}
 	return (1);
 }
-int add_process(t_parse **process_list, t_parse *new)
+int	add_process(t_parse **process_list, t_parse *new)
 {
 	t_parse *head;
 
@@ -99,7 +99,7 @@ int add_process(t_parse **process_list, t_parse *new)
 	}
 	return (1);
 }
-int free_redir(t_redir **redir_list)
+int	free_redir(t_redir **redir_list)
 {
 	t_redir *aux;
 	t_redir *next;
@@ -120,7 +120,7 @@ int free_redir(t_redir **redir_list)
 	return (1);
 }
 
-int free_process(t_parse **process_list)
+int	free_process(t_parse **process_list)
 {
 	t_parse *aux;
 	t_parse *next;
@@ -140,15 +140,12 @@ int free_process(t_parse **process_list)
 	*process_list = NULL;
 	return (1);   
 }
-int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
+int	create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
 {
 	t_redir *new;
 
 	if (!init_redir(&new, type) && redir_list != NULL)
-	{
-		free_redir(redir_list);
 		return (0);
-	}
 	if (type == GREAT || type == MINUS || type == APPEND)
 		new->doc = clean_quotes(document);
 	else if (type == HEREDOC)
@@ -158,15 +155,10 @@ int create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
 		new->heredoc_file = clean_quotes(document);
 	}
 	if (!add_redir(redir_list, new))
-	{
-		free_redir(redir_list); // cambiar esta liberación
 		return (0);
-	}
 	(*head) = *redir_list;
 	return (1);
 }
-
-// RESERVAS PARA UTILS MEJOR LIBERAR CUANDO SALGA DEL TODO
 
 int	handle_redirections(t_token **iterate, t_redir **redir_list, t_redir **redir_head)
 {
@@ -193,24 +185,26 @@ int	handle_redirections(t_token **iterate, t_redir **redir_list, t_redir **redir
 	return (1);
 }
 
-int assign_process(t_parse **node, char *str) {
+int	assign_process(t_parse **node, char *str) {
     char **temp;
     int i;
     int j;
 
     i = 0;
     j = -1;
-    if ((*node)->cmd == NULL) {
-        (*node)->cmd = ft_calloc(sizeof(char *), 2); // For null termination
+    if ((*node)->cmd == NULL) 
+	{
+        (*node)->cmd = ft_calloc(sizeof(char *), 2);
         if (!(*node)->cmd)
             return (0);
-    } else {
+    }
+	else
+	{
         while ((*node)->cmd[i])
             i++;
-        temp = ft_calloc(sizeof(char *), i + 2); // Allocate memory for the same number of elements
+        temp = ft_calloc(sizeof(char *), i + 1);
         if (!temp)
             return (0);
-        // Copy contents of (*node)->cmd to temp
         while (++j <= i)
             temp[j] = (*node)->cmd[j];
         free((*node)->cmd);
@@ -231,7 +225,7 @@ int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
 	if (!init_process(&node) && process_list != NULL) // REVISAR LIBERACIONES
 		return (0);
 	i = *move;
-	while (i->next != NULL)
+	while (i)
 	{
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<") || !ft_strcmp(i->str, ">|")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
@@ -240,18 +234,13 @@ int	create_process(t_parse **process_list, t_token **token_list, t_token **move)
 			break ;
 		else if (ft_strcmp(i->str, "|"))
 			assign_process(&node, i->str);
+		if (i->next == NULL)
+			break ;
 		i = i->next;
 	}
 	if (!add_process(process_list, node))
 		return (0);
-	t_parse *print = *process_list;
-	while (print->next != NULL)
-	{
-		printf("%s\n", print->cmd[0]);
-		print = print->next;
-	}
-	// Test: ls -la < infile >>append | wc -l "    hola"
-	*move = i->next;
+	*move = i;
 	return (1);
 }
 
@@ -260,17 +249,11 @@ int parse_tokens(t_utils *utils)
 	t_token *move;
 
 	move = utils->token_list;
-	// Gestionar aparte
-	// if (move->next == NULL)
-	// 	single_token(utils);
 	while (move->next != NULL)
-		create_process(&utils->process, &utils->token_list, &move);
-	printf("Terminado");
-	t_parse *print = utils->process;
-	while (print->next != NULL)
 	{
-		printf("%s\n", print->cmd[0]);
-		print = print->next;
+		create_process(&utils->process, &utils->token_list, &move);
+		if (move->next)
+			move = move->next;
 	}
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
