@@ -94,7 +94,7 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		input = readline("minishell:");
-		if (!input) // Saltar la linea en blanco;
+		if (!input)
 		{
 			printf("exit\n");
 			free_matrix(utils->env);
@@ -114,15 +114,6 @@ int	prompt_loop(t_utils *utils)
 				free(input);
 				utils->status = get_tokens(aux, utils);
 				free(aux);
-				t_token	*print;
-
-				print = utils->token_list;
-				printf("print: %s\n", print->str);
-				while (print->next != NULL)
-				{
-					print = print->next;
-					printf("print: %s\n", print->str);
-				}
 				utils->status = parse_tokens(utils);
 			}
 			printf("%d\n", utils->status);

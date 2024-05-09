@@ -1,6 +1,14 @@
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_generator.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/05/09 19:02:46 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -19,7 +27,7 @@ char	*trim_spaces(char *input)
 	while (is_whitespace(input[len - 1]))
 		len--;
 	str = ft_substr(input, i, len - i);
-	return(str);
+	return (str);
 }
 
 int	get_substr(char *aux, int i)
@@ -31,19 +39,21 @@ int	get_substr(char *aux, int i)
 	{
 		if (!ft_strncmp(aux + i, "echo", 4))
 			return (i + 4);
-		if ((aux[i] == 34 && aux[i + 1] == 34) || (aux[i + 1] == 39 && aux[i + 1] == 39)
+		if ((aux[i] == 34 && aux[i + 1] == 34)
+			|| (aux[i + 1] == 39 && aux[i + 1] == 39)
 			&& !ft_strncmp(aux + 2, "echo", 4))
 			return (i + 2);
-		if ((aux[i] == '<' && aux[i + 1] == '<') || (aux[i] == '>' && aux[i + 1] == '>'))
+		if ((aux[i] == '<' && aux[i + 1] == '<')
+			|| (aux[i] == '>' && aux[i + 1] == '>'))
 			return (i + 2);
 		if (aux[i] == '<' || aux[i] == '>')
 			return (i + 1);
-		if ((aux[i] == 34 || aux[i] == 39) && flag ==  0)
+		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
 		if (is_whitespace(aux[i]) && flag == 0)
- 			break ;
+			break ;
 		i++;
 	}
 	return (i);
@@ -54,21 +64,21 @@ int	check_symbol(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i]) //TODO: REVISAR CON FRAN
 	{
 		if (check_redirections(str) == 2 || check_redirections(str) == 8)
 		{
-			ft_putendl_fd("minishell: syntax error near unexpected token `>'", 2);
+			ft_putendl_fd("syntax error near unexpected token `>'", 2);
 			return (2);
 		}
 		else if (check_redirections(str) == 9 || check_redirections(str) == 4)
 		{
-			ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
 			return (2);
 		}
 		else if (check_redirections(str) == 6)
 		{
-			ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
+			ft_putendl_fd("syntax error near unexpected token `|'", 2);
 			return (2);
 		}
 		i++;
@@ -76,23 +86,14 @@ int	check_symbol(char *str)
 	return (1);
 }
 
-int	free_tokens(t_token **token_list, char *temp, int n)
-{
-	clear_token_list(token_list);
-	free(temp);
-	if (n == 1)
-		return (2);
-	return (0);
-}
-
 int	check_expand(char *temp)
 {
 	if (((temp[0] == 34 || temp[0] == 39) && temp[1] == '$')
-		||((temp[0] == '$' && temp[1] == ' '))
+		|| ((temp[0] == '$' && temp[1] == ' '))
 		|| (temp[0] == '$' && temp[1] == '\0')
 		|| (temp[0] == '$' && temp[1] == '='))
 	{
-		ft_putendl_fd("minishell: command not found: $", 2);
+		ft_putendl_fd("command not found: $", 2);
 		return (0);
 	}
 	return (1);
@@ -124,7 +125,7 @@ int	get_tokens(char	*aux, t_utils *utils)
 			j++;
 		i = j;
 	}
-	return (0);
+	return (free_tokens(&utils->token_list, temp, 2));
 }
 
 //PRINTING NODES
