@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:22:42 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:26:40 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static int	assign_process(t_parse **node, char *str)
 	}
 	else
 	{
-		printf("Que hay aqui?? %s\n", (*node)->cmd[i]);
 		while ((*node)->cmd[i])
 			i++;
 		temp = ft_calloc(sizeof(char *), i + 1);
@@ -81,7 +80,6 @@ static int	create_process(t_parse **process_list, t_token **move)
 	if (!init_process(&node) && process_list != NULL)
 		return (0);
 	i = *move;
-	printf("CONTENIDO DE I NADA MAS ENTRAR: %s\n", i->str);
 	while (i)
 	{
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<")
@@ -94,10 +92,8 @@ static int	create_process(t_parse **process_list, t_token **move)
 			assign_process(&node, i->str);
 		if (i->next == NULL)
 			break ;
-		printf("Contenido de i: %s\nSiguiente a i: %s\n", i->str, i->next->str);
 		i = i->next;
 	}
-	//printf("En redirs: %s\n%s\n", node->redirec_head->doc, node->redirec_head->next->doc);
 	if (!add_process(process_list, node))
 		return (0);
 	*move = i;
@@ -113,10 +109,8 @@ int	parse_tokens(t_utils *utils)
 	while (move->next != NULL)
 	{
 		create_process(&utils->process, &move);
-		printf("FUERA DE LA FUNCION CONTENIDO DE MOVE: %s\n", move->str);
 		if (move->next)
 			move = move->next;
-	//	printf("DESPUES DE MOVE: %s\n", move->str);
 	}
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);

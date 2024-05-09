@@ -116,7 +116,6 @@ int	prompt_loop(t_utils *utils)
 				free(aux);
 				utils->status = parse_tokens(utils);
 			}
-			printf("%d\n", utils->status);
 		}
 	}
 	return (1);

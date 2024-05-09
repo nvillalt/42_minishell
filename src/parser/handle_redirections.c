@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 19:43:52 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:26:56 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 {
 	t_redir	*new;
 
-	printf("endocument: %s\n", document);
 	if (!init_redir(&new, type) && redir_list != NULL)
 		return (0);
 	if (type == GREAT || type == MINUS || type == APPEND)
@@ -56,7 +55,6 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 
 int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 {
-	printf("%s\n, -->next %s\n\n", (*i)->str, (*i)->next->str);
 	if (!ft_strcmp((*i)->str, ">") || !ft_strcmp((*i)->str, ">|"))
 	{
 		create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
