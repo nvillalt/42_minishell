@@ -114,14 +114,6 @@ int	prompt_loop(t_utils *utils)
 				free(input);
 				utils->status = get_tokens(aux, utils);
 				free(aux);
-				t_token *print = utils->token_list;
-				printf("IMPRIMIR TOKENS:\nString: %s\n", print->str);
-				while (print->next != NULL)
-				{
-					printf("String: %s\n", print->str);
-					print = print->next;
-				}
-				printf("String: %s\n", print->str);
 				utils->status = parse_tokens(utils);
 			}
 			printf("%d\n", utils->status);

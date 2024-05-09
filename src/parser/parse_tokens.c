@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:08:50 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:22:42 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	assign_builtins(t_utils *utils)
 	t_parse *process;
 
 	process = utils->process;
-	while (process)
+	while (process && process->cmd)
 	{
 		if (ft_strncmp(process->cmd[0], "echo", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
 			process->built_in = ECHO;
@@ -88,7 +88,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 			|| !ft_strcmp(i->str, ">|")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
 			handle_redirection(&i, &node->redirec, &node->redirec_head);
-		else if (!ft_strcmp(i->str, "|") || i->next == NULL)
+		else if (!ft_strcmp(i->str, "|"))
 			break ;
 		else if (ft_strcmp(i->str, "|"))
 			assign_process(&node, i->str);
@@ -97,29 +97,13 @@ static int	create_process(t_parse **process_list, t_token **move)
 		printf("Contenido de i: %s\nSiguiente a i: %s\n", i->str, i->next->str);
 		i = i->next;
 	}
+	//printf("En redirs: %s\n%s\n", node->redirec_head->doc, node->redirec_head->next->doc);
 	if (!add_process(process_list, node))
 		return (0);
 	*move = i;
 	return (1);
 }
 
-static void print_cmds_and_docs(t_utils *utils)
-{
-	int i = 0;
-
-	while (utils->process->redirec)
-	{
-		printf("REDIREC DOC: %s\n", utils->process->redirec->doc);
-		utils->process->redirec = utils->process->redirec->next;
-		i++;
-	}
-	i = 0;
-	while (utils->process->cmd[i])
-	{
-		printf("PROCESS CMD: %s\n",utils->process->cmd[i]);
-		i++;
-	}
-}
 
 int	parse_tokens(t_utils *utils)
 {
@@ -132,9 +116,8 @@ int	parse_tokens(t_utils *utils)
 		printf("FUERA DE LA FUNCION CONTENIDO DE MOVE: %s\n", move->str);
 		if (move->next)
 			move = move->next;
-		printf("DESPUES DE MOVE: %s\n", move->str);
+	//	printf("DESPUES DE MOVE: %s\n", move->str);
 	}
-//	print_cmds_and_docs(utils);
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
 	return (0);
