@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/10 15:03:45 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:16:41 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	is_token(char c)
 {
-	if (c == '<')
-		printf("C es igual\n");
 	if (c == '>' || c == '<' || c == '|')
 		return (1);
 	return (0);

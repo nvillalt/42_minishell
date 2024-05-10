@@ -113,15 +113,10 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
-				t_token *print = utils->token_list;
-				printf("--> En token: %s\n", print->str);
-				while (print->next != NULL)
-				{
-					print = print->next;
-					printf("--> En token: %s\n", print->str);
-				}
+				if (utils->token_list != NULL)
+					utils->status = parse_tokens(utils);
 				free(aux);
-				utils->status = parse_tokens(utils);
+				executor(utils, utils->process);
 			}
 		}
 	}

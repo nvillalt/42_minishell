@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/10 18:13:13 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:16:02 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int	get_tokens(char	*aux, t_utils *utils)
 	while (aux[i])
 	{
 		j = get_substr(aux, i);
-		printf("Valor de j: %d\nValor de i: %d\n", j, i);
 		if (!new_token(&token) && utils->token_list != NULL)
 			clear_token_list(&utils->token_list);
 		temp = ft_substr(aux, i, (j - i));

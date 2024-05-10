@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:26:40 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:31:51 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,12 @@ int	parse_tokens(t_utils *utils)
 	t_token	*move;
 
 	move = utils->token_list;
-	while (move->next != NULL)
+	while (move->str)
 	{
 		create_process(&utils->process, &move);
-		if (move->next)
+		if (move->str && move->next == NULL)
+			break ;
+		if (move->str)
 			move = move->next;
 	}
 	assign_builtins(utils);
