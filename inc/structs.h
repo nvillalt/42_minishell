@@ -1,44 +1,43 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct	s_redir
+typedef struct s_redir
 {
-	char			*doc; // NULL
-	char			*heredoc_file; //NULL
+	char			*doc;
+	char			*heredoc_file;
 	int				heredoc_flag;
-	int				redir_type; // a -1
-	int				fd; // -1
+	int				redir_type;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
-typedef	struct s_parse
+typedef struct s_parse
 {
 	char			**cmd;
-	int				built_in; //built-in - cmd
+	int				built_in;
 	t_redir			*redirec;
-	t_redir			*redirec_head; // a NULL, guarda la cabecera de la lista y no se toca
+	t_redir			*redirec_head;
 	struct s_parse	*next;
 }	t_parse;
-
 
 typedef struct s_token
 {
 	char			*str;
 	struct s_token	*next;
-} t_token;
+}	t_token;
 
 typedef struct s_utils
 {
-	char	**path; // Guardar los comandos de path por si hay que hacer rutas luego
-	char	**env; // Para el env duplicado
+	char	**path;
+	char	**env;
 	t_parse	*process;
-	t_token *token_list;
-	int		status; // a 0
-	pid_t	*pid_array; // A NULL
+	t_token	*token_list;
+	int		status;
+	pid_t	*pid_array;
 	int		main_pipe[2];
 	int		aux_pipe[2];
 	int		process_list_len;
 	int		builtin_counter;
-} t_utils;
+}	t_utils;
 
 #endif

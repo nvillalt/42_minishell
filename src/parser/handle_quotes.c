@@ -1,10 +1,16 @@
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/05/09 19:08:42 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 static char	*erase_quotes(char *str, char c)
 {
@@ -49,7 +55,7 @@ static char	*clean_double_quotes(char *str)
 	return (ret);
 }
 
-static char *clean_single_quotes(char *str)
+static char	*clean_single_quotes(char *str)
 {
 	int		i;
 	int		len;

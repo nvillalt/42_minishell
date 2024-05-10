@@ -96,7 +96,7 @@ int	prompt_loop(t_utils *utils)
 		g_sigint = 0;
 		set_signals();
 		input = readline("minishell:");
-		if (!input) // Saltar la linea en blanco;
+		if (!input)
 		{
 			printf("exit\n");
 			free_matrix(utils->env);
@@ -110,15 +110,14 @@ int	prompt_loop(t_utils *utils)
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
 				utils->status = 130;
-			dirty_parse(input, utils);
-			if(!executor(utils, utils->process))
-				free_to_prompt_error(utils);
 			else
-				free_to_prompt(utils);
-			//aux = trim_spaces(input); // hace substr de esto para empezar a limpiar la string
-			//free(input);
-			//clean_tokens(utils, aux);
-			//free_utils(utils);
+			{
+				aux = trim_spaces(input);
+				free(input);
+				utils->status = get_tokens(aux, utils);
+				free(aux);
+				utils->status = parse_tokens(utils);
+			}
 		}
 	}
 	return (1);
