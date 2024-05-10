@@ -46,7 +46,12 @@ static char **search_for_var(char **env, char *current_var)
 	{
 		index_jump = search_empty_var(env, current_var);
 		if (index_jump == -1)
-			return(env);
+		{
+			new_env = env_dup(env);
+			if (!new_env)
+				return (NULL);
+			return(new_env);
+		}
 	}
 	new_env = unset_var_env(env, index_jump);
 	if (!new_env)
