@@ -29,7 +29,16 @@ static int	wait_all_process(t_utils *utils)
 		if (pid == -1)
 			return (FUNC_FAILURE);
 		if (pid == utils->pid_array[cmd_num - 1])
-			utils->status = cmd_num;
+		{
+			if (WIFEXITED(status))
+				utils->status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				utils->status = 128 + WTERMSIG(status);
+			else if (WIFSTOPPED(status))
+				utils->status = 128 + WSTOPSIG(status);
+			else
+				utils->status = status;
+		}
 		i++;
 	}
 	return (FUNC_SUCCESS);

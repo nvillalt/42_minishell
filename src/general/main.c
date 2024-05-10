@@ -122,6 +122,7 @@ int	prompt_loop(t_utils *utils)
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);
+			printf("%d\n", utils->status);
 		}
 	}
 	return (1);
