@@ -115,7 +115,7 @@ int	prompt_loop(t_utils *utils)
 				utils->status = get_tokens(aux, utils);
 				t_token *print = utils->token_list;
 				printf("--> En token: %s\n", print->str);
-				while (print->str)
+				while (print->next != NULL)
 				{
 					print = print->next;
 					printf("--> En token: %s\n", print->str);

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/10 14:30:21 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:11:27 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	get_substr(char *aux, int i)
 	flag = 0;
 	while (aux[i])
 	{
-		printf("Entras?\n");
 		if (!ft_strncmp(aux + i, "echo", 4))
 			return (i + 4);
 		if ((aux[i] == 34 && aux[i + 1] == 34)
@@ -47,13 +46,13 @@ static int	get_substr(char *aux, int i)
 		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
 			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
 			return (i + 2);
-		if ((!flag && aux[i] == '<') || (!flag && aux[i] == '>'))
+		if ((!flag && is_token(aux[i]))) // Ver esta funcion, es la que da problemas
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
-		if (is_whitespace(aux[i]) && flag == 0 || is_token(aux[i]) && flag == 0)
+		if (is_whitespace(aux[i]) && !flag)
 			break ;
 		i++;
 	}
@@ -115,10 +114,11 @@ int	get_tokens(char	*aux, t_utils *utils)
 	while (aux[i])
 	{
 		j = get_substr(aux, i);
+		printf("Valor de j: %d\nValor de i: %d\n", j, i);
 		if (!new_token(&token) && utils->token_list != NULL)
 			clear_token_list(&utils->token_list);
 		temp = ft_substr(aux, i, (j - i));
-		if (check_symbol(temp) == 1 && check_expand(temp) == 1)
+		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // Meter aquí tmb si se expandirá la variable o no ??????
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
 			return (free_tokens(&utils->token_list, temp, 1));
