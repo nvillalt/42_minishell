@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/10 15:11:27 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:13:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ static int	get_substr(char *aux, int i)
 		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
 			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
 			return (i + 2);
-		if ((!flag && is_token(aux[i]))) // Ver esta funcion, es la que da problemas
+		else if ((!flag && is_token(aux[i + 1]))) // Ver esta funcion, es la que da problemas
+			return (i + 1);
+		else if (!flag && is_token(aux[i]))
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
-		if (is_whitespace(aux[i]) && !flag)
+		if ((is_whitespace(aux[i]) && !flag) || !flag && is_token(aux[i]))
 			break ;
 		i++;
 	}
