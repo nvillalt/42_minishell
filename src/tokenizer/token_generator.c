@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_generator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:10:49 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:30:21 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ static int	get_substr(char *aux, int i)
 	flag = 0;
 	while (aux[i])
 	{
+		printf("Entras?\n");
 		if (!ft_strncmp(aux + i, "echo", 4))
 			return (i + 4);
 		if ((aux[i] == 34 && aux[i + 1] == 34)
 			|| (aux[i + 1] == 39 && aux[i + 1] == 39)
 			&& !ft_strncmp(aux + 2, "echo", 4))
 			return (i + 2);
-		if ((aux[i] == '<' && aux[i + 1] == '<')
-			|| (aux[i] == '>' && aux[i + 1] == '>'))
+		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
+			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
 			return (i + 2);
-		if (aux[i] == '<' || aux[i] == '>')
+		if ((!flag && aux[i] == '<') || (!flag && aux[i] == '>'))
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
