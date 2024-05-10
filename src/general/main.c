@@ -110,14 +110,18 @@ int	prompt_loop(t_utils *utils)
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
 				utils->status = 130;
+			/*
+			aux = trim_spaces(input);
+			free(input);
+			utils->status = get_tokens(aux, utils);
+			free(aux);
+			utils->status = parse_tokens(utils);
+			*/
+			dirty_parse(input, utils);
+			if(!executor(utils, utils->process))
+				free_to_prompt_error(utils);
 			else
-			{
-				aux = trim_spaces(input);
-				free(input);
-				utils->status = get_tokens(aux, utils);
-				free(aux);
-				utils->status = parse_tokens(utils);
-			}
+				free_to_prompt(utils);
 		}
 	}
 	return (1);
