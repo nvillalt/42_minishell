@@ -12,6 +12,13 @@
 
 #include "../../minishell.h"
 
+int	is_token(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
+}
+
 int	is_whitespace(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))

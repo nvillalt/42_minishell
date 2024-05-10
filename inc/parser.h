@@ -35,6 +35,7 @@ int		add_redir(t_redir **redir_list, t_redir *new);
 int		add_process(t_parse **process_list, t_parse *new);
 
 // parse_utils.c
+int		is_token(char c);
 int		is_whitespace(char c);
 int		check_quotes(char *line, t_utils *utils);
 int		assert_quotes(char *input);

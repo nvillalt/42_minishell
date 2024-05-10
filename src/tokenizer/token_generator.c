@@ -52,7 +52,7 @@ static int	get_substr(char *aux, int i)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
-		if (is_whitespace(aux[i]) && flag == 0)
+		if (is_whitespace(aux[i]) && flag == 0 || is_token(aux[i]) && flag == 0)
 			break ;
 		i++;
 	}

@@ -113,6 +113,13 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
+				t_token *print = utils->token_list;
+				printf("--> En token: %s\n", print->str);
+				while (print->str)
+				{
+					print = print->next;
+					printf("--> En token: %s\n", print->str);
+				}
 				free(aux);
 				utils->status = parse_tokens(utils);
 			}
@@ -126,14 +133,14 @@ int	main(int argc, char **argv, char **envp)
 	t_utils	utils;
 
 	utils = init_utils();
-	if(!*envp)
-		utils.env = create_mini_env();
-	else
-	{
+	// if(!*envp)
+	// 	utils.env = create_mini_env();
+	// else
+	// {
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 		utils.path = get_path(utils.env);
-	}
-	utils.env = set_oldpwd(utils.env);
+	// }
+	// utils.env = set_oldpwd(utils.env);
 	//set_signals();
 	prompt_loop(&utils);
 	free_utils(&utils);
