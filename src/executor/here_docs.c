@@ -75,13 +75,12 @@ static int	open_here_doc(t_redir *redirec, int *temp_num)
 {
 	if (!get_file_name(redirec, *temp_num))
 		return (FUNC_FAILURE);
-/*	while(access(redirec->heredoc_file, F_OK) == 0)
+	while(access(redirec->heredoc_file, F_OK) == 0)
 	{
 		++*temp_num;
-		printf("%ls\n", temp_num);
 		free(redirec->heredoc_file);
 		get_file_name(redirec, *temp_num);
-	}*/
+	}
 	redirec->fd = open(redirec->heredoc_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (redirec->fd == -1)
 		return (FUNC_FAILURE);
