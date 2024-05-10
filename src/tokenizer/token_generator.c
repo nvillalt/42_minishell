@@ -37,6 +37,7 @@ static int	get_substr(char *aux, int i)
 	flag = 0;
 	while (aux[i])
 	{
+		// Pasar esto a una única función que reciba un str e i
 		if (!ft_strncmp(aux + i, "echo", 4))
 			return (i + 4);
 		if ((aux[i] == 34 && aux[i + 1] == 34)
@@ -48,6 +49,7 @@ static int	get_substr(char *aux, int i)
 			return (i + 2);
 		else if ((!flag && is_token(aux[i + 1]))) // Ver esta funcion, es la que da problemas
 			return (i + 1);
+		// Gestionar "cat"< - Problema: si pongo flag, está en estado de comillas, pero puede ser que me cargue el "<<<<<<" si no tengo cuidado
 		else if (!flag && is_token(aux[i]))
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
@@ -66,7 +68,7 @@ static int	check_symbol(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i]) //TODO: REVISAR CON FRAN
+	while (str[i]) //TODO: REVISAR CON FRAN LOS ERRORES
 	{
 		if (check_redirections(str) == 2 || check_redirections(str) == 8)
 		{
