@@ -57,7 +57,7 @@ PARSER = src/parser/get_path.c \
 
 SIGNAL = src/signals/signal_reception.c
 
-EXPAND = src/expansor/
+EXPAND = src/expansor/expansor.c
 
 GENERAL = src/general/main.c \
 			src/general/error_management.c \
@@ -73,7 +73,7 @@ VALGRIND_OPT		+= --leak-check=full
 VALGRIND_OPT		+= --show-leak-kinds=all
 EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
-OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o}
+OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o} ${EXPAND:.c=.o}
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)
