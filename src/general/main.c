@@ -94,6 +94,7 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		g_sigint = 0;
+		utils->status = 0;
 		set_signals();
 		input = readline("minishell:");
 		if (!input)
@@ -122,7 +123,11 @@ int	prompt_loop(t_utils *utils)
 				free_to_prompt_error(utils);
 			else
 				free_to_prompt(utils);
-			printf("%d\n", utils->status);
+			if (utils->status == 130)
+				printf("\n");
+			else if (utils->status == 131)
+				printf("Quit\n");
+			printf("%d\n",utils->status);
 		}
 	}
 	return (1);
