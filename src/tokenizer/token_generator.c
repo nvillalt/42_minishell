@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_generator.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/10 18:16:02 by nvillalt         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -47,17 +36,16 @@ static int	get_substr(char *aux, int i)
 		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
 			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
 			return (i + 2);
-		else if ((!flag && is_token(aux[i + 1]))) // Ver esta funcion, es la que da problemas
-			return (i + 1);
-		// Gestionar "cat"< - Problema: si pongo flag, está en estado de comillas, pero puede ser que me cargue el "<<<<<<" si no tengo cuidado
 		else if (!flag && is_token(aux[i]))
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
-		if ((is_whitespace(aux[i]) && !flag) || !flag && is_token(aux[i]))
+		if ((is_whitespace(aux[i]) && !flag))
 			break ;
+		if ((!flag && is_token(aux[i + 1])))
+			return (i + 1);
 		i++;
 	}
 	return (i);
