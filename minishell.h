@@ -18,6 +18,7 @@
 # include "inc/parser.h"
 # include "inc/signals.h"
 # include "inc/tokenizer.h"
+# include "inc/expand.h"
 /* ····· general utils & functions ····· */
 
 // utils

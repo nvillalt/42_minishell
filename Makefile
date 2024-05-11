@@ -14,7 +14,7 @@ CFLAGS = #-Wall -Wextra -Werror
 
 RLIB = -lreadline
 
-INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h inc/structs.h inc/tokenizer.h
+INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h inc/structs.h inc/tokenizer.h inc/expansor.h
 
 RM = rm -f
 
@@ -55,7 +55,9 @@ PARSER = src/parser/get_path.c \
 			src/parser/handle_redirections.c \
 			src/parser/parser_nodes.c
 
-SIGNAL = src/signals/signal_reception.c	
+SIGNAL = src/signals/signal_reception.c
+
+EXPAND = src/expansor/
 
 GENERAL = src/general/main.c \
 			src/general/error_management.c \
