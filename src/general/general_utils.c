@@ -21,7 +21,7 @@ char	**env_dup(char **env)
 		dup[i] = ft_strdup(env[i]);
 		if (!dup[i])
 		{
-			free_mid_matrix(dup, i);
+			free_matrix(dup);
 			return (dup);
 		}
 		i++;

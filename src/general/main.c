@@ -1,5 +1,85 @@
 #include "../../minishell.h"
 
+static int	create_new_shlvl(t_utils *utils)
+{
+	int		i;
+	char	**new_env;
+
+	i = 0;
+	while(utils->env[i])
+		i++;
+	new_env = ft_calloc(i + 2, sizeof(char *));
+	if (!new_env)
+		return (0);
+	i = 0;
+	while(utils->env[i])
+	{
+		new_env[i] = ft_strdup(utils->env[i]);
+		if (!new_env[i])
+		{
+			free_matrix(new_env);
+			return (0);
+		}
+		i++;
+	}
+	new_env[i] = ft_strdup("SHLVL=1");
+	if (!new_env[i])
+	{
+		free_matrix(new_env);
+		return (0);
+	}
+	free_matrix(utils->env);
+	utils->env = new_env;
+	return (1);
+}
+
+
+static int	update_shlvl(t_utils *utils)
+{
+	int		i;
+	int		new_lvl;
+	char	*new_lvl_str;
+	char	*shlvl;
+	char	*new_shlvl;
+
+	i = 0;
+	while(utils->env[i] && ft_strncmp("SHLVL=", utils->env[i], 6))
+		i++;
+	if (!utils->env[i])
+		return (create_new_shlvl(utils));
+	shlvl = utils->env[i];
+	i = 0;
+	while(shlvl[i] && shlvl[i] != '=')
+		i++;
+	i++;
+	if (!shlvl[i])
+	{
+		new_shlvl = ft_strdup("SHLVL=1");
+		if (!new_shlvl)
+			return (0);
+		i = 0;
+		while(utils->env[i] != shlvl)
+			i++;
+		free(utils->env[i]);
+		utils->env[i] = new_shlvl;
+		return (1);
+}
+	new_lvl = ft_atoi(shlvl + i) + 1;
+	new_lvl_str = ft_itoa(new_lvl);
+	if (!new_lvl_str)
+		return (0);
+	new_shlvl = ft_strjoin("SHLVL=", new_lvl_str);
+	free(new_lvl_str);
+	if (!new_shlvl)
+		return (0);
+	i = 0;
+	while(utils->env[i] != shlvl)
+		i++;
+	free(utils->env[i]);
+	utils->env[i] = new_shlvl;
+	return (1);
+}
+
 static char	**create_mini_env(void)
 {
 	char	**env;
@@ -127,7 +207,6 @@ int	prompt_loop(t_utils *utils)
 				printf("\n");
 			else if (utils->status == 131)
 				printf("Quit\n");
-			printf("%d\n",utils->status);
 		}
 	}
 	return (1);
@@ -146,6 +225,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
 		utils.path = get_path(utils.env);
+		update_shlvl(&utils);
 	}
 	utils.env = set_oldpwd(utils.env);
 	prompt_loop(&utils);

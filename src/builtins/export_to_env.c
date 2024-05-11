@@ -19,7 +19,7 @@ static char	**create_new_env(char **env, char *cmd)
 		if (!new_env[i])
 		{
 			free_matrix(env);
-			free_mid_matrix(new_env, i);
+			free_matrix(new_env);
 			perror(NULL);
 			return(NULL);
 		}
@@ -29,7 +29,7 @@ static char	**create_new_env(char **env, char *cmd)
 	if (!new_env[i])
 	{
 		free_matrix(env);
-		free_mid_matrix(new_env, i);
+		free_matrix(new_env);
 		perror(NULL);
 		return (NULL);
 	}

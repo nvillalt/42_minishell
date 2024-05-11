@@ -1,18 +1,5 @@
 #include "../../minishell.h"
 
-void	free_mid_matrix(char **dup, int j)
-{
-	int	i;
-
-	i = 0;
-	while (i < j)
-	{
-		free(dup[i]);
-		i++;
-	}
-	free(dup);
-}
-
 static char **allocate_newenv(char **dup, char **env, int index_jump, int env_len)
 {
 	int	i;
@@ -29,7 +16,7 @@ static char **allocate_newenv(char **dup, char **env, int index_jump, int env_le
 		{
 			perror(NULL);
 			free_matrix(env);
-			free_mid_matrix(dup, j);
+			free_matrix(dup);
 			return (NULL);
 		}
 		j++;
