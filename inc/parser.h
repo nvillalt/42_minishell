@@ -33,6 +33,7 @@ int		init_process(t_parse **process);
 int		init_redir(t_redir **node, int type);
 int		add_redir(t_redir **redir_list, t_redir *new);
 int		add_process(t_parse **process_list, t_parse *new);
+int		free_process(t_parse **process_list);
 
 // parse_utils.c
 int		is_token(char c);
