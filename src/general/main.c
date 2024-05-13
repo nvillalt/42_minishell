@@ -113,9 +113,9 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				utils->status = get_tokens(aux, utils);
-				// if (utils->token_list != NULL)
-				// 	utils->status = parse_tokens(utils);
-				// free(aux);
+				if (utils->token_list != NULL)
+					utils->status = parse_tokens(utils);
+				free(aux);
 				// executor(utils, utils->process);
 			}
 		}
