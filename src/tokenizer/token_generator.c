@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/13 18:09:32 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:09:20 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,65 +68,34 @@ static int	check_expand(char *temp)
 	}
 	return (1);
 }
-//echo ls -la |echo $VAR.hola "dfdg"fgfg
-
-/*
-- Si encuentro comillas -> No parar hasta encontrar un token o un whitespace
-- Si no encuentro comillas -> No parar hasta encontrar un token o un whitespace
-- Si estoy en un token -> No parar hasta encontrar un !token o whitespace y que el flag de comillas sea 0
-- // Si estoy en un whitespace -> 
-*/
 
 static int	get_substr(char *aux, int i)
 {
 	int	flag;
 
 	flag = 0;
-	printf("..Cantidad en i: %d\n", i);
 	while (aux[i])
 	{
-		if ((aux[i] == 34 || aux[i] == 39) && !flag) //Entro en estado de comillas
+		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
+		{
 			flag = aux[i];
-		else if ((aux[i] == 34 || aux[i] == 39) && is_whitespace(aux[i + 1]))
+			i++;
+			while (aux[i] != flag)
+				i++;
 			flag = 0;
-		if (is_whitespace(aux[i]) && !flag)
-			break ;
+		}
 		i++;
+		if ((is_whitespace(aux[i]) && !flag))
+			break ;
+		if ((!flag && is_token(aux[i])))
+		{
+			while (is_token(aux[i]))
+				i++;
+			break ;
+		}
 	}
 	return (i);
 }
-
-// static int	get_substr(char *aux, int i)
-// {
-// 	int	flag;
-
-// 	flag = 0;
-// 	while (aux[i])
-// 	{
-// 		// Pasar esto a una única función que reciba un str e i
-// 		if (!ft_strncmp(aux + i, "echo", 4))
-// 			return (i + 4);
-// 		if ((aux[i] == 34 && aux[i + 1] == 34)
-// 			|| (aux[i + 1] == 39 && aux[i + 1] == 39)
-// 			&& !ft_strncmp(aux + 2, "echo", 4))
-// 			return (i + 2);
-// 		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
-// 			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
-// 			return (i + 2);
-// 		else if (!flag && is_token(aux[i]))
-// 			return (i + 1);
-// 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
-// 			flag = aux[i];
-// 		else if (aux[i] == flag)
-// 			flag = 0;
-// 		if ((is_whitespace(aux[i]) && !flag))
-// 			break ;
-// 		if ((!flag && is_token(aux[i + 1])))
-// 			return (i + 1);
-// 		i++;
-// 	}
-// 	return (i);
-// }
 
 //"cat"<Makefile|wc
 int	get_tokens(char	*aux, t_utils *utils)
@@ -147,7 +116,6 @@ int	get_tokens(char	*aux, t_utils *utils)
 		if ((!new_token(&token) && utils->token_list != NULL) || j == -1)
 			return (clear_token_list(&utils->token_list));
 		temp = ft_substr(aux, i, (j - i));
-		printf("TEMP: %s\n\n", temp);
 		if (check_symbol(temp) == 1 && check_expand(temp) == 1)
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
