@@ -73,5 +73,8 @@ void	free_lists(t_utils	*utils)
 		utils->process = NULL;
 	}
 	if (utils->pid_array)
+	{
 		free(utils->pid_array);
+		utils->pid_array = NULL;
+	}
 }
