@@ -39,14 +39,8 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 
 	if (!init_redir(&new, type) && redir_list != NULL)
 		return (0);
-	if (type == GREAT || type == MINUS || type == APPEND)
+	if (type == GREAT || type == MINUS || type == APPEND || type == HEREDOC)
 		new->doc = clean_quotes(document);
-	else if (type == HEREDOC)
-	{
-		if (assert_quotes(document))
-			new->heredoc_flag = NOT_EXPAND;
-		new->heredoc_file = clean_quotes(document);
-	}
 	if (!add_redir(redir_list, new))
 		return (0);
 	(*head) = *redir_list;

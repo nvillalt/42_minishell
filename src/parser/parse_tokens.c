@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fsanz-go <fsanz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:26:40 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:14:05 by fsanz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	assign_process(t_parse **node, char *str)
 	{
 		while ((*node)->cmd[i])
 			i++;
-		temp = ft_calloc(sizeof(char *), i + 1);
+		temp = ft_calloc(sizeof(char *), i + 2);
 		if (!temp)
 			return (0);
 		while (++j <= i)
@@ -106,10 +106,12 @@ int	parse_tokens(t_utils *utils)
 	t_token	*move;
 
 	move = utils->token_list;
-	while (move->next != NULL)
+	while (move->str)
 	{
 		create_process(&utils->process, &move);
-		if (move->next)
+		if (move->str && move->next == NULL)
+			break ;
+		if (move->str)
 			move = move->next;
 	}
 	assign_builtins(utils);

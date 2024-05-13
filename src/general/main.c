@@ -191,22 +191,21 @@ int	prompt_loop(t_utils *utils)
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
 				utils->status = 130;
-			/*
-			aux = trim_spaces(input);
-			free(input);
-			utils->status = get_tokens(aux, utils);
-			free(aux);
-			utils->status = parse_tokens(utils);
-			*/
-			dirty_parse(input, utils);
-			if(!executor(utils, utils->process))
-				free_to_prompt_error(utils);
 			else
+			{
+				aux = trim_spaces(input);
+				free(input);
+				utils->status = get_tokens(aux, utils);
+				if (utils->token_list != NULL)
+					utils->status = parse_tokens(utils);
+				free(aux);
+				executor(utils, utils->process);
 				free_to_prompt(utils);
-			if (utils->status == 130)
-				printf("\n");
-			else if (utils->status == 131)
-				printf("Quit\n");
+				if (utils->status == 130)
+					printf("\n");
+				else if (utils->status == 131)
+					printf("Quit\n");
+			}
 		}
 	}
 	return (1);
@@ -219,11 +218,11 @@ int	main(int argc, char **argv, char **envp)
 	t_utils	utils;
 
 	utils = init_utils();
-	if(!*envp)
-		utils.env = create_mini_env();
-	else
-	{
-		utils.env = env_dup(envp); // Aquí se aloja memoria. Liberarla más adelante.
+	 if(!*envp)
+	 	utils.env = create_mini_env();
+	 else
+	 {
+		utils.env = env_dup(envp);
 		utils.path = get_path(utils.env);
 		update_shlvl(&utils);
 	}

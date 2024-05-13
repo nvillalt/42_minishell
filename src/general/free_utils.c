@@ -68,7 +68,10 @@ void	free_lists(t_utils	*utils)
 	if (utils->process->redirec)
 		free_redir_list(utils->process);
 	if (utils->process)
+	{
 		free_parse_list(utils->process);
+		utils->process = NULL;
+	}
 	if (utils->pid_array)
 		free(utils->pid_array);
 }

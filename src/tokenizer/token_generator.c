@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_generator.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 18:55:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:10:49 by nvillalt         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -37,23 +26,26 @@ static int	get_substr(char *aux, int i)
 	flag = 0;
 	while (aux[i])
 	{
+		// Pasar esto a una única función que reciba un str e i
 		if (!ft_strncmp(aux + i, "echo", 4))
 			return (i + 4);
 		if ((aux[i] == 34 && aux[i + 1] == 34)
 			|| (aux[i + 1] == 39 && aux[i + 1] == 39)
 			&& !ft_strncmp(aux + 2, "echo", 4))
 			return (i + 2);
-		if ((aux[i] == '<' && aux[i + 1] == '<')
-			|| (aux[i] == '>' && aux[i + 1] == '>'))
+		if ((aux[i] == '<' && aux[i + 1] == '<' && !flag)
+			|| (aux[i] == '>' && aux[i + 1] == '>' && !flag))
 			return (i + 2);
-		if (aux[i] == '<' || aux[i] == '>')
+		else if (!flag && is_token(aux[i]))
 			return (i + 1);
 		if ((aux[i] == 34 || aux[i] == 39) && flag == 0)
 			flag = aux[i];
 		else if (aux[i] == flag)
 			flag = 0;
-		if (is_whitespace(aux[i]) && flag == 0)
+		if ((is_whitespace(aux[i]) && !flag))
 			break ;
+		if ((!flag && is_token(aux[i + 1])))
+			return (i + 1);
 		i++;
 	}
 	return (i);
@@ -64,7 +56,7 @@ static int	check_symbol(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i]) //TODO: REVISAR CON FRAN
+	while (str[i]) //TODO: REVISAR CON FRAN LOS ERRORES
 	{
 		if (check_redirections(str) == 2 || check_redirections(str) == 8)
 		{
@@ -117,7 +109,7 @@ int	get_tokens(char	*aux, t_utils *utils)
 		if (!new_token(&token) && utils->token_list != NULL)
 			clear_token_list(&utils->token_list);
 		temp = ft_substr(aux, i, (j - i));
-		if (check_symbol(temp) == 1 && check_expand(temp) == 1)
+		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // Meter aquí tmb si se expandirá la variable o no ??????
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
 			return (free_tokens(&utils->token_list, temp, 1));
