@@ -1,14 +1,5 @@
 #include "../../minishell.h"
 
-/*
-	$$ -> Expande el pid getpid()
-	$# -> Expande al número de argumentos de un script o programa. En este caso será 0 porque no le pasamos argumentos a la shell
-	$- -> Expande a himBHs que es las opciones actuales para la shell. Suele aparecer esto por defecto, se puede modificar con comandos como set -o nounset
-	$_ -> Expande a lo último que se imprimió por pantalla
-
-
-*/
-
 static int	check_valid_symbol(char *str) // Implementar en parse, un if else con handle_quotes o esto, dependiendo
 {
 	int	i;
@@ -37,5 +28,5 @@ static int	check_valid_symbol(char *str) // Implementar en parse, un if else con
 int	expansor(char *str, t_utils *utils) // Utils para acceder al env y 
 {
 	if (check_valid_symbol(str))
-		
+		return (1);	
 }

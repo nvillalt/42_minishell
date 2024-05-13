@@ -116,8 +116,7 @@ int	prompt_loop(t_utils *utils)
 				if (utils->token_list != NULL)
 					utils->status = parse_tokens(utils);
 				free(aux);
-			//	printf("Prompt loop\nPrimer nodo: %p\nSegundo nodo: %p\nTercer nodo: %p\n-------\n\n", utils->process, utils->process->next, utils->process->next->next);
-				executor(utils, utils->process);
+			//	executor(utils, utils->process);
 			}
 		}
 	}

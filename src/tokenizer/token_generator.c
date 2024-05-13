@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_generator.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/05/13 18:09:32 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -56,59 +68,28 @@ static int	check_expand(char *temp)
 	}
 	return (1);
 }
+//echo ls -la |echo $VAR.hola "dfdg"fgfg
 
-static int	get_quote_subs(char *aux, int i)
+/*
+- Si encuentro comillas -> No parar hasta encontrar un token o un whitespace
+- Si no encuentro comillas -> No parar hasta encontrar un token o un whitespace
+- Si estoy en un token -> No parar hasta encontrar un !token o whitespace y que el flag de comillas sea 0
+- // Si estoy en un whitespace -> 
+*/
+
+static int	get_substr(char *aux, int i)
 {
-	printf("Entras?\n");
-	printf("----- Cantidad en i: %s\n", i);
 	int	flag;
 
 	flag = 0;
+	printf("..Cantidad en i: %d\n", i);
 	while (aux[i])
 	{
-		if (aux[i] == 39 || aux[i] == 34)
+		if ((aux[i] == 34 || aux[i] == 39) && !flag) //Entro en estado de comillas
 			flag = aux[i];
-		else if (aux[i] == flag)
-			break ;
-		i++;
-	}
-	return (i);
-}
-
-static int	get_redir_substr(char *aux, int i)
-{
-	while (aux[i])
-	{
-		if (check_symbol(aux) == -1)
-			return (-1);
-		else if (is_token(aux[0]) && !is_token(aux[1]))
-			return (1);
-		else if (is_token(aux[0]) && is_token(aux[1]))
-			return (2);
-		i++;
-	}
-	return (i);
-}
-static int	get_substr(char *aux, int i)
-{
-	int	num;
-
-	num = i;
-	printf("..Cantidad en i: %d\n", num);
-	while (aux[i])
-	{
-		if (aux[i] == 39 || aux[i] == 34)
-		{
-			num = get_quote_subs(aux, num);
-			return (i + num);
-		}
-		else if (is_token(aux[i]))
-		{
-			if (get_redir_substr == -1)
-				return (-1);
-			return (i + get_redir_substr(aux, i));
-		}
-		if (is_whitespace(aux[i]))
+		else if ((aux[i] == 34 || aux[i] == 39) && is_whitespace(aux[i + 1]))
+			flag = 0;
+		if (is_whitespace(aux[i]) && !flag)
 			break ;
 		i++;
 	}
