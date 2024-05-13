@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/13 22:11:14 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/13 23:07:04 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,7 @@ static int	get_substr(char *aux, int i)
 				i++;
 			flag = 0;
 		}
-		if (is_whitespace(aux[i]) && !flag)
-			break ;
-		if ((!flag && is_token(aux[i])))
+		if ((!flag && (is_token(aux[i]) || is_whitespace(aux[i]))))
 		{
 			while (is_token(aux[i]))
 				i++;
@@ -117,6 +115,7 @@ int	get_tokens(char	*aux, t_utils *utils)
 		if ((!new_token(&token) && utils->token_list != NULL) || j == -1)
 			return (clear_token_list(&utils->token_list));
 		temp = ft_substr(aux, i, (j - i));
+		printf("Temp: %s\n", temp);
 		if (check_symbol(temp) == 1 && check_expand(temp) == 1)
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
