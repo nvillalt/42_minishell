@@ -18,8 +18,10 @@ static void	execute_last_process(t_utils *utils, t_parse *process)
 		status = handle_builtins(utils, process);
 		exit_process_custom(utils, status);
 	}
-	else
+	else if (process->cmd && process->cmd[0])
 		exec_cmd(utils, process);
+	else
+		exit_process_noerror(utils);
 }
 
 int	create_last_child(t_utils *utils, t_parse *process, int process_index)

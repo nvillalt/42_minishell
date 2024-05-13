@@ -7,8 +7,7 @@ static int	get_cmd_num(t_parse *process)
 	cmd_num = 0;
 	while(process)
 	{
-		if (process->cmd != NULL)
-			cmd_num++;
+		cmd_num++;
 		process = process->next;
 	}
 	return(cmd_num);
