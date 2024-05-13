@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/13 19:09:20 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/13 21:00:00 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,22 @@ static int	get_substr(char *aux, int i)
 				i++;
 			flag = 0;
 		}
-		i++;
-		if ((is_whitespace(aux[i]) && !flag))
+		if (is_whitespace(aux[i]) && !flag)
 			break ;
 		if ((!flag && is_token(aux[i])))
 		{
+			if (!is_token(aux[i - 1]) && !is_whitespace(aux[i - 1]))
+				return (i +1);
+			printf("Hola\n");
 			while (is_token(aux[i]))
 				i++;
 			break ;
 		}
+		i++;
 	}
 	return (i);
 }
 
-//"cat"<Makefile|wc
 int	get_tokens(char	*aux, t_utils *utils)
 {
 	t_token	*token;
@@ -113,9 +115,11 @@ int	get_tokens(char	*aux, t_utils *utils)
 	while (aux[i])
 	{
 		j = get_substr(aux, i);
+		printf("j: %d\n", j);
 		if ((!new_token(&token) && utils->token_list != NULL) || j == -1)
 			return (clear_token_list(&utils->token_list));
 		temp = ft_substr(aux, i, (j - i));
+		printf("TEMP: %s.\n", temp);
 		if (check_symbol(temp) == 1 && check_expand(temp) == 1)
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
@@ -124,12 +128,5 @@ int	get_tokens(char	*aux, t_utils *utils)
 			j++;
 		i = j;
 	}
-	t_token *print = utils->token_list;
-	while(print->next != NULL)
-	{
-		printf("En nodo: %s\n", print->str);
-		print = print->next;
-	}
-	printf("En nodo: %s\n", print->str);
 	return (0);
 }

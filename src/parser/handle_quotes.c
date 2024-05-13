@@ -6,73 +6,40 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 19:08:42 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:05:04 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static int	quotes_len(char *str)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	while(str[i])
+	{
+		if ((str[i] == 34 || str[i] == 39) && !flag)
+		{
+			flag = str[i];
+			if (str[i + 1])
+				i++;
+		}
+		else if (str[i] == flag && flag)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 static char	*erase_quotes(char *str, char c)
 {
-	char	**pieces;
-	char	*ret;
-	char	*aux;
-	int		i;
+	int	len;
 
-	i = 0;
-	aux = NULL;
-	ret = NULL;
-	pieces = ft_split(str, c);
-	ret = ft_strdup(pieces[i]);
-	while (pieces[++i])
-	{
-		aux = ft_strjoin(ret, pieces[i]);
-		free(ret);
-		ret = ft_strdup(aux);
-		free(aux);
-	}
-	free_matrix(pieces);
-	return (ret);
-}
-
-static char	*clean_double_quotes(char *str)
-{
-	int		i;
-	int		len;
-	char	*ret;
-
-	i = 0;
-	len = ft_strlen(str);
-	if (str[0] == 34 && str[1] == 34 && str[2] == '\0')
-		return (ft_strdup(""));
-	else if (str[0] == 34 && str[len - 1] == 34)
-		return (ft_substr(str, i + 1, len - 2));
-	else if (str[0] == 34 && str[1] == 34 && str[2] != 34)
-		return (ft_substr(str, i + 2, len - 1));
-	else if (str[len - 1] == 34 && str[len - 2] == 34)
-		return (ft_substr(str, i, len - 2));
-	ret = erase_quotes(str, 34);
-	return (ret);
-}
-
-static char	*clean_single_quotes(char *str)
-{
-	int		i;
-	int		len;
-	char	*ret;
-
-	i = 0;
-	len = ft_strlen(str);
-	if (str[0] == 39 && str[1] == 39 && str[2] == '\0')
-		return (ft_strdup(""));
-	else if (str[0] == 39 && str[len - 1] == 39)
-		return (ft_substr(str, i + 1, len - 2));
-	else if (str[0] == 39 && str[1] == 39 && str[2] != 39)
-		return (ft_substr(str, i + 2, len - 1));
-	else if (str[len - 1] == 39 && str[len - 2] == 39)
-		return (ft_substr(str, i, len - 2));
-	ret = erase_quotes(str, 39);
-	return (ret);
+	len = quotes_len(str);
+	printf("Longitud entre comillas - %d.\n", len);
 }
 
 char	*clean_quotes(char	*str)
@@ -84,19 +51,12 @@ char	*clean_quotes(char	*str)
 	ret = NULL;
 	while (str[i])
 	{
-		if (str[i] == 34)
-		{
-			ret = clean_double_quotes(str);
-			break ;
-		}
-		else if (str[i] == 39)
-		{
-			ret = clean_single_quotes(str);
-			break ;
-		}
+		if (str[i] == 34 || str[i] == 39)
+			erase_quotes(str, str[i]);
 		i++;
 	}
 	if (ret == NULL)
 		ret = ft_strdup(str);
+	printf("---> Sin comillas: %s.\n", ret);
 	return (ret);
 }
