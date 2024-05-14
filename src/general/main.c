@@ -116,7 +116,7 @@ int	prompt_loop(t_utils *utils)
 				if (utils->token_list != NULL)
 					utils->status = parse_tokens(utils);
 				free(aux);
-				// executor(utils, utils->process);
+				executor(utils, utils->process);
 			}
 		}
 	}
