@@ -88,19 +88,40 @@ static char	**create_mini_env(void)
 	char	*cwd;
 
 	env = ft_calloc(4, sizeof(char *));
+	if (!env)
+	{
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		exit(1);
+	}
 	new_cwd = getcwd(NULL, 0);
 	if (!new_cwd)
+	{
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		free(env);
 		exit (1); // AL LORO CON ESTAS LIBERACIONES 
+	}
 	env[0] = ft_strjoin("PWD=", new_cwd);
 	free(new_cwd);
 	if(!env[0])
+	{
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		free(env);
 		exit(1); // Controlar
+	}
 	env[1] = ft_strdup("SHLVL=1");
 	if(!env[1])
+	{
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		free_matrix(env);
 		exit(1); //Controlar
+	}
 	env[2] = ft_strdup("_=/usr/bin/env");
 	if(!env[2])
+	{
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		free_matrix(env);
 		exit(1); //Controlar
+	}
 	return (env);
 }
 
@@ -190,7 +211,7 @@ int	prompt_loop(t_utils *utils)
 		{
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
-				utils->status = 130;
+				utils->status = 1; //AL LORO CON EL NUMERO
 			else
 			{
 				aux = trim_spaces(input);
@@ -206,6 +227,7 @@ int	prompt_loop(t_utils *utils)
 				else if (utils->status == 131)
 					printf("Quit\n");
 			}
+			printf("%d\n", utils->status);
 		}
 	}
 	return (1);
