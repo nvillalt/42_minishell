@@ -13,6 +13,6 @@ void	exec_cmd(t_utils *utils, t_parse *current_process)
 		ft_putendl_fd(" :command not found", STDERR_FILENO);
 		close_fds(utils->process, utils);
 		free_utils(utils);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }

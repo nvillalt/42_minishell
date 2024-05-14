@@ -39,9 +39,16 @@ char	**get_path(char **env)
 	i = 0;
 	oneline = find_env_path(env);
 	path = ft_split(oneline, ':');
+	if (!path)
+		return (NULL);
 	while (path[i])
 	{
 		aux = ft_strjoin(path[i], "/");
+		if (!aux)
+		{
+			free_matrix(path);
+			return (NULL);
+		}
 		free(path[i]);
 		path[i] = aux;
 		i++;
