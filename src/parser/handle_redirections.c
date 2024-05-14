@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/09 20:26:56 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:25:55 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 
 	if (!init_redir(&new, type) && redir_list != NULL)
 		return (0);
-	if (type == GREAT || type == MINUS || type == APPEND || type == HEREDOC)
+	if (type == GREAT || type == MINUS || type == APPEND)
 		new->doc = clean_quotes(document);
+	else if (type == HEREDOC)
+	{
+		if (assert_quotes(document))
+			new->heredoc_flag = EXPAND;
+		new->doc = clean_quotes(document);
+	}
 	if (!add_redir(redir_list, new))
 		return (0);
 	(*head) = *redir_list;
@@ -49,25 +55,29 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 
 int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 {
-	if (!ft_strcmp((*i)->str, ">") || !ft_strcmp((*i)->str, ">|"))
+	if ((*i)->next  != NULL)
 	{
-		create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
-		*i = (*i)->next;
+		if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, ">|", 2))
+		{
+			create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
+			*i = (*i)->next;
+		}
+		else if (!ft_strncmp((*i)->str, "<", 1))
+		{
+			create_redir(redir_list, (*i)->next->str, MINUS, redir_head);
+			*i = (*i)->next;
+		}
+		else if (!ft_strcmp((*i)->str, ">>"))
+		{
+			create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
+			*i = (*i)->next;
+		}
+		else if (!ft_strcmp((*i)->str, "<<"))
+		{
+			create_redir(redir_list, (*i)->next->str, HEREDOC, redir_head);
+			*i = (*i)->next;
+		}
+		return (1);
 	}
-	else if (!ft_strcmp((*i)->str, "<"))
-	{
-		create_redir(redir_list, (*i)->next->str, MINUS, redir_head);
-		*i = (*i)->next;
-	}
-	else if (!ft_strcmp((*i)->str, ">>"))
-	{
-		create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
-		*i = (*i)->next;
-	}
-	else if (!ft_strcmp((*i)->str, "<<"))
-	{
-		create_redir(redir_list, (*i)->next->str, HEREDOC, redir_head);
-		*i = (*i)->next;
-	}
-	return (1);
+	return (0);
 }

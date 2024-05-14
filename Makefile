@@ -14,7 +14,7 @@ CFLAGS = #-Wall -Wextra -Werror
 
 RLIB = -lreadline
 
-INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h inc/structs.h inc/tokenizer.h
+INCLUDES = minishell.h inc/builtins.h inc/executor.h inc/parser.h inc/signals.h inc/structs.h inc/tokenizer.h inc/expansor.h
 
 RM = rm -f
 
@@ -55,7 +55,9 @@ PARSER = src/parser/get_path.c \
 			src/parser/handle_redirections.c \
 			src/parser/parser_nodes.c
 
-SIGNAL = src/signals/signal_reception.c	
+SIGNAL = src/signals/signal_reception.c
+
+EXPAND = src/expansor/expansor.c
 
 GENERAL = src/general/main.c \
 			src/general/error_management.c \
@@ -72,7 +74,7 @@ VALGRIND_OPT		+= --leak-check=full
 VALGRIND_OPT		+= --show-leak-kinds=all
 EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
-OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o}
+OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o} ${EXPAND:.c=.o}
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)

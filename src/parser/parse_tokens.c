@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsanz-go <fsanz-go@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/11 19:14:05 by fsanz-go         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:02:18 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 	if (!add_process(process_list, node))
 		return (0);
 	*move = i;
+	//printf("Dentro de create_tokens:\nPrimer nodo: %p\nSegundo nodo: %p\n-------\n\n", *process_list, (*process_list)->next);
 	return (1);
 }
 
@@ -114,6 +115,7 @@ int	parse_tokens(t_utils *utils)
 		if (move->str)
 			move = move->next;
 	}
+	//printf("Dentro de parse_tokens:\nPrimer nodo: %p\nSegundo nodo: %p\n-----\n\n", utils->process, utils->process->next);
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
 	return (0);
