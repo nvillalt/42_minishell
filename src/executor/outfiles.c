@@ -12,14 +12,20 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 		{
 			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 			if (process->redirec->fd == -1)
+			{
+				ft_puterror(process->redirec->doc);
 				exit_process(utils);
+			}
 			last_outfile_fd = process->redirec->fd;
 		}
 		if (process->redirec->redir_type == APPEND)
 		{
 			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
 			if (process->redirec->fd == -1)
+			{
+				ft_puterror(process->redirec->doc);
 				exit_process(utils);
+			}
 			last_outfile_fd = process->redirec->fd;
 		}
 		process->redirec = process->redirec->next;
@@ -35,7 +41,10 @@ int	redirec_outfile(t_utils *utils, t_parse *process)
 	if (last_outfile_fd == -1)
 		return (FUNC_FAILURE);
 	if (dup2(last_outfile_fd, STDOUT_FILENO) == -1)
+	{
+		perror("minishell");
 		exit_process(utils);
+	}
 	close_fds(utils->process, utils); 
 	return (FUNC_SUCCESS);
 }

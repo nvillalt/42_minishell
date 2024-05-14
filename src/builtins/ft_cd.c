@@ -23,6 +23,7 @@ static char	**change_to_directory(char **env, char *cmd)
 	if (ft_strlen(cmd) > PATH_MAX) // AL LORO
 	{
 		perror(NULL);
+		printf("entra\n");
 		free(env);
 		return (NULL);
 	}

@@ -22,7 +22,7 @@ char	**env_dup(char **env)
 		if (!dup[i])
 		{
 			free_matrix(dup);
-			return (dup);
+			return (dup); //RETURN DUP??
 		}
 		i++;
 	}

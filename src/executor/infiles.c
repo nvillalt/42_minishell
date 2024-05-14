@@ -4,7 +4,7 @@ static int	open_infiles(t_utils *utils, t_parse *process)
 {
 	int	last_infile_fd;
 
-	last_infile_fd = -1;
+	last_infile_fd = -1; //POR QUÉ???
 	process->redirec = process->redirec_head;
 	while (process->redirec)
 	{
@@ -12,14 +12,20 @@ static int	open_infiles(t_utils *utils, t_parse *process)
 		{
 			process->redirec->fd = open(process->redirec->doc, O_RDONLY);
 			if (process->redirec->fd == -1)
+			{
+				ft_puterror(process->redirec->doc);
 				exit_process(utils);
+			}
 			last_infile_fd = process->redirec->fd;
 		}
 		if (process->redirec->redir_type == HEREDOC)
 		{
 			process->redirec->fd = open(process->redirec->heredoc_file, O_RDONLY);
 			if (process->redirec->fd == -1)
+			{
+				ft_puterror(process->redirec->doc);
 				exit_process(utils);
+			}
 			last_infile_fd = process->redirec->fd;
 		}
 		process->redirec = process->redirec->next;
@@ -35,7 +41,10 @@ int	redirec_infile(t_utils *utils, t_parse *process)
 	if (last_infile_fd == -1)
 		return (FUNC_FAILURE);
 	if (dup2(last_infile_fd, STDIN_FILENO) == -1)
+	{
+		perror("minishell");
 		exit_process(utils);
+	}
 	close_fds(utils->process, utils); 
 	return(FUNC_SUCCESS);
 }

@@ -26,7 +26,11 @@ static int	wait_all_process(t_utils *utils)
 	{
 		pid = wait(&status);
 		if (pid == -1)
+		{
+			perror("minishell");
+			utils->status = 1; //AL LORO CON ESTO
 			return (FUNC_FAILURE);
+		}
 		if (pid == utils->pid_array[cmd_num - 1])
 		{
 			if (WIFEXITED(status))

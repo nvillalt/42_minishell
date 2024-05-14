@@ -20,7 +20,7 @@ static void	execute_mid_process(t_utils *utils, t_parse *process)
 	close_pipe_fd(&utils->aux_pipe[1]);
 	if (process->built_in)
 	{
-		status = handle_builtins(utils, process);
+		status = handle_builtins(utils, process); // AL LORO MENSAJES DE ERROR
 		exit_process_custom(utils, status);
 	}
 	else if (process->cmd && process->cmd[0])
@@ -32,11 +32,19 @@ static void	execute_mid_process(t_utils *utils, t_parse *process)
 int	create_mid_child(t_utils *utils, t_parse *process, int process_index)
 {
 	if (pipe(utils->aux_pipe) == -1)
+	{
+		perror("minishell");
+		utils->status = 1;
 		return (FUNC_FAILURE);
+	}
 	close_pipe_fd(&utils->main_pipe[1]);
 	utils->pid_array[process_index] = fork();
 	if (utils->pid_array[process_index] == -1)
+	{
+		perror("minishell");
+		utils->status = 1;
 		return (FUNC_FAILURE);
+	}
 	if (utils->pid_array[process_index] == 0)
 		execute_mid_process(utils, process);
 	close_pipe_fd(&utils->main_pipe[0]);

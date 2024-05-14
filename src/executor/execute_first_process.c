@@ -22,15 +22,23 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 	if (process->next)
 	{
 		if (pipe(utils->main_pipe) == -1)
+		{
+			perror("minishell");
+			utils->status = 1;
 			return(FUNC_FAILURE);
+		}
 	}
 	if (process->built_in)
-		exec_builtins(utils, process, process_index);
+		exec_builtins(utils, process, process_index); //AL LORO AQUÍ
 	else
 	{
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
+		{
+			perror("minishell");
+			utils->status = 1;
 			return(FUNC_FAILURE);
+		}
 		if (utils->pid_array[process_index] == 0)
 			execute_first_process(utils, process);
 	}

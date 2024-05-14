@@ -7,7 +7,7 @@ static char	*get_command(t_utils *utils, t_parse *process)
 	command = ft_strjoin("/", process->cmd[0]);
 	if (!command)
 	{
-		free(command);
+		perror("minishell");
 		exit_process(utils);
 	}
 	return (command);
@@ -27,6 +27,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 		if (!search)
 		{
 			free(command);
+			perror("minishell");
 			exit_process(utils);
 		}
 		if (access(search, X_OK) == 0)
@@ -37,7 +38,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 			free(search);
 		}
 	}
-	if (!found)
+	if (!found) //CUIDADO CON ESTO
 	{
 		free(command);
 		return (NULL);

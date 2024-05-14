@@ -60,7 +60,8 @@ SIGNAL = src/signals/signal_reception.c
 GENERAL = src/general/main.c \
 			src/general/error_management.c \
 			src/general/free_utils.c \
-			src/general/general_utils.c
+			src/general/general_utils.c \
+			src/general/ft_puterror.c
 
 VALGRIND			= valgrind
 VALGRIND_OPT		+= --suppressions=readline.supp

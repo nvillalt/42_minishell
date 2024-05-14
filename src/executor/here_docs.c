@@ -63,11 +63,17 @@ static int	get_file_name(t_redir *redirec, int temp_num)
 
 	str_num = ft_itoa(temp_num);
 	if (!str_num)
+	{
+		perror("minishell");
 		return(FUNC_FAILURE);
+	}
 	redirec->heredoc_file = ft_strjoin("/tmp/.temp", str_num);
 	free(str_num);
 	if (!redirec->heredoc_file)
+	{
+		perror("minishell");
 		return (FUNC_FAILURE);
+	}
 	return(FUNC_SUCCESS);
 }
 
@@ -79,11 +85,12 @@ static int	open_here_doc(t_redir *redirec, int *temp_num)
 	{
 		++*temp_num;
 		free(redirec->heredoc_file);
-		get_file_name(redirec, *temp_num);
+		if (!get_file_name(redirec, *temp_num))
+			return (FUNC_FAILURE);
 	}
 	redirec->fd = open(redirec->heredoc_file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (redirec->fd == -1)
-		return (FUNC_FAILURE);
+		return (ft_puterror(redirec->doc));
 	return (FUNC_SUCCESS);
 }
 
@@ -103,21 +110,25 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 		if (buffer)
 			free(buffer);
 		buffer = readline("> ");
-		if (!buffer)
+		if (!buffer) //AL LORO CON ESTO, EL ORDEN DE EJECUCIÓN Y LIBERACIONES
 		{
 			close_fds(process, utils);
-			printf("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n");
+			ft_putendl_fd("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n", 2);
+			utils->status = 0;
 			return(1);
 		}
 		if (g_sigint != 0)
 		{
 			free(buffer);
+			utils->status = 130;
 			return (0);
 		}
 		temp = ft_strjoin_hd(buffer, "\n");
 		if (!temp)
 		{
 			free(buffer);
+			utils->status = 1;
+			perror("minishell");
 			return (0); //PERROR Y DEMAS AL CAMBIAR LA FUNCION
 		}
 		free(buffer);
@@ -138,7 +149,7 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 		utils->status = 1;
 		return(FUNC_FAILURE);
 	}
-	if (write_here_doc(process, utils) == 0)
+	if (!write_here_doc(process, utils))
 		return (FUNC_FAILURE);
 	utils->status = 0;
 	return (FUNC_SUCCESS);

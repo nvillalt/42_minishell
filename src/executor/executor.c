@@ -24,7 +24,11 @@ static int	create_pid_array(t_utils *utils)
 	utils->process_list_len = process_counter(utils->process);
 	utils->pid_array = ft_calloc(utils->process_list_len, sizeof(pid_t));
 	if (!utils->pid_array)
+	{
+		utils->status = 1;
+		perror("minishell");
 		return(FUNC_FAILURE);
+	}
 	return(FUNC_SUCCESS);
 }
 
