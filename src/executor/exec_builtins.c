@@ -31,8 +31,8 @@ unsigned char	handle_builtins(t_utils *utils, t_parse *process)
 int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 {
 	unsigned char	status;
-	//int				saved_stdin;
-	//int				saved_stdout;
+	int				saved_stdin;
+	int				saved_stdout;
 
 	if (process->next || process_index != 0)
 	{
@@ -47,8 +47,8 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 	}
 	else
 	{
-	//	saved_stdin = dup(STDIN_FILENO);
-	//	saved_stdout = dup(STDOUT_FILENO);
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
 		utils->builtin_counter = 1;
 		redirec_infile(utils, process);
 		if (!redirec_outfile(utils, process) && process->next)
@@ -59,7 +59,7 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 		close_pipe_fd(&utils->main_pipe[1]);
 		status = handle_builtins(utils, process);
 		utils->status = status;
-//		restore_fds(saved_stdin, saved_stdout);
+		restore_fds(saved_stdin, saved_stdout);
 	}
 	return (FUNC_SUCCESS);
 }
