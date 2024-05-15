@@ -57,9 +57,14 @@ int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 {
 	if ((*i)->next  != NULL)
 	{
-		if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, ">|", 2))
+		if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, "|>", 2))
 		{
 			create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
+			*i = (*i)->next;
+		}
+		else if (!ft_strcmp((*i)->str, "<<"))
+		{
+			create_redir(redir_list, (*i)->next->str, HEREDOC, redir_head);
 			*i = (*i)->next;
 		}
 		else if (!ft_strncmp((*i)->str, "<", 1))
@@ -70,11 +75,6 @@ int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 		else if (!ft_strcmp((*i)->str, ">>"))
 		{
 			create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
-			*i = (*i)->next;
-		}
-		else if (!ft_strcmp((*i)->str, "<<"))
-		{
-			create_redir(redir_list, (*i)->next->str, HEREDOC, redir_head);
 			*i = (*i)->next;
 		}
 		return (1);

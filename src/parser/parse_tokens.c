@@ -83,7 +83,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 	while (i)
 	{
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<")
-			|| !ft_strcmp(i->str, ">|")
+			|| !ft_strcmp(i->str, "|>")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
 			handle_redirection(&i, &node->redirec, &node->redirec_head);
 		else if (!ft_strcmp(i->str, "|"))
@@ -97,7 +97,6 @@ static int	create_process(t_parse **process_list, t_token **move)
 	if (!add_process(process_list, node))
 		return (0);
 	*move = i;
-	//printf("Dentro de create_tokens:\nPrimer nodo: %p\nSegundo nodo: %p\n-------\n\n", *process_list, (*process_list)->next);
 	return (1);
 }
 
@@ -115,7 +114,6 @@ int	parse_tokens(t_utils *utils)
 		if (move->str)
 			move = move->next;
 	}
-	//printf("Dentro de parse_tokens:\nPrimer nodo: %p\nSegundo nodo: %p\n-----\n\n", utils->process, utils->process->next);
 	assign_builtins(utils);
 	clear_token_list(&utils->token_list);
 	return (0);

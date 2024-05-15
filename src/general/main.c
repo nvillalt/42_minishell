@@ -223,14 +223,16 @@ int	prompt_loop(t_utils *utils)
 				free(input);
 				utils->status = get_tokens(aux, utils);
 				if (utils->token_list != NULL)
+				{
 					utils->status = parse_tokens(utils);
-				free(aux);
-				executor(utils, utils->process);
-				free_to_prompt(utils);
-				if (utils->status == 130)
-					printf("\n");
-				else if (utils->status == 131)
-					printf("Quit\n");
+					free(aux);
+					executor(utils, utils->process);
+					free_to_prompt(utils);
+					if (utils->status == 130)
+						printf("\n");
+					else if (utils->status == 131)
+						printf("Quit\n");
+				}
 			}
 			printf("%d\n", utils->status);
 		}
