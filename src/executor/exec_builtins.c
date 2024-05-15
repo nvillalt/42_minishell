@@ -2,8 +2,10 @@
 
 static int	restore_fds(int saved_stdin, int saved_stdout)
 {
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
+	if (dup2(saved_stdin, STDIN_FILENO) == -1)
+		return (FUNC_FAILURE);
+	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);
 }
 
@@ -31,6 +33,7 @@ unsigned char	handle_builtins(t_utils *utils, t_parse *process)
 int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 {
 	unsigned char	status;
+	int				redir_out;
 	int				saved_stdin;
 	int				saved_stdout;
 
@@ -41,25 +44,40 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 			return(FUNC_FAILURE);
 		if (utils->pid_array[process_index] == 0)
 		{
+			set_child_signals();
+			close_pipe_fd(&utils->main_pipe[0]);
+			redirec_infile(utils, process);
+			redir_out = redirec_outfile(utils, process);
+			ft_putendl_fd(ft_itoa(redir_out), 2);
+			if (redir_out == 0 && process->next)
+			{
+				if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
+					exit_process(utils);
+			}
+			close_pipe_fd(&utils->main_pipe[1]);
 			status = handle_builtins(utils, process);
 			exit_process_custom(utils, status);
 		}
 	}
 	else
 	{
+		utils->parent_builtin = 1;
 		saved_stdin = dup(STDIN_FILENO);
+		if (saved_stdin == -1)
+			return (FUNC_FAILURE);
 		saved_stdout = dup(STDOUT_FILENO);
+		if (saved_stdout == -1)
+			return (FUNC_FAILURE);
 		utils->builtin_counter = 1;
-		redirec_infile(utils, process);
-		if (!redirec_outfile(utils, process) && process->next)
-		{
-			if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
-				exit_process(utils);
-		}
-		close_pipe_fd(&utils->main_pipe[1]);
+		if (redirec_infile(utils, process) == -2)
+			return (FUNC_FAILURE);
+		if (redirec_outfile(utils, process) == -2)
+			return (FUNC_FAILURE);
 		status = handle_builtins(utils, process);
 		utils->status = status;
-		restore_fds(saved_stdin, saved_stdout);
+		if (!restore_fds(saved_stdin, saved_stdout))
+			return (FUNC_FAILURE);
+		utils->parent_builtin = 0;
 	}
 	return (FUNC_SUCCESS);
 }

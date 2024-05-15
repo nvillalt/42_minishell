@@ -201,6 +201,7 @@ int	prompt_loop(t_utils *utils)
 	{
 		g_sigint = 0;
 		utils->status = 0;
+		utils->parent_builtin = 0;
 		set_signals();
 		input = readline("minishell:");
 		if (!input)
@@ -234,7 +235,7 @@ int	prompt_loop(t_utils *utils)
 						printf("Quit\n");
 				}
 			}
-			printf("%d\n", utils->status);
+			//printf("%d\n", utils->status);
 		}
 	}
 	return (1);
