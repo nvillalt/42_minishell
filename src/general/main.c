@@ -200,7 +200,7 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		g_sigint = 0;
-		utils->status = 0;
+		//utils->status = 0; // Comentado porque si no, resetea el valor a 0 y haciendo $? no saca el status de la ejecución anterior
 		set_signals();
 		input = readline("minishell:");
 		if (!input)
@@ -221,18 +221,11 @@ int	prompt_loop(t_utils *utils)
 			{
 				aux = trim_spaces(input);
 				free(input);
-				utils->status = get_tokens(aux, utils);
+				get_tokens(aux, utils);
 				if (utils->token_list != NULL)
 				{
 					expansor(utils);
-					t_token *print = utils->token_list;
-					while (print->next != NULL)
-					{
-						printf("Tokens en lista: %s\nExpande? %d\n", print->str, print->expand);
-						print = print->next;
-					}
-					utils->status = parse_tokens(utils);
-					printf("Tokens en lista: %s\nExpande? %d\n", print->str, print->expand);
+					parse_tokens(utils);
 					free(aux);
 					executor(utils, utils->process);
 					free_to_prompt(utils);
