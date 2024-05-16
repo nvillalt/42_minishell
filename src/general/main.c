@@ -189,6 +189,8 @@ t_utils	init_utils(void)
 	utils.pid_array = NULL;
 	utils.process = NULL;
 	utils.token_list = NULL;
+	utils.saved_stdin = -1;
+	utils.saved_stdout = -1;
 	return (utils);
 }
 
@@ -235,7 +237,7 @@ int	prompt_loop(t_utils *utils)
 						printf("Quit\n");
 				}
 			}
-			//printf("%d\n", utils->status);
+			printf("%d\n", utils->status);
 		}
 	}
 	return (1);
