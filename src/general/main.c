@@ -224,7 +224,15 @@ int	prompt_loop(t_utils *utils)
 				utils->status = get_tokens(aux, utils);
 				if (utils->token_list != NULL)
 				{
+					expansor(utils);
+					t_token *print = utils->token_list;
+					while (print->next != NULL)
+					{
+						printf("Tokens en lista: %s\nExpande? %d\n", print->str, print->expand);
+						print = print->next;
+					}
 					utils->status = parse_tokens(utils);
+					printf("Tokens en lista: %s\nExpande? %d\n", print->str, print->expand);
 					free(aux);
 					executor(utils, utils->process);
 					free_to_prompt(utils);

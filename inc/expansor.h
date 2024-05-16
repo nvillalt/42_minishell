@@ -3,6 +3,6 @@
 
 # include "structs.h"
 
-int	expansor(char *str, t_utils *utils);
+int	expansor(t_utils *utils);
 
 # endif

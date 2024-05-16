@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/12 21:26:25 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:25:42 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	new_token(t_token **new)
 		return (0);
 	(*new)->str = NULL;
 	(*new)->next = NULL;
+	(*new)->expand = NOT_EXPAND;
 	return (1);
 }
 
