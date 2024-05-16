@@ -48,14 +48,14 @@ static int	swap_lines(char **str1, char **str2)
 	temp1 = ft_strdup(*str1);
 	if (!temp1)
 	{
-		perror(NULL);
+		perror("minishell");
 		return (0);
 	}
 	temp2 = ft_strdup(*str2);
 	if (!temp2)
 	{
 		free(temp1);
-		perror(NULL);
+		perror("minishell");
 		return (0);
 	}
 	free(*str1);

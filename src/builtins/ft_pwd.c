@@ -7,7 +7,7 @@ int ft_pwd(void)
 	str = getcwd(NULL, 0);
 	if (!str)
 	{
-		perror(NULL);
+		perror("minishell");
 		return (1);
 	}
 	printf("%s\n", str);

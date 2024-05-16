@@ -14,7 +14,7 @@ static char **allocate_newenv(char **dup, char **env, int index_jump, int env_le
 		dup[j] = ft_strdup(env[i]);
 		if (!dup[j])
 		{
-			perror(NULL);
+			perror("minishell");
 			free_matrix(env);
 			free_matrix(dup);
 			return (NULL);
@@ -40,7 +40,7 @@ char	**unset_var_env(char **env, int index_jump)
 	if (!dup)
 	{
 		free_matrix(env);
-		perror(NULL);
+		perror("minishell");
 		return (NULL);
 	}
 	i = 0;

@@ -1,5 +1,13 @@
 #include "../../minishell.h"
 
+static void	print_buexit_error(char *cmd, t_utils *utils)
+{
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+	exit_process_custom(utils, 2);
+}
+
 static int	check_number_cmd(char *cmd)
 {
 	int	i;
@@ -21,17 +29,11 @@ void	exit_with_number(t_utils *utils, char *cmd)
 {
 	int status;
 
-	if (!check_number_cmd(cmd))
-	{
-		printf("exit\n");
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putendl_fd(": numeric argument required", 2);
-		exit_process_custom(utils, 2);
-	}
-	status = ft_atoi(cmd);
 	if (utils->process->next == NULL)
 		printf("exit\n");
+	if (!check_number_cmd(cmd))
+		print_buexit_error(cmd, utils);
+	status = ft_atoi(cmd);
 	exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 }
 
@@ -45,15 +47,18 @@ void	ft_exit(char **cmd, t_utils *utils)
 	if (num == 1)
 	{
 		if (utils->process->next == NULL)
-			printf("exit\n");
+			printf("exit\n"); //Salida de errores o salida normal?
 		exit_process_custom(utils, status); //Tocará liberar todo lo que tenga hasta el momento, al loro
 	}
 	else if (num == 2)
 		exit_with_number(utils, cmd[1]);
 	else
 	{
-		printf("exit\n"); //Tocará liberar todo lo que tenga hasta el momento, al loro
-		ft_putendl_fd("minishell: exit: No such file or directory", 2);
+		if (utils->process->next == NULL)
+			printf("exit\n"); //Tocará liberar todo lo que tenga hasta el momento, al loro
+		if (!check_number_cmd(cmd[1]))
+			print_buexit_error(cmd[1], utils);
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		exit_process_custom(utils, 127);
 	}
 }

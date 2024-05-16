@@ -6,7 +6,7 @@ static char	*search_for_home(char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] && ft_strncmp(env[i], "HOME", 4) != 0)
+	while(env[i] && ft_strncmp(env[i], "HOME=", 5) != 0)
 		i++;
 	if (!env[i])
 	{
@@ -14,24 +14,29 @@ static char	*search_for_home(char **env)
 		free_matrix(env);
 		return(NULL);
 	}
+	if (!env[i][5])
+		return (NULL);
 	home = env[i] + 5;
 	return (home);
 }
 
 static char	**change_to_directory(char **env, char *cmd)
 {
+	/*
 	if (ft_strlen(cmd) > PATH_MAX) // AL LORO
 	{
 		perror(NULL);
 		free(env);
 		return (NULL);
 	}
+	*/
 	env = change_old_pwd(env);
 	if (!env)
 		return (NULL);
 	if (chdir(cmd) == -1)
 	{
-		perror(NULL);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		perror(cmd);
 		free_matrix(env);
 		return (NULL);
 	}
@@ -53,8 +58,9 @@ static char	**change_to_home(char **env)
 		return (NULL);
 	if (chdir(home) == -1)
 	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		perror(home);
 		free_matrix(env);
-		perror(NULL);
 		return (NULL);
 	}
 	env = change_pwd(env);;
@@ -72,7 +78,7 @@ int	ft_cd(t_utils *utils, char **cmd)
 	env = env_dup(utils->env);
 	if (!env)
 	{
-		perror(NULL);
+		perror("minishell");
 		return (1);
 	}
 	while(cmd[i])

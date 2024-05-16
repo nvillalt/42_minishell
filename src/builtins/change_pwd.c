@@ -14,7 +14,7 @@ char	**change_old_pwd(char **env)
 	temp = getcwd(NULL, 0);
 	if (!temp)
 	{
-		perror(NULL);
+		perror("minishell");
 		free_matrix(env);
 		return (NULL);
 	}
@@ -22,7 +22,7 @@ char	**change_old_pwd(char **env)
 	if (!temp2)
 	{
 		free(temp);
-		perror(NULL);
+		perror("minishell");
 		free_matrix(env);
 		return (NULL);
 	}
@@ -46,7 +46,7 @@ char	**change_pwd(char **env)
 	temp = getcwd(NULL, 0);
 	if (!temp)
 	{
-		perror(NULL);
+		perror("minishell");
 		free_matrix(env);
 		return (NULL);
 	}
@@ -54,7 +54,7 @@ char	**change_pwd(char **env)
 	if (!temp2)
 	{
 		free(temp);
-		perror(NULL);
+		perror("minishell");
 		free_matrix(env);
 		return (NULL);
 	}

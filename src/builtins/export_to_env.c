@@ -10,7 +10,7 @@ static char	**create_new_env(char **env, char *cmd)
 	if (!new_env)
 	{
 		free_matrix(env);
-		perror(NULL);
+		perror("minishell");
 		return (NULL);
 	}
 	while(env[i])
@@ -20,7 +20,7 @@ static char	**create_new_env(char **env, char *cmd)
 		{
 			free_matrix(env);
 			free_matrix(new_env);
-			perror(NULL);
+			perror("minishell");
 			return(NULL);
 		}
 		i++;
@@ -30,7 +30,7 @@ static char	**create_new_env(char **env, char *cmd)
 	{
 		free_matrix(env);
 		free_matrix(new_env);
-		perror(NULL);
+		perror("minishell");
 		return (NULL);
 	}
 	free_matrix(env);
@@ -86,7 +86,7 @@ char	**change_var(char **env, char *cmd)
 	if (!temp)
 	{
 		free_matrix(env);
-		perror (NULL);
+		perror ("minishell");
 		return (NULL);
 	}
 	free(env[i]);

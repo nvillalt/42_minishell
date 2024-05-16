@@ -23,7 +23,7 @@ static int	search_for_set_var(char **env, char *current_var, int *index_jump)
 	join_var = ft_strjoin(current_var, "=");
 	if (!join_var)
 	{
-		perror(NULL);
+		perror("minishell");
 		free_matrix(env);
 		return (FUNC_FAILURE);
 	}
@@ -70,7 +70,7 @@ int	ft_unset(t_utils *utils, char **cmd)
 	old_env = env_dup(utils->env);
 	if (!old_env)
 	{
-		perror(NULL);
+		perror("minishell");
 		return (1);
 	}
     index_var = 1;
