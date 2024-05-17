@@ -13,11 +13,7 @@ char	**change_old_pwd(char **env)
 		return (env);
 	temp = getcwd(NULL, 0);
 	if (!temp)
-	{
-		perror("minishell");
-		free_matrix(env);
-		return (NULL);
-	}
+		return (env);
 	temp2 = ft_strjoin("OLDPWD=", temp);
 	if (!temp2)
 	{
@@ -45,11 +41,7 @@ char	**change_pwd(char **env)
 		return (env);
 	temp = getcwd(NULL, 0);
 	if (!temp)
-	{
-		perror("minishell");
-		free_matrix(env);
-		return (NULL);
-	}
+		return (env);
 	temp2 = ft_strjoin("PWD=", temp);
 	if (!temp2)
 	{

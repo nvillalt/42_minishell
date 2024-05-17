@@ -80,7 +80,7 @@ char	**change_var(char **env, char *cmd)
 	if (!cmd[var_len])
 		return (env);
 	i = 0;
-	while(ft_strncmp(env[i], cmd, var_len) != 0)
+	while(ft_strncmp(env[i], cmd, var_len - 1) != 0)
 		i++;
 	temp = ft_strdup(cmd);
 	if (!temp)
