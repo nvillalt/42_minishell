@@ -22,6 +22,17 @@ static char **allocate_newenv(char **dup, char **env, int index_jump, int env_le
 		j++;
 		i++;
 	}
+	if (i != index_jump)
+	{
+		dup[j] = ft_strdup(env[i]);
+		if (!dup[j])
+		{
+			perror("minishell");
+			free_matrix(env);
+			free_matrix(dup);
+			return (NULL);
+		}
+	}
 	return (dup);
 }
 
