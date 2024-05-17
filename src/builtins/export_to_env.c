@@ -44,13 +44,15 @@ int	cmd_on_env(char **env, char *cmd)
 	int	cmd_len;
 
 	i = 0;
-	cmd_len = ft_strlen(cmd);
+	cmd_len = 0;
+	while(cmd[cmd_len] && cmd[cmd_len] != '=')
+		cmd_len++;
 	while(env[i])
 	{
 		j = 0;
 		while(env[i][j] && env[i][j] != '=')
 			j++;
-		if (ft_strncmp(env[i], cmd, j) == 0)
+		if ((ft_strncmp(env[i], cmd, cmd_len) == 0) && j == cmd_len)
 			return (1);
 		i++;
 	}
@@ -61,7 +63,7 @@ char	**add_to_env(char **env, char *cmd)
 {
 	if(!is_string_alpha(cmd))
 	{
-		ft_putendl_fd("error: Not alpha characters detected", 2);
+		ft_putendl_fd("error: Not alpha characters detected", 2); //Cambiar
 		return (env);
 	}
 	env = create_new_env(env, cmd);
@@ -80,7 +82,7 @@ char	**change_var(char **env, char *cmd)
 	if (!cmd[var_len])
 		return (env);
 	i = 0;
-	while(ft_strncmp(env[i], cmd, var_len - 1) != 0)
+	while(ft_strncmp(env[i], cmd, var_len) != 0)
 		i++;
 	temp = ft_strdup(cmd);
 	if (!temp)
