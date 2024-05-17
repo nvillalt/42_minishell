@@ -65,7 +65,7 @@ static char	*expansion(char *str, int i, char **env, int st)
 	if (str[i] == '$' && str[i + 1] == '?')
 	{
 		free(var);
-		var = ft_strdup(ft_itoa(st));
+		tmp = ft_strdup(ft_itoa(st));
 	}
 	i += ft_strlen(var);
 	while (env[j])
@@ -85,12 +85,10 @@ static char	*expansion(char *str, int i, char **env, int st)
 		return (var);
 	else
 	{
-		printf("VAR: %s\nchar: %c\n", var, str[i + 1]);
-		printf("Entras???\n");
 		tmp = ft_strjoin(var, ft_substr(str, i + 1, len));
-		var = ft_strjoin_gnl(var, tmp);
+		free(var);
 	}
-	return (var);
+	return (tmp);
 }
 
 static char	*var_expanded(char *str, char **env, int status)
@@ -192,6 +190,7 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 
 int	expansor(t_utils *utils)
 {
+	// REVISAR CASOS COMO echo $'USER'
 	t_token	*tmp;
 	int		i;
 

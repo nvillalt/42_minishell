@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/14 19:07:00 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/17 21:02:38 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char *erase_quotes(char *str, int num)
 	i = 0;
 	flag = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == 34 && str[i + 1] == 34
 			|| str[i] == 39 && str[i + 1] == 39)
@@ -34,7 +34,7 @@ static char *erase_quotes(char *str, int num)
 		{
 			flag = str[i];
 			i++;
-			while (str[i] != flag)
+			while (str[i] != flag && str[i])
 			{
 				final[j] = str[i];
 				i++;
