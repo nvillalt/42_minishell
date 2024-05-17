@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/16 22:46:41 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:37:50 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,24 @@ char	*trim_spaces(char *input)
 	str = ft_substr(input, i, len - i);
 	return (str);
 }
-static int	check_symbol(char *str)
+static int	check_symbol(char *str, t_utils *utils)
 {
 	int	i;
 
 	i = 0;
-	while (str[i]) //TODO: REVISAR CON FRAN LOS ERRORES
+	while (str[i])
 	{
 		if (check_redirections(str) == 2 || check_redirections(str) == 8)
 		{
+			utils->status = 2;
 			ft_putendl_fd("syntax error near unexpected token `>'", 2);
 			return (-1);
 		}
-		else if (check_redirections(str) == 9 || check_redirections(str) == 4)
+		else if (check_redirections(str) == 9 || check_redirections(str) == 4
+			|| check_redirections(str) == 6)
 		{
+			utils->status = 2;
 			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
-			return (-1);
-		}
-		else if (check_redirections(str) == 6)
-		{
-			ft_putendl_fd("syntax error near unexpected token `|'", 2);
 			return (-1);
 		}
 		i++;
@@ -56,12 +54,13 @@ static int	check_symbol(char *str)
 	return (1);
 }
 
-static int	check_expand(char *temp)
+static int	check_expand(char *temp, t_utils *utils)
 {
 	if (((temp[0] == '$' && temp[1] == ' '))
 		|| (temp[0] == '$' && temp[1] == '\0')
 		|| (temp[0] == '$' && temp[1] == '='))
 	{
+		utils->status = 2;
 		ft_putendl_fd("command not found: $", 2);
 		return (-1);
 	}
@@ -114,7 +113,7 @@ int	get_tokens(char	*aux, t_utils *utils)
 		if ((!new_token(&token) && utils->token_list != NULL) || j == -1)
 			return (clear_token_list(&utils->token_list));
 		temp = ft_substr(aux, i, (j - i));
-		if (check_symbol(temp) == 1 && check_expand(temp) == 1) // OJO PARA EXPANDIR ESTAS PARTES
+		if (check_symbol(temp, utils) == 1 && check_expand(temp, utils) == 1) // OJO PARA EXPANDIR ESTAS PARTES
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || token->str == NULL)
 			return (free_tokens(&utils->token_list, temp, 1));

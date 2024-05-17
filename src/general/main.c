@@ -222,17 +222,20 @@ int	prompt_loop(t_utils *utils)
 				aux = trim_spaces(input);
 				free(input);
 				get_tokens(aux, utils);
+				free(aux);
 				if (utils->token_list != NULL)
 				{
 					expansor(utils);
-					parse_tokens(utils);
-					free(aux);
-					executor(utils, utils->process);
-					free_to_prompt(utils);
-					if (utils->status == 130)
-						printf("\n");
-					else if (utils->status == 131)
-						printf("Quit\n");
+					if (utils->token_list != NULL)
+					{
+						parse_tokens(utils);
+						executor(utils, utils->process);
+						free_to_prompt(utils);
+						if (utils->status == 130)
+							printf("\n");
+						else if (utils->status == 131)
+							printf("Quit\n");
+					}
 				}
 			}
 			printf("%d\n", utils->status);
