@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:39:08 by fmoran-m          #+#    #+#             */
-/*   Updated: 2023/10/31 20:03:02 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/05/17 18:42:53 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 		i++;
 		k++;
 	}
+	free(s1);
+	free(s2);
 	return (ptr);
 }
 

@@ -5,7 +5,7 @@ static int	check_valid_symbol(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == 34 || str[i] == 39)
+	while (str[i] != '$')
 		i++;
 	if (str[i] == '$' && str[i + 1] == '?')
 		return (1);
@@ -24,77 +24,95 @@ static int	check_valid_symbol(char *str)
 	}
 	return (1);
 }
-
-static char	*expansion(char *str, int *i, char *path, int st)
+static int	count_var(char *str)
 {
-	if (str[*i] == '$' && str[*i + 1] == '?')
+	int	len;
+
+	len = ft_strlen(str);
+	printf("--> Len %d\n", len);
+	while (str[len - 1])
 	{
-		i += 2;
-		return (ft_strdup(ft_itoa(st)));
+		if (str[len - 1] == 34 || str[len - 1] == 39)
+		{
+			while (str[len - 1] == 34 || str[len - 1] == 39)
+				len--;
+			break ;
+		}
+		else if (ft_isalpha(str[len - 1]) && !ft_isalpha(str[len - 2]))
+		{
+			len -= 2;
+			break ;
+		}
+		len--;
 	}
-	return (ft_strdup(str));
+	if (len == 1 && str[len - 1] == '$')
+		return (ft_strlen(str));
+	printf("Len acortada: %d\n", len);
+	return (len - 1);
 }
 
-static char	*expand_with_quote(char *str, int i, char *path, int st)
+static char	*expansion(char *str, int i, char **env, int st)
 {
+	int		len;
+	char	*var;
+	char	*tmp;
+	int		j;
+	int		env_var;
+
+	j = 0;
+	len = count_var(str + i);
+	var = ft_substr(str, i + 1, len);
 	if (str[i] == '$' && str[i + 1] == '?')
 	{
-		free(str);
-		return (ft_strdup(ft_itoa(st)));
+		free(var);
+		var = ft_strdup(ft_itoa(st));
 	}
-	if (str)
-		free(str);
-	return (str);
-}
-
-static int	count_len(char *str)
-{
-	int	flag;
-	int	i;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
+	i += ft_strlen(var);
+	while (env[j])
 	{
-		if ((str[i] == 34 || str[i] == 39) && !flag)
+		env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]); // la longitud total - la longitud de a donde apunta el puntero te da el num negativo offset
+		if (env_var < 0)
+			env_var *= -1;
+		if (!strncmp(var, env[j], env_var))
 		{
-			flag = str[i];
-			i++;
-			while (str[i] != flag)
-				i++;
-			flag = 0;
-		}
-		else if (!flag)
+			free(var);
+			var = ft_strdup(ft_strchr(env[j], '=') + 1); // Para saltar el =
 			break ;
-		i++;
+		}
+		j++;
 	}
-	return (i);
+	if (str[i] == '\0')
+		return (var);
+	else
+		tmp = ft_strjoin(var, ft_substr(str, i + 1, len));
+	var = ft_strjoin_gnl(var, tmp);
+	return (var);
 }
 
 static char	*var_expanded(char *str, char **env, int status)
 {
 	int		i;
-	int		j;
-	int		total;
+	char	*aux;
+	char	*tmp;
+	char	*ret;
 
 	i = 0;
-	j = 0;
-	printf("ENtra a var_expanded??\n");
-	i = count_len(str);
-	total = ft_strlen(str); // Ver como cuento esto
-	//printf("Len: %d\n", len);
-	// while (str[i] == 34 || str[i] == 39)
-	// 	i++;
-	if (str[i] == '$' && str[i + 1] == '?')
-		return (expand_with_quote(str, i, env[j], status));
-	while (env[j])
+	if (str[0] == '$')
 	{
-		if (!ft_strncmp(str + i, env[j], i))
-			return (expand_with_quote(str, i, env[j], status));
-		j++;
+		ret = expansion(str, 0, env, status);
+		free(str);
+		return (ret);
 	}
+	while (str[i] != '$')
+		i++;
+	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
+	tmp = expansion(str, i, env, status);
+	ret = ft_strjoin(aux, tmp);
+	free(aux);
+	free(tmp);
 	free(str);
-	return (ft_strdup(""));
+	printf("------> %s\n", ret);
+	return (ret);
 }
 
 static char	*expand_env_var(char *str, char **env, int status)
@@ -106,7 +124,6 @@ static char	*expand_env_var(char *str, char **env, int status)
 	flag = 0;
 	while (str[i])
 	{
-		printf("Entras?");
 		if (str[i] == 34 && !flag)
 		{
 			flag = str[i];
@@ -166,10 +183,12 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 	return (1);
 }
 
-int	expansor(t_utils *utils) // Utils para acceder al env y 
+int	expansor(t_utils *utils)
 {
 	t_token	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = utils->token_list;
 	while (tmp->str)
 	{
@@ -178,10 +197,9 @@ int	expansor(t_utils *utils) // Utils para acceder al env y
 			clear_token_list(&utils->token_list);
 			return (0);
 		}
-		if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
+		else if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
 		{
 			tmp->str = expand_env_var(tmp->str, utils->env, utils->status);
-			printf("Var expandida: %s\n", tmp->str);
 		}
 		if (tmp->str && tmp->next == NULL)
 			break ;
