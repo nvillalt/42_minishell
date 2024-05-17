@@ -29,7 +29,6 @@ static int	count_var(char *str)
 	int	len;
 
 	len = ft_strlen(str);
-	printf("--> Len %d\n", len);
 	while (str[len - 1])
 	{
 		if (str[len - 1] == 34 || str[len - 1] == 39)
@@ -47,7 +46,6 @@ static int	count_var(char *str)
 	}
 	if (len == 1 && str[len - 1] == '$')
 		return (ft_strlen(str));
-	printf("Len acortada: %d\n", len);
 	return (len - 1);
 }
 
@@ -65,7 +63,7 @@ static char	*expansion(char *str, int i, char **env, int st)
 	if (str[i] == '$' && str[i + 1] == '?')
 	{
 		free(var);
-		tmp = ft_strdup(ft_itoa(st));
+		tmp = ft_itoa(st);
 	}
 	i += ft_strlen(var);
 	while (env[j])
@@ -85,8 +83,11 @@ static char	*expansion(char *str, int i, char **env, int st)
 		return (var);
 	else
 	{
-		tmp = ft_strjoin(var, ft_substr(str, i + 1, len));
+		free(str);
+		str = ft_substr(str, i + 1, len);
+		tmp = ft_strjoin(var, str);
 		free(var);
+		free(str);
 	}
 	return (tmp);
 }
@@ -105,16 +106,15 @@ static char	*var_expanded(char *str, char **env, int status)
 		free(str);
 		return (ret);
 	}
-	while (str[i] != '$')
+	while (str[i] != '$' && str[i])
 		i++;
 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
 	tmp = expansion(str, i, env, status);
 	ret = ft_strjoin(aux, tmp);
-	printf("Aux: %s\nTmp: %s\n", aux, tmp);
 	free(aux);
 	free(tmp);
-	free(str);
 	printf("------> %s\n", ret);
+	free(ret);
 	return (ret);
 }
 
