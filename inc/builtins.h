@@ -17,4 +17,6 @@ char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
 int		cmd_on_env(char **env, char *cmd);
 void	exit_process_custom(t_utils *utils, unsigned char status);
+int		env_varlen(char *str);
+char	*ft_getenv(char **env, char *var);
 #endif

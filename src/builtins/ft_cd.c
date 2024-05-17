@@ -10,7 +10,7 @@ static char	*search_for_home(char **env)
 		i++;
 	if (!env[i])
 	{
-		ft_putendl_fd("bash: cd: HOME not set", STDERR_FILENO);
+		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 		free_matrix(env);
 		return(NULL);
 	}
