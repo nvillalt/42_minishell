@@ -15,6 +15,8 @@ static int	check_valid_symbol(char *str)
 			return (0);
 		while (str[i])
 		{
+			if (str[i] == '$' && str[i + 1] == '$')
+				return (0);
 			if (str[i] == '-' || str[i] == '!' || str[i] == '?'
 				|| str[i] == '\\' || str[i] == '/' ||str[i] == '('
 				|| str[i] == ')')
@@ -66,7 +68,7 @@ static char	*expansion(char *str, int i, char **env, int st)
 		tmp = ft_itoa(st);
 	}
 	i += ft_strlen(var);
-	while (env[j])
+	while (env[j] != NULL)
 	{
 		env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]); // la longitud total - la longitud de a donde apunta el puntero te da el num negativo offset
 		if (env_var < 0)
@@ -74,7 +76,7 @@ static char	*expansion(char *str, int i, char **env, int st)
 		if (!strncmp(var, env[j], env_var))
 		{
 			free(var);
-			var = ft_strdup(ft_strchr(env[j], '=') + 1); // Para saltar el =
+			var = ft_strdup(ft_strchr(env[j], '=') + 1);
 			break ;
 		}
 		j++;
@@ -113,7 +115,6 @@ static char	*var_expanded(char *str, char **env, int status)
 	ret = ft_strjoin(aux, tmp);
 	free(aux);
 	free(tmp);
-	printf("------> %s\n", ret);
 	free(ret);
 	return (ret);
 }
