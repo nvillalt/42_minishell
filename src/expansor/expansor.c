@@ -5,7 +5,7 @@ static int	check_valid_symbol(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '$')
+	while (str[i] != '$' && str[i])
 		i++;
 	if (str[i] == '$' && str[i + 1] == '?')
 		return (1);
@@ -81,11 +81,15 @@ static char	*expansion(char *str, int i, char **env, int st)
 		}
 		j++;
 	}
-	if (str[i] == '\0')
+	if (str[i + 1] == '\0')
 		return (var);
 	else
+	{
+		printf("VAR: %s\nchar: %c\n", var, str[i + 1]);
+		printf("Entras???\n");
 		tmp = ft_strjoin(var, ft_substr(str, i + 1, len));
-	var = ft_strjoin_gnl(var, tmp);
+		var = ft_strjoin_gnl(var, tmp);
+	}
 	return (var);
 }
 
@@ -108,6 +112,7 @@ static char	*var_expanded(char *str, char **env, int status)
 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
 	tmp = expansion(str, i, env, status);
 	ret = ft_strjoin(aux, tmp);
+	printf("Aux: %s\nTmp: %s\n", aux, tmp);
 	free(aux);
 	free(tmp);
 	free(str);
@@ -154,7 +159,7 @@ static int	check_dollar(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == '$')
 			return (1);
@@ -167,13 +172,15 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 {
 	if (s1 != NULL && tmp != NULL)
 	{
-		if (!strncmp(s1, ">>", 2) && !strncmp(tmp->str, "<<", 2))
+		if ((!ft_strncmp(s1, ">>", 2) && !ft_strncmp(tmp->str, "<<", 2))
+			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(s1, "<", 1))
 		{
 			ft_putendl_fd("syntax error near unexpected token `>>'", 2);
 			utils->status = 2;
 			return (0);
 		}
-		else if (!strncmp(s1, "<<", 2) && !strncmp(tmp->str, ">>", 2))
+		else if (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, ">>", 2)
+			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(s1, ">", 1))
 		{
 			ft_putendl_fd("syntax error near unexpected token `<<'", 2);
 			utils->status = 2;
@@ -197,7 +204,7 @@ int	expansor(t_utils *utils)
 			clear_token_list(&utils->token_list);
 			return (0);
 		}
-		else if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
+		if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
 		{
 			tmp->str = expand_env_var(tmp->str, utils->env, utils->status);
 		}

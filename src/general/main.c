@@ -226,6 +226,7 @@ int	prompt_loop(t_utils *utils)
 				if (utils->token_list != NULL)
 				{
 					expansor(utils);
+					printf("En Token: %s\n", utils->token_list->next->str);
 					if (utils->token_list != NULL)
 					{
 						parse_tokens(utils);
