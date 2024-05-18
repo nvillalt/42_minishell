@@ -1,36 +1,15 @@
 #include "../../minishell.h"
 
-static int	search_empty_var(char **env, char *current_var)
-{
-	int	i;
-	int	var_len;
-
-	i = 0;
-	var_len = ft_strlen(current_var);
-	while (env[i] && ft_strncmp(env[i], current_var, var_len))
-		i++;
-	if (!env[i])
-		return(-1);
-	else
-		return(i);
-}
 
 static int	search_for_set_var(char **env, char *current_var, int *index_jump)
 {
-	char	*join_var;
-	int		var_len;;
+	int		var_len;
 
-	join_var = ft_strjoin(current_var, "=");
-	if (!join_var)
-	{
-		perror("minishell");
-		free_matrix(env);
-		return (FUNC_FAILURE);
-	}
-    var_len = ft_strlen(join_var);
-	while(env[*index_jump] && ft_strncmp(env[*index_jump], join_var, var_len))
+    var_len = ft_strlen(current_var);
+	while(env[*index_jump] && (ft_strncmp(env[*index_jump], current_var, var_len) || var_len != env_varlen(env[*index_jump])))
 		(*index_jump)++; //AQUÍ PUEDE ESTAR EL ERROR
-	free(join_var);
+	if (!env[*index_jump])
+		return (0);
 	return (FUNC_SUCCESS);
 }
 
@@ -41,18 +20,7 @@ static char **search_for_var(char **env, char *current_var)
 
 	index_jump = 0;
 	if (!search_for_set_var(env, current_var, &index_jump))
-		return (NULL);
-	if (!env[index_jump]) // SI NO ENCUENTRA LA VARIABLE
-	{
-		index_jump = search_empty_var(env, current_var);
-		if (index_jump == -1)
-		{
-			new_env = env_dup(env);
-			if (!new_env)
-				return (NULL);
-			return(new_env);
-		}
-	}
+		return (env_dup(env)); //GUARRADA E INEFICIENTE, PERO DE MOMENTO FUNCIONA
 	new_env = unset_var_env(env, index_jump);
 	if (!new_env)
 		return (NULL);
