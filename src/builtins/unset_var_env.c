@@ -7,6 +7,8 @@ static char **allocate_newenv(char **dup, char **env, int index_jump, int env_le
 
 	i = 0;
 	j = 0;
+	if (index_jump == 0)
+		i++;
 	while(i < env_len)
 	{
 		dup[j] = ft_strdup(env[i]);

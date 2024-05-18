@@ -76,7 +76,6 @@ char	**change_var(char **env, char *cmd)
 	char	*temp;
 	int		var_len;
 
-	printf("entra\n");
 	var_len = 0;
 	while(cmd[var_len] && cmd[var_len] != '=')
 		var_len++;
