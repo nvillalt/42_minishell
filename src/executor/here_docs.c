@@ -123,6 +123,7 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 			utils->status = 130;
 			return (0);
 		}
+		buffer_len = ft_strlen(buffer);
 		temp = ft_strjoin_hd(buffer, "\n");
 		if (!temp)
 		{
@@ -133,7 +134,6 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 		}
 		free(buffer);
 		buffer = temp;
-		buffer_len = ft_strlen(buffer);
 		if (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
 			|| limiter_len != buffer_len)
 			write(process->redirec->fd, buffer, buffer_len + 1);
