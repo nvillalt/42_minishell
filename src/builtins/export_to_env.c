@@ -76,13 +76,14 @@ char	**change_var(char **env, char *cmd)
 	char	*temp;
 	int		var_len;
 
+	printf("entra\n");
 	var_len = 0;
 	while(cmd[var_len] && cmd[var_len] != '=')
 		var_len++;
 	if (!cmd[var_len])
 		return (env);
 	i = 0;
-	while(ft_strncmp(env[i], cmd, var_len) != 0)
+	while(ft_strncmp(env[i], cmd, var_len) != 0 && var_len != env_varlen(env[i]))
 		i++;
 	temp = ft_strdup(cmd);
 	if (!temp)
