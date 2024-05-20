@@ -22,6 +22,7 @@ static char	*search_for_home(char **env)
 
 static char	**change_to_directory(char **env, char *cmd)
 {
+	char	*cwd;
 	/*
 	if (ft_strlen(cmd) > PATH_MAX) // AL LORO
 	{
@@ -40,15 +41,34 @@ static char	**change_to_directory(char **env, char *cmd)
 		free_matrix(env);
 		return (NULL);
 	}
-	env = change_pwd(env);
-	if (!env)
-		return (NULL);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+		env = change_pwd_error(env, cmd);
+		if (!env)
+		{
+			free(cwd);
+			return (NULL);
+		}
+	}
+	else
+	{
+		env = change_pwd(env);
+		if (!env)
+		{
+			free(cwd);
+			return (NULL);
+		}
+	}
+	free(cwd);
 	return (env);
 }
 
 static char	**change_to_home(char **env)
 {
-	char *home;
+	char	*home;
+	char	*cwd;
 
 	home = search_for_home(env);
 	if (!home)
@@ -63,7 +83,11 @@ static char	**change_to_home(char **env)
 		free_matrix(env);
 		return (NULL);
 	}
-	env = change_pwd(env);;
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+	env = change_pwd(env);
+	free(cwd);
 	if (!env)
 		return (NULL);
 	return (env);

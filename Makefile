@@ -66,7 +66,7 @@ GENERAL = src/general/main.c \
 			src/general/ft_puterror.c
 
 VALGRIND			= valgrind
-VALGRIND_OPT		+= --suppressions=readline.supp
+#VALGRIND_OPT		+= --suppressions=readline.supp
 VALGRIND_OPT		+= --trace-children=yes
 VALGRIND_OPT		+= --track-origins=yes
 VALGRIND_OPT		+= --track-fds=yes

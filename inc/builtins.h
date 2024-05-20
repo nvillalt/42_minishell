@@ -2,7 +2,7 @@
 # define BUILTINS_H
 
 int		ft_echo(char **str);
-int		ft_pwd(void);
+int		ft_pwd(char **env);
 int		ft_env(char **env, char **argv);
 int		ft_unset(t_utils *utils, char **cmd);
 int		ft_cd(t_utils *utils, char **cmd);
@@ -19,4 +19,5 @@ int		cmd_on_env(char **env, char *cmd);
 void	exit_process_custom(t_utils *utils, unsigned char status);
 int		env_varlen(char *str);
 char	*ft_getenv(char **env, char *var);
+char	**change_pwd_error(char **env, char *cmd);
 #endif

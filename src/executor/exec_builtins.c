@@ -18,7 +18,7 @@ unsigned char	handle_builtins(t_utils *utils, t_parse *process)
 	if (process->built_in == ECHO)
 		status = ft_echo(process->cmd);
 	if (process->built_in == PWD)
-		status = ft_pwd();
+		status = ft_pwd(utils->env);
 	if (process->built_in == ENV)
 		status = ft_env(utils->env, process->cmd);
 	if (process->built_in == UNSET)

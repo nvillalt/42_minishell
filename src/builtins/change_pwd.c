@@ -18,7 +18,7 @@ char	*ft_getenv(char **env, char *var)
 
 	i = 0;
 	varlen = env_varlen(var);
-	while (env[i] && (ft_strncmp(env[i], var, varlen) != 0) && env_varlen(env[i]) != varlen)
+	while (env[i] && ((ft_strncmp(env[i], var, varlen) != 0) || env_varlen(env[i]) != varlen))
 		i++;
 	if (!env[i])
 		return (NULL);
@@ -75,7 +75,7 @@ char	**change_pwd(char **env)
 	int		i;
 
 	i = 0;
-	while (env[i] && (ft_strncmp(env[i], "PWD", 3) != 0) && env_varlen(env[i]) != 6)
+	while (env[i] && (ft_strncmp(env[i], "PWD", 3) != 0) && env_varlen(env[i]) != 3)
 		i++;
 	if (env[i] == NULL)
 		return (env);
@@ -91,6 +91,56 @@ char	**change_pwd(char **env)
 		return (NULL);
 	}
 	free(cwd);
+	free(env[i]);
+	env[i] = temp;
+	return (env);
+}
+
+static char	*add_slash(char *current_pwd)
+{
+	int	i;
+
+	i = 0;
+	if (current_pwd[i] != '/')
+	{
+		current_pwd = ft_strjoin("/", current_pwd);
+		if (!current_pwd)
+			return (NULL);
+	}
+	return (current_pwd);
+}
+
+char	**change_pwd_error(char **env, char *cmd)
+{
+	char	*current_pwd;
+	char	*temp;
+	int		i;
+
+	i = 0;
+	while (env[i] && (ft_strncmp(env[i], "PWD", 3) != 0) && env_varlen(env[i]) != 3)
+		i++;
+	if (env[i] == NULL)
+		return (env);
+	current_pwd = ft_getenv(env, "PWD");
+	if (!current_pwd)
+		return (NULL);
+	cmd = add_slash(cmd);
+	if (!cmd)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	current_pwd = ft_strjoin(current_pwd, cmd);
+	if (!current_pwd)
+		return (NULL);
+	temp = ft_strjoin("PWD=", current_pwd);
+	free(current_pwd);
+	if (!temp)
+	{
+		perror("minishell");
+		free_matrix(env);
+		return (NULL);
+	}
 	free(env[i]);
 	env[i] = temp;
 	return (env);
