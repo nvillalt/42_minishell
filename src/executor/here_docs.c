@@ -113,7 +113,7 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 		if (!buffer) //AL LORO CON ESTO, EL ORDEN DE EJECUCIÓN Y LIBERACIONES
 		{
 			close_fds(process, utils);
-			ft_putendl_fd("minishell: warning: here-document delimited by end-of-file (wanted `eof')\n", 2);
+			ft_putendl_fd("minishell: warning: here-document delimited by end-of-file (wanted `eof')", STDERR_FILENO);
 			utils->status = 0;
 			return(1);
 		}

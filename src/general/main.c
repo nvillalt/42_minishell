@@ -33,7 +33,6 @@ static int	create_new_shlvl(t_utils *utils)
 	return (1);
 }
 
-
 static int	update_shlvl(t_utils *utils)
 {
 	int		i;
@@ -204,7 +203,7 @@ int	prompt_loop(t_utils *utils)
 		g_sigint = 0;
 		utils->status = 0;
 		utils->parent_builtin = 0;
-		set_signals();
+	set_signals();
 		input = readline("minishell:");
 		if (!input)
 		{
@@ -231,13 +230,12 @@ int	prompt_loop(t_utils *utils)
 					free(aux);
 					executor(utils, utils->process);
 					free_to_prompt(utils);
-					if (utils->status == 130)
+					if (utils->status == 130 && g_sigint == 0)
 						printf("\n");
 					else if (utils->status == 131)
 						printf("Quit\n");
 				}
 			}
-			printf("%d\n", utils->status);
 		}
 	}
 	return (1);

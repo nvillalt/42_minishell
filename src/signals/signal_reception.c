@@ -13,7 +13,7 @@ static void	exec_sigint(int signal)
 static void	heredoc_sigint(int signal)
 {
 	g_sigint = 1;
-	ioctl(0, TIOCSTI, "\r");
+	ioctl(0, TIOCSTI, "\n");
 }
 
 void	set_signals(void)

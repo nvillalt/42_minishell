@@ -1,6 +1,5 @@
 #include "../../minishell.h"
 
-
 static int	search_for_set_var(char **env, char *current_var, int *index_jump)
 {
 	int		var_len;
