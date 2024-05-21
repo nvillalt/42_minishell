@@ -10,6 +10,35 @@ int	env_varlen(char *str)
 	return (i);
 }
 
+static char	*ft_getenv_flag(char **env, char *var, int *flag)
+{
+	int		i;
+	int		varlen;
+	char	*str;
+
+	i = 0;
+	varlen = env_varlen(var);
+	while (env[i] && ((ft_strncmp(env[i], var, varlen) != 0) || env_varlen(env[i]) != varlen))
+		i++;
+	if (!env[i])
+		return (NULL);
+	str = env[i];
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (!str[i])
+		return (NULL);
+	if (!str[i + 1])
+		return (NULL);
+	str = ft_strdup(str + i + 1);
+	if (!str)
+	{
+		*flag = 1;
+		return (NULL);
+	}
+	return (str);
+}
+
 char	*ft_getenv(char **env, char *var)
 {
 	int		i;
@@ -40,9 +69,11 @@ char	**change_old_pwd(char **env)
 {
 	char	*cwd;
 	char	*temp;
+	int		flag;
 	int		i;
 
 	i = 0;
+	flag = 0;
 	while (env[i] && (ft_strncmp(env[i], "OLDPWD", 6) != 0) && env_varlen(env[i]) != 6)
 		i++;
 	if (env[i] == NULL)
@@ -50,9 +81,11 @@ char	**change_old_pwd(char **env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		cwd = ft_getenv(env, "PWD");
+		cwd = ft_getenv_flag(env, "PWD", &flag);
+		if (!cwd && flag)
+			return (NULL); //Ojo que no blinda bien el nulo
 		if (!cwd)
-			return (env); //Ojo que no blinda bien el nulo
+			return (env);
 	}
 	temp = ft_strjoin("OLDPWD=", cwd);
 	if (!temp)
