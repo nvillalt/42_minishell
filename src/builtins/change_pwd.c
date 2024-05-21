@@ -29,7 +29,7 @@ char	*ft_getenv(char **env, char *var)
 	if (!str[i])
 		return (NULL);
 	if (!str[i + 1])
-		return (NULL);
+		return (0);
 	str = ft_strdup(str + i + 1);
 	if (!str)
 		return (NULL);
@@ -52,14 +52,14 @@ char	**change_old_pwd(char **env)
 	{
 		cwd = ft_getenv(env, "PWD");
 		if (!cwd)
-			return (env);
+			return (env); //Ojo que no blinda bien el nulo
 	}
 	temp = ft_strjoin("OLDPWD=", cwd);
 	if (!temp)
 	{
 		free(cwd);
-		perror("minishell");
 		free_matrix(env);
+		perror("minishell");
 		return (NULL);
 	}
 	free(cwd);
@@ -83,14 +83,13 @@ char	**change_pwd(char **env)
 	if (!cwd)
 		return (env);
 	temp = ft_strjoin("PWD=", cwd);
+	free(cwd);
 	if (!temp)
 	{
-		free(cwd);
 		perror("minishell");
 		free_matrix(env);
 		return (NULL);
 	}
-	free(cwd);
 	free(env[i]);
 	env[i] = temp;
 	return (env);
@@ -113,6 +112,7 @@ static char	*add_slash(char *current_pwd)
 char	**change_pwd_error(char **env, char *cmd)
 {
 	char	*current_pwd;
+	char	*new_pwd;
 	char	*temp;
 	int		i;
 
@@ -127,14 +127,16 @@ char	**change_pwd_error(char **env, char *cmd)
 	cmd = add_slash(cmd);
 	if (!cmd)
 	{
-		free(cmd);
+		free(current_pwd);
 		return (NULL);
 	}
-	current_pwd = ft_strjoin(current_pwd, cmd);
-	if (!current_pwd)
-		return (NULL);
-	temp = ft_strjoin("PWD=", current_pwd);
+	new_pwd = ft_strjoin(current_pwd, cmd);
 	free(current_pwd);
+	free(cmd);
+	if (!new_pwd)
+		return (NULL);
+	temp = ft_strjoin("PWD=", new_pwd);
+	free(new_pwd);
 	if (!temp)
 	{
 		perror("minishell");

@@ -72,7 +72,10 @@ static char	**change_to_home(char **env)
 
 	home = search_for_home(env);
 	if (!home)
+	{
+		free_matrix(env);
 		return (NULL);
+	}
 	env = change_old_pwd(env);
 	if (!env)
 		return (NULL);
