@@ -12,7 +12,9 @@ static char	*create_new_buffer(char *buffer, char *val, char *key, int *i) // ES
 	char	*after_exp;
 	char	*temp;
 
-	val_len = ft_strlen(val);
+	val_len = 0;
+	if (val)
+		val_len = ft_strlen(val);
 	bef_exp_len = *i;
 	key_len = ft_strlen(key);
 	aft_exp_len = ft_strlen(buffer) - (bef_exp_len + key_len + 1);
@@ -24,13 +26,26 @@ static char	*create_new_buffer(char *buffer, char *val, char *key, int *i) // ES
 		return (NULL);
 	}
 	if (aft_exp_len > 0)
-	after_exp = ft_substr(buffer, bef_exp_len + key_len + 1, aft_exp_len);
-	if (!after_exp)
 	{
-		free(bef_exp);
+		after_exp = ft_substr(buffer, bef_exp_len + key_len + 1, aft_exp_len);
+		if (!after_exp)
+		{
+			free(bef_exp);
+			free(buffer);
+			perror("minishell");
+			return(NULL);
+		}
+	}
+	if (!val)
+	{
+		new_buffer = ft_strjoin(bef_exp, after_exp);
 		free(buffer);
-		perror("minishell");
-		return(NULL);
+		if (!new_buffer)
+		{
+			perror("minishell");
+			return (NULL);
+		}
+		return (new_buffer);
 	}
 	temp = ft_strjoin(bef_exp, val);
 	free(bef_exp);
@@ -73,30 +88,38 @@ char	*get_keyhd(char *buffer, int i) //OJO CON SEGFAULT SI LE PASAMOS UN \0
 static char	*expand_heredoc(char *buffer, char **env)
 {
 	int		i;
+	int		val_flag;
 	char	*val;
 	char	*key;
 
 	i = 0;
 	while (buffer[i])
 	{
+		val_flag = 1;
 		if (buffer[i] == '$')
 		{
 			key = get_keyhd(buffer, i);
 			if (!key)
 				return (NULL);
 			val = ft_getenv(env, key);
-			val = ft_strdup(val);
 			if (!val)
+				val_flag = 0;
+			if (val_flag)
 			{
-				free(key);
-				perror("minishell");
-				return (NULL);
+				val = ft_strdup(val);
+				if (!val)
+				{
+					free(key);
+					perror("minishell");
+					return (NULL);
+				}
 			}
 			buffer = create_new_buffer(buffer, val, key, &i); //CUIDADO QUE A LO MEJOR NOS SALTAMOS 1
 			if (!buffer)
 			{
 				free(key);
-				free(val);
+				if (val_flag)
+					free(val);
 				return (NULL);
 			}
 		}
