@@ -1,33 +1,6 @@
 #include "../../minishell.h"
-/*
-static char	*get_expand_value(char *buffer, int i)
-{
-	int		j;
-	char	*var;
-	char	*val;
 
-	j = i;
-	while(buffer[j] && buffer[j] != '\'' && buffer[j] != '\"')
-		j++;
-	if (j - i == 1)
-		return ("$");
-	var = ft_substr(buffer, i + 1, j - (i + 1)); //Aquí pueden fallar cositas
-	if (!var)
-	{
-		perror("minishell");
-		return (NULL); //Podemos hacer que sea -1 para blindar
-	}
-	val = get_value(var); // esto de nerea
-	free(var);
-	if (!val)
-	{
-		perror("minishell");
-		return (NULL); //Cuidado con qué devolvemos
-	}
-	return (val);
-}
-
-static char	create_new_buffer(char *buffer, char *val, int *i) // ES ESTA LA PEOR FUNCIÓN QUE HE ESCRITO NUNCA?????
+static char	*create_new_buffer(char *buffer, char *val, char *key, int *i) // ES ESTA LA PEOR FUNCIÓN QUE HE ESCRITO NUNCA?????
 {
 	int		key_len;
 	int		val_len;
@@ -40,20 +13,18 @@ static char	create_new_buffer(char *buffer, char *val, int *i) // ES ESTA LA PEO
 	char	*temp;
 
 	val_len = ft_strlen(val);
-	bef_exp_len = *i - 1;
-	j = *i;
-	while(buffer[j] && buffer[j] != '\'' && buffer[j] != '\"')
-		j++;
-	key_len = j - 1;
+	bef_exp_len = *i;
+	key_len = ft_strlen(key);
 	aft_exp_len = ft_strlen(buffer) - (bef_exp_len + key_len + 1);
 	bef_exp = ft_substr(buffer, 0, bef_exp_len);
-	if (bef_exp_len)
+	if (!bef_exp)
 	{
 		perror("minishell");
 		free(buffer);
 		return (NULL);
 	}
-	after_exp = ft_substr(buffer, bef_exp_len + key_len, aft_exp_len);
+	if (aft_exp_len > 0)
+	after_exp = ft_substr(buffer, bef_exp_len + key_len + 1, aft_exp_len);
 	if (!after_exp)
 	{
 		free(bef_exp);
@@ -83,29 +54,58 @@ static char	create_new_buffer(char *buffer, char *val, int *i) // ES ESTA LA PEO
 	return (new_buffer);
 }
 
-static char	*expand_heredoc(char *buffer)
+char	*get_keyhd(char *buffer, int i) //OJO CON SEGFAULT SI LE PASAMOS UN \0
+{
+	int		start;
+	char	*key;
+
+	start = i + 1;
+	while (buffer[i] && buffer[i] != '\'' && buffer[i] != '\"' && buffer[i] != ' ')
+		i++;
+	if (start >= i)
+		return (ft_strdup("$"));
+	key = ft_substr(buffer, start, i - start);
+	if (!key)
+		return (NULL);
+	return (key);
+}
+
+static char	*expand_heredoc(char *buffer, char **env)
 {
 	int		i;
 	char	*val;
+	char	*key;
 
 	i = 0;
 	while (buffer[i])
 	{
 		if (buffer[i] == '$')
 		{
-			val = get_expand_value(buffer, i);
+			key = get_keyhd(buffer, i);
+			if (!key)
+				return (NULL);
+			val = ft_getenv(env, key);
+			val = ft_strdup(val);
 			if (!val)
+			{
+				free(key);
+				perror("minishell");
 				return (NULL);
-			buffer = create_new_buffer(buffer, val, &i); //CUIDADO QUE A LO MEJOR NOS SALTAMOS 1
+			}
+			buffer = create_new_buffer(buffer, val, key, &i); //CUIDADO QUE A LO MEJOR NOS SALTAMOS 1
 			if (!buffer)
+			{
+				free(key);
+				free(val);
 				return (NULL);
+			}
 		}
 		i++; //CUIDADO QUE A LO MEJOR NOS SALTAMOS UNO
 	}
 	return (buffer);
 }
-*/
-static char	*join_str(char *join, char const *s1, char const *s2) //ESTE HEREDOC PARA QUITAR EL \0 extra al leer el STDIN
+
+static char	*join_str(char *join, char const *s1, char const *s2)
 {
 	int	i;
 	int	j;
@@ -228,12 +228,12 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 			utils->status = 130;
 			return (0);
 		}
-		//if (process->redirec->heredoc_flag == EXPAND)
-		//{
-			//buffer = expand_heredoc(buffer);
-			//if (!buffer)
-				//return (0);
-		//}
+		if (process->redirec->heredoc_flag == EXPAND)
+		{
+			buffer = expand_heredoc(buffer, utils->env);
+			if (!buffer)
+				return (0);
+		}
 		buffer_len = ft_strlen(buffer);
 		temp = ft_strjoin_hd(buffer, "\n");
 		if (!temp)
@@ -272,6 +272,7 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 
 	temp_num = 1;
 	heredoc_signals();
+	rl_catch_signals = 0;
 	while(process)
 	{
 		while(process->redirec)
@@ -279,7 +280,10 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 			if (process->redirec->redir_type == HEREDOC)
 			{
 				if (!exec_here_doc(utils, process, &temp_num))
+				{
+					rl_catch_signals = 1;
 					return (FUNC_FAILURE);
+				}
 				temp_num++;
 			}
 			process->redirec = process->redirec->next;
@@ -287,6 +291,7 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 		process = process->next;
 	}
 	close_fds(process, utils);
+	rl_catch_signals = 1;
 	set_signals();
 	return (FUNC_SUCCESS);
 }

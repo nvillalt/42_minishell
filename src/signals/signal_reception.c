@@ -10,9 +10,11 @@ static void	exec_sigint(int signal)
 		rl_redisplay();
 	}
 }
+
 static void	heredoc_sigint(int signal)
 {
 	g_sigint = 1;
+	write(STDERR_FILENO, "^C", 2);
 	ioctl(0, TIOCSTI, "\n");
 }
 

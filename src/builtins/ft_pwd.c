@@ -13,6 +13,9 @@ int ft_pwd(char **env)
 			ft_putendl_fd("minishell: PWD not set", STDERR_FILENO);
 			return (1);
 		}
+		str = ft_strdup(str);
+		if (!str)
+			return (1);
 	}
 	printf("%s\n", str);
 	free(str);

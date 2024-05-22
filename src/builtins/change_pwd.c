@@ -10,35 +10,6 @@ int	env_varlen(char *str)
 	return (i);
 }
 
-static char	*ft_getenv_flag(char **env, char *var, int *flag)
-{
-	int		i;
-	int		varlen;
-	char	*str;
-
-	i = 0;
-	varlen = env_varlen(var);
-	while (env[i] && ((ft_strncmp(env[i], var, varlen) != 0) || env_varlen(env[i]) != varlen))
-		i++;
-	if (!env[i])
-		return (NULL);
-	str = env[i];
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (!str[i])
-		return (NULL);
-	if (!str[i + 1])
-		return (NULL);
-	str = ft_strdup(str + i + 1);
-	if (!str)
-	{
-		*flag = 1;
-		return (NULL);
-	}
-	return (str);
-}
-
 char	*ft_getenv(char **env, char *var)
 {
 	int		i;
@@ -59,33 +30,30 @@ char	*ft_getenv(char **env, char *var)
 		return (NULL);
 	if (!str[i + 1])
 		return (0);
-	str = ft_strdup(str + i + 1);
-	if (!str)
-		return (NULL);
-	return (str);
+	return (str + i + 1);
 }
 
 char	**change_old_pwd(char **env)
 {
 	char	*cwd;
+	char	*temp_cwd;
 	char	*temp;
-	int		flag;
 	int		i;
 
 	i = 0;
-	flag = 0;
-	while (env[i] && (ft_strncmp(env[i], "OLDPWD", 6) != 0) && env_varlen(env[i]) != 6)
+	while (env[i] && ((ft_strncmp(env[i], "OLDPWD", 6) != 0) || env_varlen(env[i]) != 6))
 		i++;
 	if (env[i] == NULL)
 		return (env);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		cwd = ft_getenv_flag(env, "PWD", &flag);
-		if (!cwd && flag)
-			return (NULL);
-		if (!cwd)
+		temp_cwd = ft_getenv(env, "OLDPWD");
+		if (!temp_cwd)
 			return (env);
+		cwd = ft_strdup(temp_cwd);
+		if (!cwd)
+			return (NULL);
 	}
 	temp = ft_strjoin("OLDPWD=", cwd);
 	if (!temp)
@@ -108,7 +76,7 @@ char	**change_pwd(char **env)
 	int		i;
 
 	i = 0;
-	while (env[i] && (ft_strncmp(env[i], "PWD", 3) != 0) && env_varlen(env[i]) != 3)
+	while (env[i] && ((ft_strncmp(env[i], "PWD", 3) != 0) || env_varlen(env[i]) != 3))
 		i++;
 	if (env[i] == NULL)
 		return (env);
@@ -144,17 +112,21 @@ static char	*add_slash(char *current_pwd)
 
 char	**change_pwd_error(char **env, char *cmd)
 {
+	char	*ptr_current_pwd;
 	char	*current_pwd;
 	char	*new_pwd;
 	char	*temp;
 	int		i;
 
 	i = 0;
-	while (env[i] && (ft_strncmp(env[i], "PWD", 3) != 0) && env_varlen(env[i]) != 3)
+	while (env[i] && ((ft_strncmp(env[i], "PWD", 3) != 0) || env_varlen(env[i]) != 3))
 		i++;
 	if (env[i] == NULL)
 		return (env);
-	current_pwd = ft_getenv(env, "PWD");
+	ptr_current_pwd = ft_getenv(env, "PWD");
+	if (!ptr_current_pwd)
+		return (NULL);
+	current_pwd = ft_strdup(ptr_current_pwd);
 	if (!current_pwd)
 		return (NULL);
 	cmd = add_slash(cmd);

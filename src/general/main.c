@@ -235,7 +235,7 @@ int	prompt_loop(t_utils *utils)
 					else if (utils->status == 131)
 						printf("Quit\n");
 				}
-			printf("%d\n", utils->status);
+			//printf("%d\n", utils->status);
 			}
 		}
 	}
