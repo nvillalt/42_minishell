@@ -37,9 +37,8 @@ static int	count_var(char *str)
 		{
 			while (str[len - 1] == 34 || str[len - 1] == 39)
 				len--;
-			break ;
 		}
-		else if (ft_isalpha(str[len - 1]) && !ft_isalpha(str[len - 2]))
+		if (ft_isalpha(str[len - 1]) && !ft_isalpha(str[len - 2]))
 		{
 			len -= 2;
 			break ;
@@ -67,14 +66,16 @@ static char	*expansion(char *str, int i, char **env, int st)
 		len = count_var(str + i);
 		var = ft_substr(str, i + 1, len);
 		i += ft_strlen(var);
+		printf("VAR: %s\n", var);
 		while (env[j] != NULL)
 		{
 			if (ft_strchr(env[j], '='))
 				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]);
 			if (env_var < 0)
 				env_var *= -1;
-			if (!strncmp(var, env[j], env_var))
+			if (!ft_strncmp(var, env[j], env_var))
 			{
+				printf("COMP: %d\n", ft_strncmp(var, env[j], env_var));
 				free(var);
 				if (ft_strchr(env[j], '=') == NULL)
 					var = ft_strdup("");
@@ -109,7 +110,7 @@ static char	*var_expanded(char *str, char **env, int status)
 	if (str[0] == '$')
 	{
 		ret = expansion(str, 0, env, status);
-		free(str);
+//		free(str);
 		return (ret);
 	}
 	while (str[i] != '$' && str[i])
