@@ -83,7 +83,7 @@ char	**change_old_pwd(char **env)
 	{
 		cwd = ft_getenv_flag(env, "PWD", &flag);
 		if (!cwd && flag)
-			return (NULL); //Ojo que no blinda bien el nulo
+			return (NULL);
 		if (!cwd)
 			return (env);
 	}
