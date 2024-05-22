@@ -70,31 +70,27 @@ static char	*expansion(char *str, int i, char **env, int st)
 		while (env[j] != NULL)
 		{
 			if (ft_strchr(env[j], '='))
-				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]); // la longitud total - la longitud de a donde apunta el puntero te da el num negativo offset
+				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]);
 			if (env_var < 0)
 				env_var *= -1;
 			if (!strncmp(var, env[j], env_var))
 			{
-				printf("Hola?\n");
 				free(var);
-				var = ft_strdup(ft_strchr(env[j], '=') + 1);
+				if (ft_strchr(env[j], '=') == NULL)
+					var = ft_strdup("");
+				else if (ft_strchr(env[j], '=') != NULL)
+					var = ft_strdup(ft_strchr(env[j], '=') + 1);
 				break ;
 			}
 			j++;
 		}
-	}
-		printf("Entras?\nstr: %s\nvar: %s\n", str + i, var);
-	if (!strncmp(var, str + i + 1, len))
-	{
-		free(var);
-		return (ft_strdup(""));
 	}
 	if (str[i + 1] == '\0')
 		return (var);
 	else
 	{
 		tmp = ft_substr(str, i + 1, len);
-		free(str); // POrque lo he liberado cazurra
+		free(str);
 		str = ft_strjoin(var, tmp);
 		free(var);
 		free(tmp);
@@ -121,7 +117,6 @@ static char	*var_expanded(char *str, char **env, int status)
 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
 	tmp = expansion(str, i, env, status);
 	ret = ft_strjoin(aux, tmp);
-	printf("---> %s\n", ret);
 	free(aux);
 	free(tmp);
 	return (ret);
