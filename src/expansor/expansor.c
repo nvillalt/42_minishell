@@ -60,38 +60,46 @@ static char	*expansion(char *str, int i, char **env, int st)
 	int		env_var;
 
 	j = 0;
-	len = count_var(str + i);
-	var = ft_substr(str, i + 1, len);
 	if (str[i] == '$' && str[i + 1] == '?')
+		tmp = ft_itoa(st);
+	else
+	{
+		len = count_var(str + i);
+		var = ft_substr(str, i + 1, len);
+		i += ft_strlen(var);
+		while (env[j] != NULL)
+		{
+			if (ft_strchr(env[j], '='))
+				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]); // la longitud total - la longitud de a donde apunta el puntero te da el num negativo offset
+			if (env_var < 0)
+				env_var *= -1;
+			if (!strncmp(var, env[j], env_var))
+			{
+				printf("Hola?\n");
+				free(var);
+				var = ft_strdup(ft_strchr(env[j], '=') + 1);
+				break ;
+			}
+			j++;
+		}
+	}
+		printf("Entras?\nstr: %s\nvar: %s\n", str + i, var);
+	if (!strncmp(var, str + i + 1, len))
 	{
 		free(var);
-		tmp = ft_itoa(st);
-	}
-	i += ft_strlen(var);
-	while (env[j] != NULL)
-	{
-		env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]); // la longitud total - la longitud de a donde apunta el puntero te da el num negativo offset
-		if (env_var < 0)
-			env_var *= -1;
-		if (!strncmp(var, env[j], env_var))
-		{
-			free(var);
-			var = ft_strdup(ft_strchr(env[j], '=') + 1);
-			break ;
-		}
-		j++;
+		return (ft_strdup(""));
 	}
 	if (str[i + 1] == '\0')
 		return (var);
 	else
 	{
-		free(str);
-		str = ft_substr(str, i + 1, len);
-		tmp = ft_strjoin(var, str);
+		tmp = ft_substr(str, i + 1, len);
+		free(str); // POrque lo he liberado cazurra
+		str = ft_strjoin(var, tmp);
 		free(var);
-		free(str);
+		free(tmp);
 	}
-	return (tmp);
+	return (str);
 }
 
 static char	*var_expanded(char *str, char **env, int status)
@@ -113,9 +121,9 @@ static char	*var_expanded(char *str, char **env, int status)
 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
 	tmp = expansion(str, i, env, status);
 	ret = ft_strjoin(aux, tmp);
+	printf("---> %s\n", ret);
 	free(aux);
 	free(tmp);
-	free(ret);
 	return (ret);
 }
 
