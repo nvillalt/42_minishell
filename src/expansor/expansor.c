@@ -52,52 +52,58 @@ static int	count_var(char *str)
 
 static char	*expansion(char *str, int i, char **env, int st)
 {
-	int		len;
-	char	*var;
-	char	*tmp;
-	int		j;
-	int		env_var;
-
-	j = 0;
-	if (str[i] == '$' && str[i + 1] == '?')
-		tmp = ft_itoa(st);
-	else
-	{
-		len = count_var(str + i);
-		var = ft_substr(str, i + 1, len);
-		i += ft_strlen(var);
-		printf("VAR: %s\n", var);
-		while (env[j] != NULL)
-		{
-			if (ft_strchr(env[j], '='))
-				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]);
-			if (env_var < 0)
-				env_var *= -1;
-			if (!ft_strncmp(var, env[j], env_var))
-			{
-				printf("COMP: %d\n", ft_strncmp(var, env[j], env_var));
-				free(var);
-				if (ft_strchr(env[j], '=') == NULL)
-					var = ft_strdup("");
-				else if (ft_strchr(env[j], '=') != NULL)
-					var = ft_strdup(ft_strchr(env[j], '=') + 1);
-				break ;
-			}
-			j++;
-		}
-	}
-	if (str[i + 1] == '\0')
-		return (var);
-	else
-	{
-		tmp = ft_substr(str, i + 1, len);
-		free(str);
-		str = ft_strjoin(var, tmp);
-		free(var);
-		free(tmp);
-	}
-	return (str);
+	
 }
+
+// static char	*expansion(char *str, int i, char **env, int st)
+// {
+// 	int		len;
+// 	char	*var;
+// 	char	*tmp;
+// 	int		j;
+// 	int		env_var;
+
+// 	j = 0;
+// 	if (str[i] == '$' && str[i + 1] == '?')
+// 		tmp = ft_itoa(st);
+// 	else
+// 	{
+// 		len = count_var(str + i);
+// 		var = ft_substr(str, i + 1, len);
+// 		i += ft_strlen(var);
+// 		printf("VAR: %s\n", var);
+// 		while (env[j] != NULL)
+// 		{
+// 			if (ft_strchr(env[j], '='))
+// 				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]);
+// 			if (env_var < 0)
+// 				env_var *= -1;
+// 			if (!ft_strncmp(var, env[j], env_var))
+// 			{
+// 				printf("COMP: %d\n", ft_strncmp(var, env[j], env_var));
+// 				free(var);
+// 				if (ft_strchr(env[j], '=') == NULL)
+// 					var = ft_strdup("");
+// 				else if (ft_strchr(env[j], '=') != NULL)
+// 					var = ft_strdup(ft_strchr(env[j], '=') + 1);
+// 				break ;
+// 			}
+// 			j++;
+// 		}
+// 	}
+// 	if (str[i + 1] == '\0')
+// 		return (var);
+// 	else
+// 	{
+// 		tmp = ft_substr(str, i + 1, len);
+// 		free(str);
+// 		str = ft_strjoin(var, tmp);
+// 		if (var)
+// 			free(var);
+// 		free(tmp);
+// 	}
+// 	return (str);
+// }
 
 static char	*var_expanded(char *str, char **env, int status)
 {
@@ -107,10 +113,15 @@ static char	*var_expanded(char *str, char **env, int status)
 	char	*ret;
 
 	i = 0;
-	if (str[0] == '$')
+	if (str[0] == '$' && str[1] == '?')
+	{
+		free(str);
+		return (ft_itoa(status));
+	}
+	else if (str[0] == '$' && str[1] != '?')
 	{
 		ret = expansion(str, 0, env, status);
-//		free(str);
+		free(str);
 		return (ret);
 	}
 	while (str[i] != '$' && str[i])
