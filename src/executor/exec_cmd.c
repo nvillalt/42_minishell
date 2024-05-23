@@ -10,7 +10,7 @@ void	exec_cmd(t_utils *utils, t_parse *current_process)
 	if (execve(path, current_process->cmd, utils->env) == -1)
 	{
 		ft_putstr_fd(current_process->cmd[0], STDERR_FILENO);
-		ft_putendl_fd(" :command not found", STDERR_FILENO);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
 		close_fds(utils->process, utils);
 		free_utils(utils);
 		exit(127);
