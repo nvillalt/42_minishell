@@ -1,133 +1,5 @@
 #include "../../minishell.h"
 
-static char	*create_new_buffer(char *buffer, char *val, char *key, int *i) // ES ESTA LA PEOR FUNCIÓN QUE HE ESCRITO NUNCA?????
-{
-	int		key_len;
-	int		val_len;
-	int		bef_exp_len;
-	int		aft_exp_len;
-	int		j;
-	char	*new_buffer;
-	char	*bef_exp;
-	char	*after_exp;
-	char	*temp;
-
-	val_len = 0;
-	if (val)
-		val_len = ft_strlen(val);
-	bef_exp_len = *i;
-	key_len = ft_strlen(key);
-	aft_exp_len = ft_strlen(buffer) - (bef_exp_len + key_len + 1);
-	bef_exp = ft_substr(buffer, 0, bef_exp_len);
-	if (!bef_exp)
-	{
-		perror("minishell");
-		free(buffer);
-		return (NULL);
-	}
-	if (aft_exp_len > 0)
-	{
-		after_exp = ft_substr(buffer, bef_exp_len + key_len + 1, aft_exp_len);
-		if (!after_exp)
-		{
-			free(bef_exp);
-			free(buffer);
-			perror("minishell");
-			return(NULL);
-		}
-	}
-	if (!val)
-	{
-		new_buffer = ft_strjoin(bef_exp, after_exp);
-		free(buffer);
-		if (!new_buffer)
-		{
-			perror("minishell");
-			return (NULL);
-		}
-		return (new_buffer);
-	}
-	temp = ft_strjoin(bef_exp, val);
-	free(bef_exp);
-	free(val);
-	if (!temp)
-	{
-		free(buffer);
-		free(after_exp);
-		perror("minishell");
-		return (NULL);
-	}
-	new_buffer = ft_strjoin(temp, after_exp);
-	free(buffer);
-	free(after_exp);
-	if (!new_buffer)
-	{
-		perror("minishell");
-		return (NULL);
-	}
-	*i += val_len; //CUIDADO QUE A LO MEJOR NOS SALTAMOS UNO
-	return (new_buffer);
-}
-
-char	*get_keyhd(char *buffer, int i) //OJO CON SEGFAULT SI LE PASAMOS UN \0
-{
-	int		start;
-	char	*key;
-
-	start = i + 1;
-	while (buffer[i] && buffer[i] != '\'' && buffer[i] != '\"' && buffer[i] != ' ')
-		i++;
-	if (start >= i)
-		return (ft_strdup("$"));
-	key = ft_substr(buffer, start, i - start);
-	if (!key)
-		return (NULL);
-	return (key);
-}
-
-static char	*expand_heredoc(char *buffer, char **env)
-{
-	int		i;
-	int		val_flag;
-	char	*val;
-	char	*key;
-
-	i = 0;
-	while (buffer[i])
-	{
-		val_flag = 1;
-		if (buffer[i] == '$')
-		{
-			key = get_keyhd(buffer, i);
-			if (!key)
-				return (NULL);
-			val = ft_getenv(env, key);
-			if (!val)
-				val_flag = 0;
-			if (val_flag)
-			{
-				val = ft_strdup(val);
-				if (!val)
-				{
-					free(key);
-					perror("minishell");
-					return (NULL);
-				}
-			}
-			buffer = create_new_buffer(buffer, val, key, &i); //CUIDADO QUE A LO MEJOR NOS SALTAMOS 1
-			if (!buffer)
-			{
-				free(key);
-				if (val_flag)
-					free(val);
-				return (NULL);
-			}
-		}
-		i++; //CUIDADO QUE A LO MEJOR NOS SALTAMOS UNO
-	}
-	return (buffer);
-}
-
 static char	*join_str(char *join, char const *s1, char const *s2)
 {
 	int	i;
@@ -146,7 +18,6 @@ static char	*join_str(char *join, char const *s1, char const *s2)
 		j++;
 		i++;
 	}
-	//join[i] = '\0';
 	return (join);
 }
 
@@ -157,13 +28,210 @@ static char	*ft_strjoin_hd(char const *s1, char const *s2)
 
 	if (*s1 == '\0' && *s2 == '\0')
 		return (ft_strdup(""));
+	else if (!*s1)
+	{
+		join = ft_strdup(s2);
+		if (!join)
+			return (NULL);
+		return (join);
+	}
+	else if (!*s2)
+	{
+		join = ft_strdup(s1);
+		if (!join)
+			return (NULL);
+		return (join);
+	}
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	join = (char *)malloc(sizeof(char) * len);
+	join = (char *)ft_calloc(sizeof(char), len);
 	if (!join)
-		return (0);
+		return (NULL);
 	join = join_str(join, s1, s2);
 	return (join);
 }
+
+static char	*get_bef_exp_str(char *buffer, int i)
+{
+	int		bef_exp_len;
+	char	*bef_exp;
+
+	bef_exp_len = i;
+	bef_exp = ft_substr(buffer, 0, bef_exp_len);
+	if (!bef_exp)
+	{
+		free(buffer);
+		perror("minishell");
+		return (NULL);
+	}
+	return (bef_exp);
+}
+
+static char	*get_aft_exp_str(char *buffer, int i, char *key, char *bef_exp)
+{
+	int		aft_exp_len;
+	int		bef_exp_len;
+	int		key_len;
+	int		dollar_len;
+	char	*after_exp;
+
+	dollar_len = 0;
+	while(buffer[i] && buffer[i] == '$')
+	{
+		i++;
+		dollar_len++;
+	}
+	bef_exp_len = ft_strlen(bef_exp);
+	key_len = ft_strlen(key);
+	aft_exp_len = ft_strlen(buffer) - (bef_exp_len + key_len + 1);
+	after_exp = ft_substr(buffer, bef_exp_len + key_len + dollar_len, aft_exp_len);
+	if (!after_exp)
+	{
+		free(buffer);
+		perror("minishell");
+		return (NULL);
+	}
+	return (after_exp);
+}
+
+static char	*get_new_buffer(char *val, char *bef_exp, char *after_exp)
+{
+	char	*new_buffer;
+	char	*temp;
+
+	if (!val)
+	{
+		new_buffer = ft_strjoin_hd(bef_exp, after_exp);
+		if (!new_buffer)
+		{
+			perror("minishell");
+			return (NULL);
+		}
+		return (new_buffer);
+	}
+	temp = ft_strjoin_hd(bef_exp, val);
+	if (!temp)
+	{
+		perror("minishell");
+		return (NULL);
+	}
+	new_buffer = ft_strjoin_hd(temp, after_exp);
+	free(temp);
+	if (!new_buffer)
+	{
+		perror("minishell");
+		return (NULL);
+	}
+	return (new_buffer);
+}
+
+static char	*create_new_buffer(char *buffer, char *val, char *key, int *i) // ES ESTA LA PEOR FUNCIÓN QUE HE ESCRITO NUNCA?????
+{
+	char	*new_buffer;
+	char	*bef_exp;
+	char	*after_exp;
+	char	*temp;
+
+	bef_exp = get_bef_exp_str(buffer, *i);
+	if (!bef_exp)
+		return (NULL);
+	after_exp = get_aft_exp_str(buffer, *i, key, bef_exp);
+	if (!after_exp)
+	{
+		if (bef_exp)
+			free(bef_exp);
+		return (NULL);
+	}
+	new_buffer = get_new_buffer(val, bef_exp, after_exp);
+	free(buffer);
+	if (bef_exp)
+		free(bef_exp);
+	free(after_exp);
+	if (!new_buffer)
+		return (NULL);
+	if (val)
+		*i += ft_strlen(val); //CUIDADO QUE A LO MEJOR NOS SALTAMOS UNO
+	return (new_buffer);
+}
+
+char	*get_keyhd(char *buffer, int i)
+{
+	int		start;
+	char	*key;
+
+	while(buffer[i] && buffer[i] == '$')
+		i++;
+	i--;
+	start = i + 1;
+	i++;
+	while (buffer[i] && buffer[i] != '\'' && buffer[i] != '\"' && buffer[i] != ' ' && buffer[i] != '$')
+		i++;
+	if (start == i)
+		return (ft_strdup("$"));
+	key = ft_substr(buffer, start, i - start);
+	if (!key)
+		return (NULL);
+	return (key);
+}
+
+static char	*expand_heredoc(char *buffer, char **env)
+{
+	int		i;
+	int		j;
+	char	*val;
+	char	*key;
+
+	i = 0;
+	while (buffer[i])
+	{
+		j = i;
+		if (buffer[i] == '$')
+		{
+			key = get_keyhd(buffer, i);
+			if (!key)
+				return (NULL);
+			if (*key  == '$')
+			{
+				val = ft_strdup(key);
+				if (!val)
+				{
+					free(key);
+					perror("minishell");
+					return (NULL);
+				}
+			}
+			else
+			{
+				val = ft_getenv(env, key);
+				if (val)
+				{
+					val = ft_strdup(val); //LEAK
+					if (!val)
+					{
+						free(key);
+						perror("minishell");
+						return (NULL);
+					}
+				}
+				buffer = create_new_buffer(buffer, val, key, &i); //CUIDADO QUE A LO MEJOR NOS SALTAMOS 1
+				if (!buffer)
+				{
+					free(key);
+					if (val)
+						free(val);
+					return (NULL);
+				}
+			}
+			if (key)
+				free(key);
+			if (val)
+				free(val);
+		}
+		if (i == j)
+			i++; //CUIDADO QUE A LO MEJOR NOS SALTAMOS UNO
+	}
+	return (buffer);
+}
+
 
 static int	ft_strncmp_heredoc(const char *s1, const char *s2, size_t n)
 {

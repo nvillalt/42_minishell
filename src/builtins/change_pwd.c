@@ -29,7 +29,7 @@ char	*ft_getenv(char **env, char *var)
 	if (!str[i])
 		return (NULL);
 	if (!str[i + 1])
-		return (0);
+		return (NULL);
 	return (str + i + 1);
 }
 
