@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/13 19:25:55 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:34:36 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,17 @@ int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 {
 	if ((*i)->next  != NULL)
 	{
-		if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, "|>", 2))
+		if (!ft_strncmp((*i)->str, ">>", 2))
+		{
+			create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
+			*i = (*i)->next;
+		}
+		else if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, "|>", 2))
 		{
 			create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
 			*i = (*i)->next;
 		}
-		else if (!ft_strcmp((*i)->str, "<<"))
+		else if (!ft_strncmp((*i)->str, "<<", 2))
 		{
 			create_redir(redir_list, (*i)->next->str, HEREDOC, redir_head);
 			*i = (*i)->next;
@@ -70,11 +75,6 @@ int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 		else if (!ft_strncmp((*i)->str, "<", 1))
 		{
 			create_redir(redir_list, (*i)->next->str, MINUS, redir_head);
-			*i = (*i)->next;
-		}
-		else if (!ft_strcmp((*i)->str, ">>"))
-		{
-			create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
 			*i = (*i)->next;
 		}
 		return (1);
