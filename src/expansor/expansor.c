@@ -50,11 +50,6 @@ static int	count_var(char *str)
 	return (len - 1);
 }
 
-static char	*expansion(char *str, int i, char **env, int st)
-{
-	
-}
-
 // static char	*expansion(char *str, int i, char **env, int st)
 // {
 // 	int		len;
@@ -105,33 +100,113 @@ static char	*expansion(char *str, int i, char **env, int st)
 // 	return (str);
 // }
 
-static char	*var_expanded(char *str, char **env, int status)
+// static char	*var_expanded(char *str, char **env, int status)
+// {
+// 	int		i;
+// 	char	*aux;
+// 	char	*tmp;
+// 	char	*ret;
+
+// 	i = 0;
+// 	if (str[0] == '$' && str[1] == '?')
+// 	{
+// 		free(str);
+// 		return (ft_itoa(status));
+// 	}
+// 	else if (str[0] == '$' && str[1] != '?')
+// 	{
+// 		ret = expansion(str, 0, env, status);
+// 		free(str);
+// 		return (ret);
+// 	}
+// 	while (str[i] != '$' && str[i])
+// 		i++;
+// 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
+// 	tmp = expansion(str, i, env, status);
+// 	ret = ft_strjoin(aux, tmp);
+// 	free(aux);
+// 	free(tmp);
+// 	return (ret);
+// }
+
+char	*expansion(char *str, char *tmp, int st, char **env)
+{
+	int		len;
+	int		i;
+	int		env_var;
+	char	*ret;
+
+	if (str[0] == '$' && str[1] == '?')
+		return (ft_itoa(st));
+	len = ft_strlen(tmp);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strchr(env[i], '='))
+			env_var = ft_strlen(ft_strchr(env[i], '=')) - ft_strlen(env[i]);
+		if (env_var < 0)
+			env_var *= -1;
+		if (!ft_strncmp(tmp, env[i], env_var))
+		{
+			if (ft_strchr(env[i], '=') == NULL)
+				ret = ft_strdup("");
+			else if (ft_strchr(env[i], '=') != NULL)
+				ret = ft_strdup(ft_strchr(env[i], '=') + 1);
+			break ;
+		}
+		i++;
+	}
+	return (ret);
+}
+
+int	expand_var(char *str, char **aux, int i, int st, char **env)
+{
+	char	*tmp;
+	char	*ret;
+	int		start;
+
+	tmp = NULL;
+	start = i;
+	if (str[i] == '$')
+		i++;
+	while (ft_isalnum(str[i]))
+		i++;
+	tmp = ft_substr(str, start, i - start);
+	printf("Tmp: %s\n", tmp);
+	ret = expansion(str, tmp, st, env);
+	printf("-->ret: %s\n", ret);
+	free(tmp);
+	return (i);
+}
+
+int	get_beginning(char *str, char **aux, int i)
+{
+	while (str[i] != '$')
+		i++;
+	if (!*aux)
+		*aux = ft_substr(str, 0, i);
+	printf("--->Previo: %s\n", *aux);
+	return (i);
+}
+
+static char	*var_expanded(char *str, char **env, int st)
 {
 	int		i;
 	char	*aux;
-	char	*tmp;
-	char	*ret;
 
 	i = 0;
-	if (str[0] == '$' && str[1] == '?')
+	aux = NULL;
+	if (str[0] == '$')
 	{
+		expand_var(str, &aux, i, st, env);
 		free(str);
-		return (ft_itoa(status));
+		return (aux);
 	}
-	else if (str[0] == '$' && str[1] != '?')
+	else
 	{
-		ret = expansion(str, 0, env, status);
-		free(str);
-		return (ret);
+		i += get_beginning(str, &aux, i);
+		i += expand_var(str, &aux, i, st, env);
 	}
-	while (str[i] != '$' && str[i])
-		i++;
-	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
-	tmp = expansion(str, i, env, status);
-	ret = ft_strjoin(aux, tmp);
-	free(aux);
-	free(tmp);
-	return (ret);
 }
 
 static char	*expand_env_var(char *str, char **env, int status)
@@ -187,14 +262,16 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 	if (s1 != NULL && tmp != NULL)
 	{
 		if ((!ft_strncmp(s1, ">>", 2) && !ft_strncmp(tmp->str, "<<", 2))
-			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(s1, "<", 1))
+			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(tmp->str, "<", 1)
+			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(tmp->str, ">", 1))
 		{
 			ft_putendl_fd("syntax error near unexpected token `>>'", 2);
 			utils->status = 2;
 			return (0);
 		}
 		else if (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, ">>", 2)
-			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(s1, ">", 1))
+			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, ">", 1)
+			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, "<", 1))
 		{
 			ft_putendl_fd("syntax error near unexpected token `<<'", 2);
 			utils->status = 2;
