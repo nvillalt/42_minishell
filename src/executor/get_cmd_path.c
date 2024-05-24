@@ -47,13 +47,19 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 	return (search);
 }
 
-char	*get_cmd_path(t_utils *utils, t_parse *process)
+char	*get_cmd_path(t_utils *utils, t_parse *process, int *flag)
 {
 	char	*search;
 	char	*command;
 
 	if (access(process->cmd[0], X_OK) == 0)
 		return (process->cmd[0]);
+	if (access(process->cmd[0], X_OK) == -1)
+	{
+		perror("minishell");
+		*flag = 0;
+		return (process->cmd[0]);
+	}
 	command = get_command(utils, process);
 	search = get_def_path(utils->path, command, utils);
 	return (search);
