@@ -163,7 +163,7 @@ char	*get_keyhd(char *buffer, int i)
 	i--;
 	start = i + 1;
 	i++;
-	while (buffer[i] && buffer[i] != '\'' && buffer[i] != '\"' && buffer[i] != ' ' && buffer[i] != '$')
+	while (buffer[i] && ft_isalnum(buffer[i]))
 		i++;
 	if (start == i)
 		return (ft_strdup("$"));
