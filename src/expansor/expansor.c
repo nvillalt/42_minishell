@@ -26,187 +26,110 @@ static int	check_valid_symbol(char *str)
 	}
 	return (1);
 }
-static int	count_var(char *str)
+
+static char	*expand_env(char *var, char **env)
 {
-	int	len;
-
-	len = ft_strlen(str);
-	while (str[len - 1])
-	{
-		if (str[len - 1] == 34 || str[len - 1] == 39)
-		{
-			while (str[len - 1] == 34 || str[len - 1] == 39)
-				len--;
-		}
-		if (ft_isalpha(str[len - 1]) && !ft_isalpha(str[len - 2]))
-		{
-			len -= 2;
-			break ;
-		}
-		len--;
-	}
-	if (len == 1 && str[len - 1] == '$')
-		return (ft_strlen(str));
-	return (len - 1);
-}
-
-// static char	*expansion(char *str, int i, char **env, int st)
-// {
-// 	int		len;
-// 	char	*var;
-// 	char	*tmp;
-// 	int		j;
-// 	int		env_var;
-
-// 	j = 0;
-// 	if (str[i] == '$' && str[i + 1] == '?')
-// 		tmp = ft_itoa(st);
-// 	else
-// 	{
-// 		len = count_var(str + i);
-// 		var = ft_substr(str, i + 1, len);
-// 		i += ft_strlen(var);
-// 		printf("VAR: %s\n", var);
-// 		while (env[j] != NULL)
-// 		{
-// 			if (ft_strchr(env[j], '='))
-// 				env_var = ft_strlen(ft_strchr(env[j], '=')) - ft_strlen(env[j]);
-// 			if (env_var < 0)
-// 				env_var *= -1;
-// 			if (!ft_strncmp(var, env[j], env_var))
-// 			{
-// 				printf("COMP: %d\n", ft_strncmp(var, env[j], env_var));
-// 				free(var);
-// 				if (ft_strchr(env[j], '=') == NULL)
-// 					var = ft_strdup("");
-// 				else if (ft_strchr(env[j], '=') != NULL)
-// 					var = ft_strdup(ft_strchr(env[j], '=') + 1);
-// 				break ;
-// 			}
-// 			j++;
-// 		}
-// 	}
-// 	if (str[i + 1] == '\0')
-// 		return (var);
-// 	else
-// 	{
-// 		tmp = ft_substr(str, i + 1, len);
-// 		free(str);
-// 		str = ft_strjoin(var, tmp);
-// 		if (var)
-// 			free(var);
-// 		free(tmp);
-// 	}
-// 	return (str);
-// }
-
-// static char	*var_expanded(char *str, char **env, int status)
-// {
-// 	int		i;
-// 	char	*aux;
-// 	char	*tmp;
-// 	char	*ret;
-
-// 	i = 0;
-// 	if (str[0] == '$' && str[1] == '?')
-// 	{
-// 		free(str);
-// 		return (ft_itoa(status));
-// 	}
-// 	else if (str[0] == '$' && str[1] != '?')
-// 	{
-// 		ret = expansion(str, 0, env, status);
-// 		free(str);
-// 		return (ret);
-// 	}
-// 	while (str[i] != '$' && str[i])
-// 		i++;
-// 	aux = ft_substr(str, 0, i); // Quedarme con la primera mitad de comillas o lo que sea
-// 	tmp = expansion(str, i, env, status);
-// 	ret = ft_strjoin(aux, tmp);
-// 	free(aux);
-// 	free(tmp);
-// 	return (ret);
-// }
-
-char	*expansion(char *str, char *tmp, int st, char **env)
-{
-	int		len;
 	int		i;
-	int		env_var;
-	char	*ret;
+	int		len;
+	int		env_len;
 
-	if (str[0] == '$' && str[1] == '?')
-		return (ft_itoa(st));
-	len = ft_strlen(tmp);
 	i = 0;
-	while (env[i] != NULL)
+	len = ft_strlen(var);
+	while (env[i])
 	{
 		if (ft_strchr(env[i], '='))
-			env_var = ft_strlen(ft_strchr(env[i], '=')) - ft_strlen(env[i]);
-		if (env_var < 0)
-			env_var *= -1;
-		if (!ft_strncmp(tmp, env[i], env_var))
+			env_len = ft_strlen(ft_strchr(env[i], '=')) - ft_strlen(env[i]);
+		if (env_len < 0)
+			env_len *= -1;
+		if (!ft_strncmp(var, env[i], env_len) && (env_len == len))
 		{
 			if (ft_strchr(env[i], '=') == NULL)
-				ret = ft_strdup("");
+				return (ft_strdup(""));
 			else if (ft_strchr(env[i], '=') != NULL)
-				ret = ft_strdup(ft_strchr(env[i], '=') + 1);
+				return(ft_strdup(ft_strchr(env[i], '=') +  1));
 			break ;
 		}
 		i++;
 	}
-	return (ret);
+	return (ft_strdup(""));
 }
 
-int	expand_var(char *str, char **aux, int i, int st, char **env)
+static int	get_mid(char *str, int i, char **s2, int st, char **env)
 {
 	char	*tmp;
-	char	*ret;
-	int		start;
+	int		j;
 
-	tmp = NULL;
-	start = i;
-	if (str[i] == '$')
+	if (str[i] == '$' && str[i + 1] == '?')
+	{
+		*s2 = ft_itoa(st);
+		return (2);
+	}
+	else if (str[i] == '$')
 		i++;
+	j = i;
 	while (ft_isalnum(str[i]))
 		i++;
-	tmp = ft_substr(str, start, i - start);
-	printf("Tmp: %s\n", tmp);
-	ret = expansion(str, tmp, st, env);
-	printf("-->ret: %s\n", ret);
+	tmp = ft_substr(str, j, i - j);
+	*s2 = expand_env(tmp, env);
 	free(tmp);
 	return (i);
 }
 
-int	get_beginning(char *str, char **aux, int i)
+static int	get_beginning(char *str, int i, char **s1)
 {
-	while (str[i] != '$')
-		i++;
-	if (!*aux)
-		*aux = ft_substr(str, 0, i);
-	printf("--->Previo: %s\n", *aux);
+	if (str[0] == '$')
+		*s1 = ft_strdup("");
+	else if (str[0] != '$')
+	{
+		while (str[i] != '$')
+			i++;
+		*s1 = ft_substr(str, 0, i);
+	}
 	return (i);
 }
 
-static char	*var_expanded(char *str, char **env, int st)
+static int	get_end(char *str, int i, char **s1)
 {
-	int		i;
-	char	*aux;
+	int	j;
 
+	j = i;
+	if (str[i] == '\0')
+		*s1 = ft_strdup("");
+	else if (str[i] != '\0')
+	{
+		while (str[i] != '\0')
+			i++;
+		*s1 = ft_substr(str, j, i - j);
+	}
+	return (i);
+}
+
+static char	*var_expanded(char *str, char **env, int status)
+{
+	char	*s1;
+	char	*s2;
+	char	*ret;
+	int		i;
+
+	s1 = NULL;
+	s2 = NULL;
+	ret = NULL;
 	i = 0;
-	aux = NULL;
-	if (str[0] == '$')
-	{
-		expand_var(str, &aux, i, st, env);
-		free(str);
-		return (aux);
-	}
-	else
-	{
-		i += get_beginning(str, &aux, i);
-		i += expand_var(str, &aux, i, st, env);
-	}
+	i = get_beginning(str, i, &s1);
+	i = get_mid(str, i, &s2, status, env);
+	ret = ft_strjoin(s1, s2);
+	if (s1 != NULL)
+		free(s1);
+	if (s2)
+		free(s2);
+	i = get_end(str, i, &s1);
+	s2 = ft_strjoin(ret, s1);
+	if (ret)
+		free(ret);
+	if (s1)
+		free(s1);
+	free(str);
+	return (s2);
 }
 
 static char	*expand_env_var(char *str, char **env, int status)

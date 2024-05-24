@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_generator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/23 21:49:11 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:53:26 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
