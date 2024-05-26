@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 16:44:50 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 19:42:41 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	check_symbol(char *str, t_utils *utils)
 		if (check_redirections(str) == 2 || check_redirections(str) == 8)
 		{
 			utils->status = 2;
+			ft_putstr_fd("minishell: ", 2);
 			ft_putendl_fd("syntax error near unexpected token `>'", 2);
 			return (-1);
 		}
@@ -47,6 +48,7 @@ static int	check_symbol(char *str, t_utils *utils)
 			|| check_redirections(str) == 6)
 		{
 			utils->status = 2;
+			ft_putstr_fd("minishell: ", 2);
 			ft_putendl_fd("syntax error near unexpected token `newline'", 2);
 			return (-1);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/13 20:43:05 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 19:41:58 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_quotes(char *line, t_utils *utils)
 	}
 	if (flag)
 	{
-		ft_putstr_fd("syntax error `unclosed quotes'\n", 2);
+		ft_putstr_fd("minishell: syntax error `unclosed quotes'\n", 2);
 		return (0);
 	}
 	return (1);
@@ -94,7 +94,7 @@ int	initial_pipe(char *input, t_utils *utils)
 		len--;
 	if (input[len - 1] == '|' || input[i] == '|')
 	{
-		ft_putendl_fd("syntax error near end of line `|'", 2);
+		ft_putendl_fd("minishell: syntax error near end of line `|'", 2);
 		return (0);
 	}
 	return (1);
