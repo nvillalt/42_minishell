@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/14 18:02:18 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:41:43 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,27 @@ static void	assign_builtins(t_utils *utils)
 	}
 }
 
-static int	assign_process(t_parse **node, char *str)
+static void	divide_commands(t_parse **node, int i)
+{
+	char	**aux;
+	int		len;
+
+	len = 0;
+	aux = ft_split((*node)->cmd[i], ' ');
+	while (aux[len])
+		len++;	
+	if (len == 2)
+	{
+		free((*node)->cmd[i]);
+		(*node)->cmd[i] = aux[0];
+		(*node)->cmd[i + 1] = aux[1];
+		// free(aux);
+	}
+	else
+		return ;
+}
+
+static int	assign_process(t_parse **node, char *str, int expand)
 {
 	char	**temp;
 	int		i;
@@ -68,6 +88,8 @@ static int	assign_process(t_parse **node, char *str)
 	(*node)->cmd[i] = clean_quotes(str);
 	if (!(*node)->cmd[i])
 		return (0);
+	if (expand == EXPAND)
+		divide_commands(node, i);
 	return (1);
 }
 
@@ -89,7 +111,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
 		else if (ft_strcmp(i->str, "|"))
-			assign_process(&node, i->str);
+			assign_process(&node, i->str, i->expand);
 		if (i->next == NULL)
 			break ;
 		i = i->next;

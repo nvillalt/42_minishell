@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:27:23 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:45:49 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
 	{
 		if (str[i] == 34 && !flag)
 		{
-			tmp->expand = EXPAND;
 			flag = str[i];
 			i++;
 			while (str[i] != flag)
@@ -70,6 +69,7 @@ static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
 			flag = 0;
 		}
 	}
+	tmp->expand = EXPAND;
 	return (var_expanded(str, exp_utils));
 }
 
@@ -130,9 +130,7 @@ int	expansor(t_utils *utils)
 			return (0);
 		}
 		if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
-		{
 			tmp->str = expand_env_var(tmp->str, exp_utils, tmp);
-		}
 		if (tmp->str && tmp->next == NULL)
 			break ;
 		if (tmp->str)
