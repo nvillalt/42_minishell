@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 16:29:45 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 19:19:11 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_expand
 int		expansor(t_utils *utils);
 
 // expansor_builder.c
-int		get_end(char *str, int i, char **s1);
+int		get_end(char *str, int i, char **s1, t_expand *exp_utils);
 int		get_beginning(char *str, int i, char **s1);
 int		get_mid(char *str, int i, char **s2, t_expand *exp_utils);
 char	*expand_env(char *var, char **env);

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 16:44:20 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 19:20:27 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	get_beginning(char *str, int i, char **s1)
 	return (i);
 }
 
-int	get_end(char *str, int i, char **s1) // Ver aqui para expandir dos variables
+int	get_end(char *str, int i, char **s1, t_expand *exp_utils) // Ver aqui para expandir dos variables
 {
 	int	j;
 
@@ -60,9 +60,14 @@ int	get_end(char *str, int i, char **s1) // Ver aqui para expandir dos variables
 		*s1 = ft_strdup("");
 	else if (str[i] != '\0')
 	{
-		while (str[i] != '\0')
-			i++;
-		*s1 = ft_substr(str, j, i - j);
+		if (str[i] == '$')
+			j = get_mid(str, j, s1, exp_utils);
+		else
+		{
+			while (str[i] != '\0')
+				i++;
+			*s1 = ft_substr(str, j, i - j);
+		}
 	}
 	return (i);
 }
@@ -112,7 +117,7 @@ char	*var_expanded(char *str, t_expand *exp_utils)
 		free(s1);
 	if (s2)
 		free(s2);
-	i = get_end(str, i, &s1);
+	i = get_end(str, i, &s1, exp_utils);
 	s2 = ft_strjoin(ret, s1);
 	if (ret)
 		free(ret);
