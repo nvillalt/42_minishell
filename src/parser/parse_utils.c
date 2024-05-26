@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:41:58 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:32:35 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,12 @@ int	initial_pipe(char *input, t_utils *utils)
 	if (input[len - 1] == '|' || input[i] == '|')
 	{
 		ft_putendl_fd("minishell: syntax error near end of line `|'", 2);
+		return (0);
+	}
+	else if (input[len - 1] == '>' || input[len - 1] == '<')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putendl_fd("syntax error near end of line `newline'", 2);
 		return (0);
 	}
 	return (1);
