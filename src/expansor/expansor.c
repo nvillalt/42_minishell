@@ -198,8 +198,10 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 			return (0);
 		}
 		else if (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, ">>", 2)
-			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, ">", 1)
-			|| !ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, "<", 1))
+			|| (!ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, ">", 1))
+			|| (!ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, "<", 1))
+			|| (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, "|", 1))
+			|| (!ft_strncmp(s1, "<", 2) && !ft_strncmp(tmp->str, "|", 1)))
 		{
 			ft_putendl_fd("syntax error near unexpected token `<<'", 2);
 			utils->status = 2;
