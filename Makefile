@@ -46,7 +46,7 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/exec_builtins.c 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
-			src/tokenizer/token_list.c \
+			src/tokenizer/token_list.c 
 
 PARSER = src/parser/get_path.c \
 			src/parser/parse_utils.c \
@@ -57,7 +57,9 @@ PARSER = src/parser/get_path.c \
 
 SIGNAL = src/signals/signal_reception.c
 
-EXPAND = src/expansor/expansor.c
+EXPAND = src/expansor/expansor.c \
+			src/expansor/expansor_builder.c \
+			src/expansor/expansor_utils.c
 
 GENERAL = src/general/main.c \
 			src/general/error_management.c \
