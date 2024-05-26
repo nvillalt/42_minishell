@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 13:38:59 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:59:35 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*trim_spaces(char *input)
 	str = ft_substr(input, i, len - i);
 	return (str);
 }
+
 static int	check_symbol(char *str, t_utils *utils)
 {
 	int	i;
