@@ -238,7 +238,7 @@ int	prompt_loop(t_utils *utils)
 					}
 				}
 			}
-			printf("%d\n", utils->status);
+		//	printf("%d\n", utils->status);
 		}
 	}
 	return (1);

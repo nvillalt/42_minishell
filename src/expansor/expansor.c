@@ -64,6 +64,11 @@ static int	get_mid(char *str, int i, char **s2, int st, char **env)
 		*s2 = ft_itoa(st);
 		return (2);
 	}
+	else if (str[i] == '$' && str[i + 1] == '\0')
+	{
+		*s2 = ft_strdup("$");
+		return (1);
+	}
 	else if (str[i] == '$')
 		i++;
 	j = i;
@@ -206,7 +211,6 @@ static int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 
 int	expansor(t_utils *utils)
 {
-	// REVISAR CASOS COMO echo $'USER'
 	t_token	*tmp;
 	int		i;
 
