@@ -207,9 +207,8 @@ int	prompt_loop(t_utils *utils)
 		input = readline("minishell:");
 		if (!input)
 		{
-			printf("exit\n");
+			printf("exit\n"); // poner el mensaje con señal
 			free_matrix(utils->env);
-			free_matrix(utils->path);
 			exit (0);
 		}
 		if (!*input)
@@ -259,7 +258,6 @@ int	main(int argc, char **argv, char **envp)
 		if(!update_shlvl(&utils))
 		{
 			free_matrix(utils.env);
-			free_matrix(utils.path);
 			ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
 			exit(1);
 		}
@@ -268,7 +266,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!utils.env)
 	{
 		free_matrix(utils.env);
-		free_matrix(utils.path);
 		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
 		exit(1);
 	}
