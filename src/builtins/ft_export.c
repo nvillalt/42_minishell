@@ -93,8 +93,10 @@ static int	sort_export_env(char **env)
 int	ft_export(t_utils *utils, char **cmd)
 {
 	int		num;
+	int		error_flag;
 	char	**export_env;
 
+	error_flag = 0;
 	export_env = env_dup(utils->env); //AL LORO CON ESTE DUPLICADO
 	if (!export_env)
 		return (1);
@@ -113,11 +115,11 @@ int	ft_export(t_utils *utils, char **cmd)
 	}
 	else if (num > 1)
 	{
-		export_env = export_to_env(export_env, cmd);
+		export_env = export_to_env(export_env, cmd, &error_flag);
 		if (!export_env)
 			return (1);
 		free_matrix(utils->env);
 		utils->env = export_env;
 	}
-	return (0);
+	return (error_flag);
 }

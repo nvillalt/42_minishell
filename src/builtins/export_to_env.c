@@ -142,7 +142,7 @@ char	**change_var(char **env, char *cmd)
 	return(env);
 }
 
-char    **export_to_env(char **env, char **cmd)
+char    **export_to_env(char **env, char **cmd, int *error_flag)
 {
 	int i;
 	int	setvar;
@@ -150,24 +150,32 @@ char    **export_to_env(char **env, char **cmd)
 	i = 1;
 	while(cmd[i])
 	{
-		setvar = cmd_on_env(env, cmd[i]);
-		if (setvar == 1)
+		if (!cmd[i][0])
 		{
-			env = change_var(env, cmd[i]);
-			if (!env)
-				return (NULL);
-		}
-		else if (setvar == 2)
-		{
-			env = join_var(env, cmd[i]);
-			if (!env)
-				return (NULL);
+			ft_putendl_fd("minishell: export: `': not a valid identifier", STDERR_FILENO);
+			*error_flag = 1;
 		}
 		else
 		{
-			env = add_to_env(env, cmd[i]);
-			if (!env)
-				return (NULL);
+			setvar = cmd_on_env(env, cmd[i]);
+			if (setvar == 1)
+			{
+				env = change_var(env, cmd[i]);
+				if (!env)
+					return (NULL);
+			}
+			else if (setvar == 2)
+			{
+				env = join_var(env, cmd[i]);
+				if (!env)
+					return (NULL);
+			}
+			else
+			{
+				env = add_to_env(env, cmd[i]);
+				if (!env)
+					return (NULL);
+			}
 		}
 		i++;
 	}
