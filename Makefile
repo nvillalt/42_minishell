@@ -48,8 +48,7 @@ EXECUTOR = src/executor/executor.c \
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \
 
-PARSER = src/parser/get_path.c \
-			src/parser/parse_utils.c \
+PARSER = src/parser/parse_utils.c \
 			src/parser/parse_tokens.c \
 			src/parser/handle_quotes.c \
 			src/parser/handle_redirections.c \

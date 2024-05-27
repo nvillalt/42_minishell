@@ -256,13 +256,6 @@ int	main(int argc, char **argv, char **envp)
 		utils.env = env_dup(envp);
 		if (!utils.env)
 			exit(1);
-		utils.path = get_path(utils.env);
-		if (!utils.path)
-		{
-			free_matrix(utils.env);
-			ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
-			exit(1);
-		}
 		if(!update_shlvl(&utils))
 		{
 			free_matrix(utils.env);
