@@ -6,7 +6,7 @@
 
 void			dirty_parse(char *input, t_utils *utils);
 int				executor(t_utils *utils, t_parse *process);
-char			*get_cmd_path(t_utils *utils, t_parse *process, int *flag);
+char			*get_cmd_path(t_utils *utils, t_parse *process);
 int				create_multiple_heredocs(t_utils *utils, t_parse *process);
 void			close_fds(t_parse *process, t_utils *utils);
 int				execute_childs(t_utils *utils, t_parse *process);

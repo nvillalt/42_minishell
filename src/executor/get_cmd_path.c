@@ -1,5 +1,19 @@
 #include "../../minishell.h"
 
+static int	ft_isrelative(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while(cmd[i])
+	{
+		if (cmd[i] == '/')
+			return (1);
+		i++;
+	}
+	return(0);
+}
+
 static char	*find_env_path(char **env)
 {
 	char	*str;
@@ -47,7 +61,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 	return (search);
 }
 
-char	*get_cmd_path(t_utils *utils, t_parse *process, int *flag)
+char	*get_cmd_path(t_utils *utils, t_parse *process)
 {
 	char	*search;
 	char	*path_oneline;
@@ -56,6 +70,12 @@ char	*get_cmd_path(t_utils *utils, t_parse *process, int *flag)
 
 	if (access(process->cmd[0], X_OK) == 0)
 		return (process->cmd[0]);
+	if (access(process->cmd[0], X_OK) == -1 && ft_isrelative(process->cmd[0]))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		perror(process->cmd[0]);
+		exit_process_custom(utils, 127);
+	}
 	path_oneline = find_env_path(utils->env);
 	if (!path_oneline)
 	{
