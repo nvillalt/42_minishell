@@ -3,10 +3,18 @@
 void	exec_cmd(t_utils *utils, t_parse *current_process)
 {
 	char	*path;
+	int		flag;
 
-	path = get_cmd_path(utils, current_process);
-	//if (!path)
-		//path = utils->path[0]; //NO es muy correcto. En caso de que no encuentre la ruta le paso una cualquiera. Documentarse
+	flag = 0;
+	path = get_cmd_path(utils, current_process, &flag);
+	if (!path)
+		path = utils->path[0]; //NO es muy correcto. En caso de que no encuentre la ruta le paso una cualquiera. Documentarse
+	if (!flag)
+	{
+		if (path)
+			free(path);
+		exit(126);
+	}
 	if (execve(path, current_process->cmd, utils->env) == -1)
 	{
 		ft_putstr_fd(current_process->cmd[0], STDERR_FILENO);

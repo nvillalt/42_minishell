@@ -47,7 +47,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 	return (search);
 }
 
-char	*get_cmd_path(t_utils *utils, t_parse *process)
+char	*get_cmd_path(t_utils *utils, t_parse *process, int *flag)
 {
 	char	*search;
 	char	*path_oneline;
