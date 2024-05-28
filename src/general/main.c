@@ -33,7 +33,6 @@ static int	create_new_shlvl(t_utils *utils)
 	return (1);
 }
 
-
 static int	update_shlvl(t_utils *utils)
 {
 	int		i;
@@ -189,6 +188,8 @@ t_utils	init_utils(void)
 	utils.pid_array = NULL;
 	utils.process = NULL;
 	utils.token_list = NULL;
+	utils.saved_stdin = -1;
+	utils.saved_stdout = -1;
 	return (utils);
 }
 
@@ -200,14 +201,13 @@ int	prompt_loop(t_utils *utils)
 	while (1)
 	{
 		g_sigint = 0;
-		//utils->status = 0; // Comentado porque si no, resetea el valor a 0 y haciendo $? no saca el status de la ejecución anterior
+		utils->parent_builtin = 0;
 		set_signals();
 		input = readline("minishell:");
 		if (!input)
 		{
-			printf("exit\n");
+			printf("exit\n"); // poner el mensaje con señal
 			free_matrix(utils->env);
-			free_matrix(utils->path);
 			exit (0);
 		}
 		if (!*input)
@@ -231,14 +231,13 @@ int	prompt_loop(t_utils *utils)
 						parse_tokens(utils);
 						executor(utils, utils->process);
 						free_to_prompt(utils);
-						if (utils->status == 130)
+						if (utils->status == 130 && g_sigint == 0)
 							printf("\n");
 						else if (utils->status == 131)
 							printf("Quit\n");
 					}
 				}
 			}
-		//	printf("%d\n", utils->status);
 		}
 	}
 	return (1);
@@ -258,17 +257,9 @@ int	main(int argc, char **argv, char **envp)
 		utils.env = env_dup(envp);
 		if (!utils.env)
 			exit(1);
-		utils.path = get_path(utils.env);
-		if (!utils.path)
-		{
-			free_matrix(utils.env);
-			ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
-			exit(1);
-		}
 		if(!update_shlvl(&utils))
 		{
 			free_matrix(utils.env);
-			free_matrix(utils.path);
 			ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
 			exit(1);
 		}
@@ -277,7 +268,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!utils.env)
 	{
 		free_matrix(utils.env);
-		free_matrix(utils.path);
 		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
 		exit(1);
 	}

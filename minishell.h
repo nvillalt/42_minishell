@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <errno.h> //Se puede usar?
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>

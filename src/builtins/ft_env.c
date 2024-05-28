@@ -42,7 +42,7 @@ int	ft_env(char **env, char **argv)
 		ft_putstr_fd("env: ", STDERR_FILENO);
 		ft_putstr_fd("\'", STDERR_FILENO);
 		ft_putstr_fd(argv[1], STDERR_FILENO);
-		ft_putstr_fd("\' ", STDERR_FILENO);
+		ft_putstr_fd("\': ", STDERR_FILENO);
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
 		return (127);
 	}

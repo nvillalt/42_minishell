@@ -1,5 +1,32 @@
 #include "../../minishell.h"
+/*
+static char	**create_cmd_no_builtin(char **cmd) 
+{
+	char	**new_cmd;
 
+	new_cmd = env_dup(cmd + 1);
+	if (!new_cmd)
+		return (NULL);
+	free_matrix(cmd);
+	return (new_cmd);
+}
+
+static int	clean_env_builtin(t_parse *process)
+{
+	while (process)
+	{
+		if (process->built_in == ENV && count_matrix(process->cmd) > 1)
+		{
+			process->cmd = create_cmd_no_builtin(process->cmd);
+			if (!process->cmd)
+				return (FUNC_FAILURE);
+			process->built_in = 0;
+		}
+		process = process->next;
+	}
+	return (FUNC_SUCCESS);
+}
+*/
 static int	get_cmd_num(t_parse *process)
 {
 	int	cmd_num;
@@ -52,6 +79,8 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	int	process_index;
 
 	process_index = 0;
+	//if (!clean_env_builtin(utils->process))
+		//return (FUNC_FAILURE);
 	if (!create_first_child(utils, process, process_index))
 		return (FUNC_FAILURE);
 	process_index++;
@@ -63,13 +92,13 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		process = process->next;
 		process_index++;
 	}
-	close_pipe_fd(&utils->main_pipe[1]);
+	close_redir_fd(&utils->main_pipe[1]);
 	if (process)
 	{
 		if (!create_last_child(utils, process, process_index))
 			return (FUNC_FAILURE);
 	}
-	close_pipe_fd(&utils->main_pipe[0]);
+	close_redir_fd(&utils->main_pipe[0]);
 	if (!wait_all_process(utils))
 		return (FUNC_FAILURE);
 	return (FUNC_SUCCESS);

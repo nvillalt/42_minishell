@@ -14,7 +14,10 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 			if (process->redirec->fd == -1)
 			{
 				ft_puterror(process->redirec->doc);
-				exit_process(utils);
+				if (utils->parent_builtin == -1)
+					return (-2);
+				else
+					exit_process(utils);
 			}
 			last_outfile_fd = process->redirec->fd;
 		}
@@ -24,7 +27,10 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 			if (process->redirec->fd == -1)
 			{
 				ft_puterror(process->redirec->doc);
-				exit_process(utils);
+				if (utils->parent_builtin == 1)
+					return (FUNC_FAILURE);
+				else
+					exit_process(utils);
 			}
 			last_outfile_fd = process->redirec->fd;
 		}
@@ -40,10 +46,15 @@ int	redirec_outfile(t_utils *utils, t_parse *process)
 	last_outfile_fd = open_outfiles(utils, process);
 	if (last_outfile_fd == -1)
 		return (FUNC_FAILURE);
+	if (last_outfile_fd == -2)
+		return (-2);
 	if (dup2(last_outfile_fd, STDOUT_FILENO) == -1)
 	{
 		perror("minishell");
-		exit_process(utils);
+		if (utils->parent_builtin == 1)
+			return (-2);
+		else
+			exit_process(utils);
 	}
 	close_fds(utils->process, utils); 
 	return (FUNC_SUCCESS);

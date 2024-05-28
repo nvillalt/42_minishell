@@ -33,7 +33,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 EXECUTOR = src/executor/executor.c \
 					src/executor/dirty_parse.c \
 					src/executor/get_cmd_path.c \
-					src/executor/here_docs.c \
+					src/executor/heredocs.c \
 					src/executor/close_fds.c \
 					src/executor/executor_frees.c \
 					src/executor/execute_first_process.c \
@@ -48,8 +48,7 @@ EXECUTOR = src/executor/executor.c \
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c 
 
-PARSER = src/parser/get_path.c \
-			src/parser/parse_utils.c \
+PARSER = src/parser/parse_utils.c \
 			src/parser/parse_tokens.c \
 			src/parser/handle_quotes.c \
 			src/parser/handle_redirections.c \
@@ -67,8 +66,10 @@ GENERAL = src/general/main.c \
 			src/general/general_utils.c \
 			src/general/ft_puterror.c
 
+MALLOC_DEBUG = src/debug/malloc_debug.c
+
 VALGRIND			= valgrind
-VALGRIND_OPT		+= --suppressions=readline.supp
+#VALGRIND_OPT		+= --suppressions=readline.supp
 VALGRIND_OPT		+= --trace-children=yes
 VALGRIND_OPT		+= --track-origins=yes
 VALGRIND_OPT		+= --track-fds=yes
@@ -77,6 +78,7 @@ VALGRIND_OPT		+= --show-leak-kinds=all
 EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
 OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o} ${EXPAND:.c=.o}
+OBJ.DEBUG = $(MALLOC_DEBUG:.c=.o)
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)
@@ -89,6 +91,10 @@ all: $(NAME)
 
 debug: CFLAGS += -fsanitize=address -g3
 debug: $(NAME)
+
+madebug: $(OBJS) $(INCLUDES) $(OBJ.DEBUG)
+		$(LM) $(LIBFTDIR)
+		$(CC) -o $(NAME) -D MALLOC_FAIL=1 $(CFLAGS) $(OBJS) $(OBJ.DEBUG) $(LIBFT) $(RLIB)
 
 clean:
 		$(RM) $(OBJS)
@@ -104,4 +110,4 @@ valgrind:
 					@echo -e '\033[33m$(VALGRIND) \033[36m$(VALGRIND_OPT) \033[0m-- $(EXC_NAME)'
 					@$(VALGRIND) $(VALGRIND_OPT) -- $(EXC_NAME)
 
-.PHONY = all clean fclean re bonus debug valgrind
+.PHONY = all clean fclean re bonus debug valgrind madebug

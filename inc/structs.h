@@ -39,6 +39,9 @@ typedef struct s_utils
 	int		aux_pipe[2];
 	int		process_list_len;
 	int		builtin_counter;
+	int		parent_builtin;
+	int		saved_stdin;
+	int		saved_stdout;
 }	t_utils;
 
 #endif
