@@ -25,4 +25,14 @@ int				create_last_child(t_utils *utils, t_parse *process, int process_index);
 int				create_mid_child(t_utils *utils, t_parse *process, int process_index);
 int				exec_builtins(t_utils *utils, t_parse *process, int process_index);
 unsigned char	handle_builtins(t_utils *utils, t_parse *process);
+int				control_eof_hd(t_parse *process, t_utils *utils);
+int				control_sigint_hd(char *buffer, t_utils *utils);
+void            init_values_hd(char **buffer, int *limiter_len, int *buffer_len, t_parse *process);
+char			*init_buffer(char *buffer);
+char			*append_newline(int *buffer_len, char *buffer, t_utils *utils);
+int				ft_strncmp_heredoc(const char *s1, const char *s2, size_t n);
+char			*ft_strjoin_hd(char const *s1, char const *s2);
+int				open_here_doc(t_redir *redirec, int *temp_num);
+char			*check_expansor_hd(t_parse *process, char *buffer, t_utils *utils);
+char			*get_keyhd(char *buffer, int i, t_utils *utils);
 #endif

@@ -79,8 +79,6 @@ int	execute_childs(t_utils *utils, t_parse *process)
 	int	process_index;
 
 	process_index = 0;
-	//if (!clean_env_builtin(utils->process))
-		//return (FUNC_FAILURE);
 	if (!create_first_child(utils, process, process_index))
 		return (FUNC_FAILURE);
 	process_index++;

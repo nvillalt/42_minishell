@@ -39,6 +39,8 @@ void	free_utils(t_utils *utils);
 void	free_lists(t_utils	*utils);
 //printf double array
 void	print_env(char **env);
-int		ft_puterror(char *cmd);
 int     count_matrix(char **cmds);
+
+char	*free_puterror(char *str, char *str2, t_utils *utils, int status);
+int		ft_puterror(char *cmd);
 #endif
