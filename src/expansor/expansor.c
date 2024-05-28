@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 15:18:55 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:56:45 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,14 @@ static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
 	flag = 0;
 	while (str[++i])
 	{
-		if (str[i] == 34 && !flag)
-		{
-			flag = str[i];
-			i++;
-			while (str[i] != flag)
-				i++;
-			flag = 0;
-		}
-		else if (str[i] == 39 && !flag)
+		if (str[i] == 39 && !flag)
 		{
 			flag = str[i];
 			i++;
 			while (str[i] != flag)
 			{
 				if (str[i] =='$')
-					//return (str);
+					return (str);
 				i++;
 			}
 			flag = 0;
