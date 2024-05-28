@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 15:14:37 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:41:46 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	get_end(char *str, int i, char **s1, t_expand *exp_utils) // Ver aqui para e
 			tmp = ft_strdup(aux);
 		else if (tmp)
 			tmp = ft_strjoin_expand(tmp, aux);
+		free(aux);
 	}
 	if (tmp != NULL)
 		*s1 = tmp;

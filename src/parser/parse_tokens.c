@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 08:46:08 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:34:39 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	divide_commands(t_parse **node, int i)
 		free((*node)->cmd[i]);
 		(*node)->cmd[i] = aux[0];
 		(*node)->cmd[i + 1] = aux[1];
+		printf("Aux 1: %s\n", aux[1]);
 		printf("%s,\n%s,\n", (*node)->cmd[i], (*node)->cmd[i + 1]);
 		// free(aux);
 	}
@@ -90,8 +91,8 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		(*node)->cmd = temp;
 	}
 	(*node)->cmd[i] = clean_quotes(str);
-	if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
-		divide_commands(node, i);
+	// if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
+	// 	divide_commands(node, i);
 	return (1);
 }
 

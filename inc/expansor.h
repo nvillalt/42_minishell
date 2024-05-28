@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:19:11 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:25:24 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*var_expanded(char *str, t_expand *exp_utils);
 
 // expansor_utils.c
 t_expand	*init_exp(t_utils *utils);
+char		*ft_strjoin_expand(char *s1, char *s2);
 
 
 # endif

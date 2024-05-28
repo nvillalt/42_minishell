@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 15:10:51 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:18:55 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
 			while (str[i] != flag)
 			{
 				if (str[i] =='$')
-					return (str);
+					//return (str);
 				i++;
 			}
 			flag = 0;
