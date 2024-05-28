@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor_builder.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:28:24 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:14:37 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,32 @@ int	get_beginning(char *str, int i, char **s1)
 
 int	get_end(char *str, int i, char **s1, t_expand *exp_utils) // Ver aqui para expandir dos variables
 {
-	int	j;
+	int		j;
+	char	*aux;
+	char	*tmp; 
 
 	j = i;
+	tmp = NULL;
 	if (str[i] == '\0')
 		*s1 = ft_strdup("");
-	else if (str[i] != '\0')
+	while (str[j] != '\0')
 	{
-		if (str[i] == '$')
-			j = get_mid(str, j, s1, exp_utils);
-		else
+		if (str[j] == '$')
+			j = get_mid(str, j, &aux, exp_utils);
+		else if (str[j] != '$')
 		{
-			while (str[i] != '\0')
-				i++;
-			*s1 = ft_substr(str, j, i - j);
+			i = j;
+			while (str[j] != '\0' && str[j] != '$')
+				j++;
+			aux = ft_substr(str, i, j - i);
 		}
+		if (!tmp)
+			tmp = ft_strdup(aux);
+		else if (tmp)
+			tmp = ft_strjoin_expand(tmp, aux);
 	}
+	if (tmp != NULL)
+		*s1 = tmp;
 	return (i);
 }
 

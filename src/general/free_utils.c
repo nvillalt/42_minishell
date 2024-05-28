@@ -40,6 +40,7 @@ void	free_parse_list(t_parse	*process)
 
 	while(process)
 	{
+		printf("---> %s\n", process->cmd[0]);
 		if(process->cmd)
 			free_matrix(process->cmd); //No se libera bien hasta hacer una reserva correcta
 		temp = process;

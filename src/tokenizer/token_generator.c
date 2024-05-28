@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_generator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:42:41 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:08:03 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	get_substr(char *aux, int i)
 				i++;
 			break ;
 		}
-		else if (!flag && (is_token(aux[i + 1])/*  || aux[i + 1] == '$') */))
+		else if (!flag && (is_token(aux[i + 1])))
 			return (i + 1);
 		i++;
 	}

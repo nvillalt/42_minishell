@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 20:41:43 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/28 08:46:08 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 static void	assign_builtins(t_utils *utils)
 {
-	t_parse *process;
+	t_parse *p;
 
-	process = utils->process;
-	while (process && process->cmd)
+	p = utils->process;
+	while (p && p->cmd)
 	{
-		if (ft_strncmp(process->cmd[0], "echo", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
-			process->built_in = ECHO;
-		else if (ft_strncmp(process->cmd[0], "pwd", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
-			process->built_in = PWD;
-		else if (ft_strncmp(process->cmd[0], "env", 3) == 0 && ft_strlen(process->cmd[0]) == 3)
-			process->built_in = ENV;
-		else if (ft_strncmp(process->cmd[0], "unset", 5) == 0 && ft_strlen(process->cmd[0]) == 5)
-			process->built_in = UNSET;
-		else if (ft_strncmp(process->cmd[0], "cd", 2) == 0 && ft_strlen(process->cmd[0]) == 2)
-			process->built_in = CD;
-		else if (ft_strncmp(process->cmd[0], "exit", 4) == 0 && ft_strlen(process->cmd[0]) == 4)
-			process->built_in = EXIT;
-		else if (ft_strncmp(process->cmd[0], "export", 6) == 0 && ft_strlen(process->cmd[0]) == 6)
-			process->built_in = EXPORT;
+		if (!ft_strncmp(p->cmd[0], "echo", 4) && ft_strlen(p->cmd[0]) == 4)
+			p->built_in = ECHO;
+		else if (!ft_strncmp(p->cmd[0], "pwd", 3) && ft_strlen(p->cmd[0]) == 3)
+			p->built_in = PWD;
+		else if (!ft_strncmp(p->cmd[0], "env", 3) && ft_strlen(p->cmd[0]) == 3)
+			p->built_in = ENV;
+		else if (!ft_strncmp(p->cmd[0], "unset", 5)
+			&& ft_strlen(p->cmd[0]) == 5)
+			p->built_in = UNSET;
+		else if (!ft_strncmp(p->cmd[0], "cd", 2) && ft_strlen(p->cmd[0]) == 2)
+			p->built_in = CD;
+		else if (!ft_strcmp(p->cmd[0], "exit") && ft_strlen(p->cmd[0]) == 4) // Ojo con esto, revisar la norma luego
+			p->built_in = EXIT;
+		else if (!ft_strncmp(p->cmd[0], "export", 6)
+			&& ft_strlen(p->cmd[0]) == 6)
+			p->built_in = EXPORT;
 		else
-			process->built_in = 0;
-		process = process->next;
+			p->built_in = 0;
+		p = p->next;
 	}
 }
 
@@ -46,6 +48,7 @@ static void	divide_commands(t_parse **node, int i)
 
 	len = 0;
 	aux = ft_split((*node)->cmd[i], ' ');
+	
 	while (aux[len])
 		len++;	
 	if (len == 2)
@@ -53,6 +56,7 @@ static void	divide_commands(t_parse **node, int i)
 		free((*node)->cmd[i]);
 		(*node)->cmd[i] = aux[0];
 		(*node)->cmd[i + 1] = aux[1];
+		printf("%s,\n%s,\n", (*node)->cmd[i], (*node)->cmd[i + 1]);
 		// free(aux);
 	}
 	else
@@ -86,9 +90,7 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		(*node)->cmd = temp;
 	}
 	(*node)->cmd[i] = clean_quotes(str);
-	if (!(*node)->cmd[i])
-		return (0);
-	if (expand == EXPAND)
+	if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
 		divide_commands(node, i);
 	return (1);
 }
