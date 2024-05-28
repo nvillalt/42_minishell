@@ -4,7 +4,7 @@ static int	open_infiles(t_utils *utils, t_parse *process)
 {
 	int	last_infile_fd;
 
-	last_infile_fd = -1; //POR QUÉ???
+	last_infile_fd = -1;
 	process->redirec = process->redirec_head;
 	while (process->redirec)
 	{

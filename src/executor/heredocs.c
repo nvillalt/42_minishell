@@ -344,7 +344,7 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 	return (1);
 }
 
-static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
+static int	exec_heredoc(t_utils *utils, t_parse *process, int *temp_num)
 {
 	if(!open_here_doc(process->redirec, temp_num))
 	{
@@ -357,20 +357,18 @@ static int	exec_here_doc(t_utils *utils, t_parse *process, int *temp_num)
 	return (FUNC_SUCCESS);
 }
 
-int	create_multiple_heredocs(t_utils *utils, t_parse *process)
+int	create_heredoc_loop(t_parse *process, t_utils *utils)
 {
 	int	temp_num;
 
 	temp_num = 1;
-	heredoc_signals();
-	rl_catch_signals = 0;
 	while(process)
 	{
 		while(process->redirec)
 		{
 			if (process->redirec->redir_type == HEREDOC)
 			{
-				if (!exec_here_doc(utils, process, &temp_num))
+				if (!exec_heredoc(utils, process, &temp_num))
 				{
 					rl_catch_signals = 1;
 					return (FUNC_FAILURE);
@@ -381,6 +379,15 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 		}
 		process = process->next;
 	}
+	return (FUNC_SUCCESS);
+}
+
+int	create_multiple_heredocs(t_utils *utils, t_parse *process)
+{
+	heredoc_signals();
+	rl_catch_signals = 0;
+	if (!create_heredoc_loop(process, utils))
+		return (FUNC_FAILURE);
 	close_fds(process, utils);
 	rl_catch_signals = 1;
 	set_signals();

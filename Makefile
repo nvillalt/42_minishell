@@ -33,7 +33,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 EXECUTOR = src/executor/executor.c \
 					src/executor/dirty_parse.c \
 					src/executor/get_cmd_path.c \
-					src/executor/here_docs.c \
+					src/executor/heredocs.c \
 					src/executor/close_fds.c \
 					src/executor/executor_frees.c \
 					src/executor/execute_first_process.c \
@@ -67,7 +67,7 @@ GENERAL = src/general/main.c \
 MALLOC_DEBUG = src/debug/malloc_debug.c
 
 VALGRIND			= valgrind
-VALGRIND_OPT		+= --suppressions=readline.supp
+#VALGRIND_OPT		+= --suppressions=readline.supp
 VALGRIND_OPT		+= --trace-children=yes
 VALGRIND_OPT		+= --track-origins=yes
 VALGRIND_OPT		+= --track-fds=yes
