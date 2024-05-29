@@ -37,10 +37,13 @@ int		error_message(t_utils *utils);
 void 	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 void	free_lists(t_utils	*utils);
+char	*free_puterror(char *str, char *str2, t_utils *utils, int status);
+int		ft_puterror(char *cmd);
+void	free_ptrs(void *ptr1, void *ptr2);
+char	*updt_status_return(t_utils *utils, int status);
+int		free_puterror_int(char *str, char *str2, t_utils *utils, int status);
 //printf double array
 void	print_env(char **env);
 int     count_matrix(char **cmds);
 
-char	*free_puterror(char *str, char *str2, t_utils *utils, int status);
-int		ft_puterror(char *cmd);
 #endif

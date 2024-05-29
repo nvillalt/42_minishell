@@ -47,7 +47,8 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/heredoc_utils.c \
 					src/executor/heredoc_utils_2.c \
 					src/executor/open_heredoc.c \
-					src/executor/expand_heredoc.c
+					src/executor/expand_heredoc.c \
+					src/executor/create_buffer_heredoc.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \

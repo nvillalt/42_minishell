@@ -22,11 +22,7 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 	if (process->next)
 	{
 		if (pipe(utils->main_pipe) == -1)
-		{
-			perror("minishell");
-			utils->status = 1;
-			return(FUNC_FAILURE);
-		}
+			return (free_puterror_int(NULL, NULL, utils, 1));
 	}
 	if (process->built_in)
 	{
@@ -37,11 +33,7 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 	{
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
-		{
-			perror("minishell");
-			utils->status = 1;
-			return(FUNC_FAILURE);
-		}
+			return (free_puterror_int(NULL, NULL, utils, 1));
 		if (utils->pid_array[process_index] == 0)
 			execute_first_process(utils, process);
 	}

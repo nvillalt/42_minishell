@@ -1,5 +1,3 @@
-
-
 #include "../../minishell.h"
 
 char	**env_dup(char **env)

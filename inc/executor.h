@@ -35,4 +35,5 @@ char			*ft_strjoin_hd(char const *s1, char const *s2);
 int				open_here_doc(t_redir *redirec, int *temp_num);
 char			*check_expansor_hd(t_parse *process, char *buffer, t_utils *utils);
 char			*get_keyhd(char *buffer, int i, t_utils *utils);
+char			*create_new_buffer(char *buffer, char *val, char *key, int *i);
 #endif

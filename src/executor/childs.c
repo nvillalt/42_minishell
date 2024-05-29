@@ -40,6 +40,18 @@ static int	get_cmd_num(t_parse *process)
 	return(cmd_num);
 }
 
+static void	catch_signal_status(t_utils *utils, int status)
+{
+	if (WIFEXITED(status))
+		utils->status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		utils->status = 128 + WTERMSIG(status);
+	else if (WIFSTOPPED(status))
+		utils->status = 128 + WSTOPSIG(status);
+	else
+		utils->status = status;
+}
+
 static int	wait_all_process(t_utils *utils)
 {
 	int	i;
@@ -53,22 +65,9 @@ static int	wait_all_process(t_utils *utils)
 	{
 		pid = wait(&status);
 		if (pid == -1)
-		{
-			perror("minishell");
-			utils->status = 1; //AL LORO CON ESTO
-			return (FUNC_FAILURE);
-		}
+			return (free_puterror_int(NULL, NULL, utils, 1));
 		if (pid == utils->pid_array[cmd_num - 1])
-		{
-			if (WIFEXITED(status))
-				utils->status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				utils->status = 128 + WTERMSIG(status);
-			else if (WIFSTOPPED(status))
-				utils->status = 128 + WSTOPSIG(status);
-			else
-				utils->status = status;
-		}
+			catch_signal_status(utils, status);
 		i++;
 	}
 	return (FUNC_SUCCESS);
