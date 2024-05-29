@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 16:34:12 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:28:52 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,49 @@ static void	assign_builtins(t_utils *utils)
 	}
 }
 
+int	count_array(char **arr)
+{
+	int	i;
+	
+	i = 0;
+	if (arr != NULL)
+	{
+		while (arr[i])
+			i++;
+	}
+	return (i);
+}
+
 static void	divide_commands(t_parse **node, int i)
 {
 	char	**aux;
-	int		len;
+	char	**ret;
+	int		j;
+	int		k;
 
-	len = 0;
+	j = 0;
+	k = 0;
 	aux = ft_split((*node)->cmd[i], ' ');
-	
-	while (aux[len])
-		len++;	
-	if (len == 2)
-	{
-		free((*node)->cmd[i]);
-		(*node)->cmd[i] = aux[0];
-		(*node)->cmd[i + 1] = aux[1];
-		printf("Aux 1: %s\n", aux[1]);
-		printf("%s,\n%s,\n", (*node)->cmd[i], (*node)->cmd[i + 1]);
-		// free(aux);
-	}
-	else
+	ret = ft_calloc(sizeof(char *), count_array(aux) + count_array((*node)->cmd) + 1);
+	if (!ret)
 		return ;
+	if (i != 0)
+	{
+		while (j < i)
+		{
+			ret[j] = ft_strdup((*node)->cmd[j]);
+			j++;
+		}
+	}
+	while (aux[k])
+	{
+		ret[j] = ft_strdup(aux[k]);
+		j++;
+		k++;
+	}
+	free_matrix((*node)->cmd);
+	free_matrix(aux);
+	(*node)->cmd = ret;
 }
 
 static int	assign_process(t_parse **node, char *str, int expand)
@@ -91,8 +113,8 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		(*node)->cmd = temp;
 	}
 	(*node)->cmd[i] = clean_quotes(str);
-	// if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
-	// 	divide_commands(node, i);
+	if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
+		divide_commands(node, i);
 	return (1);
 }
 
