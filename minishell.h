@@ -42,6 +42,7 @@ int		ft_puterror(char *cmd);
 void	free_ptrs(void *ptr1, void *ptr2);
 char	*updt_status_return(t_utils *utils, int status);
 int		free_puterror_int(char *str, char *str2, t_utils *utils, int status);
+void	exit_matrix_str(char *str, char **matrix, char *error_str, t_utils *utils);
 //printf double array
 void	print_env(char **env);
 int     count_matrix(char **cmds);

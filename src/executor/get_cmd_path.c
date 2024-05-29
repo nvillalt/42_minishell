@@ -41,12 +41,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 	{
 		search = ft_strjoin(path[i], command);
 		if (!search)
-		{
-			free_matrix(path);
-			free(command);
-			perror("minishell");
-			exit_process(utils);
-		}
+			exit_matrix_str(command, path, "minishell", utils);
 		if (access(search, X_OK) == 0)
 			found = 1;
 		else

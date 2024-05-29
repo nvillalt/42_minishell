@@ -1,5 +1,35 @@
 #include "../../minishell.h"
 
+static int	open_great(int last_outfile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1) //CUIDADO CON QUE NO SEA -1
+			return (-2);
+		else
+			exit_process(utils);
+	}
+	last_outfile_fd = process->redirec->fd;
+	return (last_outfile_fd);
+}
+
+static int	open_append(int last_outfile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1)
+			return (FUNC_FAILURE);
+		else
+			exit_process(utils);
+	}
+	last_outfile_fd = process->redirec->fd;
+	return (last_outfile_fd);
+}
+
 static int	open_outfiles(t_utils *utils, t_parse *process)
 {
 	int	last_outfile_fd;
@@ -9,31 +39,9 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 	while (process->redirec)
 	{
 		if (process->redirec->redir_type == GREAT)
-		{
-			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == -1)
-					return (-2);
-				else
-					exit_process(utils);
-			}
-			last_outfile_fd = process->redirec->fd;
-		}
+			last_outfile_fd = open_great(last_outfile_fd, utils, process);
 		if (process->redirec->redir_type == APPEND)
-		{
-			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == 1)
-					return (FUNC_FAILURE);
-				else
-					exit_process(utils);
-			}
-			last_outfile_fd = process->redirec->fd;
-		}
+			last_outfile_fd = open_append(last_outfile_fd, utils, process);
 		process->redirec = process->redirec->next;
 	}
 	return (last_outfile_fd);

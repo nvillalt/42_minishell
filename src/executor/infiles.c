@@ -1,5 +1,35 @@
 #include "../../minishell.h"
 
+static int	open_minus(int last_infile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->doc, O_RDONLY);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1)
+			return (-2);
+		else
+			exit_process(utils);
+	}
+	last_infile_fd = process->redirec->fd;
+	return (last_infile_fd);
+}
+
+static int	open_heredoc(int last_infile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->heredoc_file, O_RDONLY);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1)
+			return (FUNC_FAILURE);
+		else
+			exit_process(utils);
+	}
+	last_infile_fd = process->redirec->fd;
+	return (last_infile_fd);
+}
+
 static int	open_infiles(t_utils *utils, t_parse *process)
 {
 	int	last_infile_fd;
@@ -9,31 +39,9 @@ static int	open_infiles(t_utils *utils, t_parse *process)
 	while (process->redirec)
 	{
 		if (process->redirec->redir_type == MINUS)
-		{
-			process->redirec->fd = open(process->redirec->doc, O_RDONLY);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == 1)
-					return (-2);
-				else
-					exit_process(utils);
-			}
-			last_infile_fd = process->redirec->fd;
-		}
+			last_infile_fd = open_minus(last_infile_fd, utils, process);
 		if (process->redirec->redir_type == HEREDOC)
-		{
-			process->redirec->fd = open(process->redirec->heredoc_file, O_RDONLY);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == 1)
-					return (FUNC_FAILURE);
-				else
-					exit_process(utils);
-			}
-			last_infile_fd = process->redirec->fd;
-		}
+			last_infile_fd = open_heredoc(last_infile_fd, utils, process);
 		process->redirec = process->redirec->next;
 	}
 	return (last_infile_fd);

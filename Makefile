@@ -67,7 +67,8 @@ GENERAL = src/general/main.c \
 			src/general/error_management.c \
 			src/general/free_utils.c \
 			src/general/general_utils.c \
-			src/general/ft_puterror.c
+			src/general/ft_puterror.c \
+			src/general/exit_utils.c
 
 MALLOC_DEBUG = src/debug/malloc_debug.c
 
