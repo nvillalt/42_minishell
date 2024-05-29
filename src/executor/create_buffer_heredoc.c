@@ -8,7 +8,7 @@ static char	*get_bef_exp_str(char *buffer, int i)
 	bef_exp_len = i;
 	bef_exp = ft_substr(buffer, 0, bef_exp_len);
 	if (!bef_exp)
-		return(free_puterror(buffer, NULL, NULL, 0));
+		return(free_puterror(buffer, NULL, NULL, 1));
 	return (bef_exp);
 }
 
@@ -31,7 +31,7 @@ static char	*get_aft_exp_str(char *buffer, int i, char *key, char *bef_exp)
 	aft_exp_len = ft_strlen(buffer) - (bef_exp_len + key_len + 1);
 	after_exp = ft_substr(buffer, bef_exp_len + key_len + dollar_len, aft_exp_len);
 	if (!after_exp)
-		return (free_puterror(buffer, NULL, NULL, 0));
+		return (free_puterror(buffer, NULL, NULL, 1));
 	return (after_exp);
 }
 
@@ -44,16 +44,16 @@ static char	*get_new_buffer(char *val, char *bef_exp, char *after_exp)
 	{
 		new_buffer = ft_strjoin_hd(bef_exp, after_exp);
 		if (!new_buffer)
-			return(free_puterror(NULL, NULL, NULL, 0));
+			return(free_puterror(NULL, NULL, NULL, 1));
 		return (new_buffer);
 	}
 	temp = ft_strjoin_hd(bef_exp, val);
 	if (!temp)
-		return(free_puterror(NULL, NULL, NULL, 0));
+		return(free_puterror(NULL, NULL, NULL, 1));
 	new_buffer = ft_strjoin_hd(temp, after_exp);
 	free(temp);
 	if (!new_buffer)
-		return (free_puterror(NULL, NULL, NULL, 0));
+		return (free_puterror(NULL, NULL, NULL, 1));
 	return (new_buffer);
 }
 

@@ -66,38 +66,20 @@ char	*get_cmd_path(t_utils *utils, t_parse *process)
 	if (access(process->cmd[0], X_OK) == 0)
 		return (process->cmd[0]);
 	if (access(process->cmd[0], X_OK) == -1 && ft_isrelative(process->cmd[0]))
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		perror(process->cmd[0]);
-		exit_process_custom(utils, 127);
-	}
+		exit_process_path(utils, process);
 	path_oneline = find_env_path(utils->env);
 	if (!path_oneline)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		perror(process->cmd[0]);
-		exit_process_custom(utils, 127);
-	}
+		exit_process_path(utils, process);
 	path_oneline = ft_strdup(path_oneline);
 	if (!path_oneline)
-	{
-		perror("minishell");
-		exit_process(utils);
-	}
+		exit_matrix_str(NULL, NULL, "minishell", utils);
 	path = ft_split(path_oneline, ':');
 	free(path_oneline);
 	if (!path)
-	{
-		perror("minishell");
-		exit_process(utils);
-	}
+		exit_matrix_str(NULL, NULL, "minishell", utils);
 	command = ft_strjoin("/", process->cmd[0]);
 	if (!command)
-	{
-		perror("minishell");
-		free_matrix(path);
-		exit_process(utils);
-	}
+		exit_matrix_str(NULL, path, "minishell", utils);
 	search = get_def_path(path, command, utils);
 	free_matrix(path);
 	return (search);
