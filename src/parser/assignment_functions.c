@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:31:36 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 15:10:49 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:08:46 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	dup_matrix(char **ret, char **aux, int j, int k)
 {
 	while (aux[k])
-    {
+	{
 		ret[j] = ft_strdup(aux[k]);
 		j++;
 		k++;
-    }
+	}
 }
 
 int	init_process_cmd(t_parse **node)
@@ -38,12 +38,4 @@ char	*init_quoteless_line(int num)
 	if (!final)
 		return (NULL);
 	return (final);
-}
-
-int	skip_two_quotes(char *str, int i)
-{
-	while (str[i] == 34 && str[i + 1] == 34
-		|| str[i] == 39 && str[i + 1] == 39)
-		i += 2;
-	return (i);
 }

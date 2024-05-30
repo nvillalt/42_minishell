@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 14:38:28 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:06:28 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 	while (i)
 	{
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<")
-			|| !ft_strcmp(i->str, "|>")
+			|| !ft_strcmp(i->str, ">|") || !ft_strcmp(i->str, "|>")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
 			handle_redirection(&i, &node->redirec, &node->redirec_head);
 		else if (!ft_strcmp(i->str, "|"))

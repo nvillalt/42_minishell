@@ -56,7 +56,6 @@ int     count(char **arr);
 // assignment_functions.c
 void    dup_matrix(char **ret, char **aux, int j, int k);
 int     init_process_cmd(t_parse **node);
-int 	skip_two_quotes(char *str, int i);
 char	*init_quoteless_line(int num);
 
 #endif

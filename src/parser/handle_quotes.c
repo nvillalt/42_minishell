@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 15:11:31 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:09:00 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	*clean_quotes(char	*str)
 	int		i;
 	int		flag;
 	int		j;
-	char	*ret;
 
 	i = 0;
 	j = 0;
@@ -68,6 +67,5 @@ char	*clean_quotes(char	*str)
 		}
 		i++;
 	}
-	ret = erase_quotes(str, i - j);
-	return (ret);
+	return (erase_quotes(str, i - j));
 }
