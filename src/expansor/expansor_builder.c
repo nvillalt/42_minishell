@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 15:41:46 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:10:37 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ int	get_beginning(char *str, int i, char **s1)
 	return (i);
 }
 
-int	get_end(char *str, int i, char **s1, t_expand *exp_utils) // Ver aqui para expandir dos variables
+int	get_end(char *str, int i, char **s1, t_expand *exp_utils)
 {
 	int		j;
 	char	*aux;
-	char	*tmp; 
+	char	*tmp;
 
 	j = i;
 	tmp = NULL;

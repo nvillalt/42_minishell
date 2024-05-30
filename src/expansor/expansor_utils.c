@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/28 15:14:19 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:11:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	*ft_strjoin_expand(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	k = 0;
-	ptr = (char *)ft_calloc((ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1), sizeof(char));
+	ptr = (char *)ft_calloc((ft_strlen_gnl(s1)
+				+ ft_strlen_gnl(s2) + 1), sizeof(char));
 	if (!ptr)
 		return (NULL);
 	while (s1[i])

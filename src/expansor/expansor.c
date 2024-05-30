@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/29 21:38:01 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:01:28 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,39 +39,88 @@ static int	check_valid_symbol(char *str)
 	return (1);
 }
 
-static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
+int expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
 {
-	int	i;
-	int	flag;
+	char	*aux;
+	char	*tmp;
+	int		j;
 
-	i = -1;
-	flag = 0;
-	while (str[++i])
+	j = i;
+	while (s[i] != 34 && s[i] != '$')
 	{
-		if (str[i] == 34 && !flag)
-		{
-			flag = str[i];
-			i++;
-			while (str[i] != flag)
-				i++;
-			flag = 0;
-		}
-		if (str[i] == 39 && !flag)
-		{
-			flag = str[i];
-			i++;
-			while (str[i] != flag)
-			{
-				if (str[i] =='$')
-					return (str);
-				i++;
-			}
-			flag = 0;
-		}
+		i++;
+		aux = ft_substr(s, j, i - j);
+		if (!tmp)
+			tmp = ft_strdup(aux);
+		else if (tmp)	
 	}
-	tmp->expand = EXPAND;
-	return (var_expanded(str, exp_utils));
+	printf("Aux: %s\n", aux);
+	if (s[i] == '$')
+		i = get_mid(s, i, );
+	return (i);
 }
+
+static char	*check_expansion(char *str, t_expand *exp_utils, t_token *tmp)
+{
+	int		i;
+	char	*ret;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 34)
+		{
+			i = expand_dbl_quote(str, exp_utils, &ret, i);
+			tmp->expand = EXPAND;
+		}
+		else if (str[i] == 39)
+			i = handle_sgl_quote(str, &ret, i);
+		else if (str[i] == '$')
+		{
+			i = expand_dollar(str, exp_utils, &ret, i);
+			tmp->expand = EXPAND;
+		}
+		else
+			i = not_expand(str, &ret, i);
+	}
+	printf("Ret: %s\n", ret);
+	//free(str);
+	return (ret);
+}
+
+// static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
+// {
+// 	int	i;
+// 	int	flag;
+
+// 	i = -1;
+// 	flag = 0;
+// 	while (str[++i])
+// 	{
+// 		if (str[i] == 34 && !flag)
+// 		{
+// 			flag = str[i];
+// 			i++;
+// 			while (str[i] != flag)
+// 				i++;
+// 			flag = 0;
+// 		}
+// 		if (str[i] == 39 && !flag)
+// 		{
+// 			flag = str[i];
+// 			i++;
+// 			while (str[i] != flag)
+// 			{
+// 				if (str[i] =='$')
+// 					return (str);
+// 				i++;
+// 			}
+// 			flag = 0;
+// 		}
+// 	}
+// 	tmp->expand = EXPAND;
+// 	return (var_expanded(str, exp_utils));
+// }
 
 static int	check_dollar(char *str)
 {
@@ -130,7 +179,7 @@ int	expansor(t_utils *utils)
 			return (0);
 		}
 		if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
-			tmp->str = expand_env_var(tmp->str, exp_utils, tmp);
+			tmp->str = check_expansion(tmp->str, exp_utils, tmp);
 		if (tmp->str && tmp->next == NULL)
 			break ;
 		if (tmp->str)
