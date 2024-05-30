@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 14:03:39 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:21:09 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,36 @@ int	check_redirections(char *input)
 	return (1);
 }
 
-static int	create_redir(t_redir **redir_list, char *document, int type, t_redir **head)
+static int	create_redir(t_redir **redir, char *doc, int type, t_redir **head)
 {
 	t_redir	*new;
 
-	if (!init_redir(&new, type) && redir_list != NULL)q
+	if (!init_redir(&new, type) && redir != NULL)
 		return (0);
 	if (type == GREAT || type == MINUS || type == APPEND)
-		new->doc = clean_quotes(document);
+		new->doc = clean_quotes(doc);
 	else if (type == HEREDOC)
 	{
-		if (assert_quotes(document))
+		if (assert_quotes(doc))
 			new->heredoc_flag = EXPAND;
-		new->doc = clean_quotes(document);
+		new->doc = clean_quotes(doc);
 	}
-	if (!add_redir(redir_list, new))
+	if (!add_redir(redir, new))
 		return (0);
-	(*head) = *redir_list;
+	(*head) = *redir;
 	return (1);
 }
 
 int	handle_redirection(t_token **i, t_redir **redir_list, t_redir **redir_head)
 {
-	if ((*i)->next  != NULL)
+	if ((*i)->next != NULL)
 	{
 		if (!ft_strncmp((*i)->str, ">>", 2))
 		{
 			create_redir(redir_list, (*i)->next->str, APPEND, redir_head);
 			*i = (*i)->next;
 		}
-		else if (!ft_strncmp((*i)->str, ">", 1) || !ft_strncmp((*i)->str, "|>", 2))
+		else if (!ft_strncmp((*i)->str, ">", 1) || !ft_strcmp((*i)->str, "|>")) // Revisar que no se rompe después de este cambio
 		{
 			create_redir(redir_list, (*i)->next->str, GREAT, redir_head);
 			*i = (*i)->next;

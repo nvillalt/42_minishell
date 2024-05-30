@@ -52,7 +52,9 @@ PARSER = src/parser/parse_utils.c \
 			src/parser/parse_tokens.c \
 			src/parser/handle_quotes.c \
 			src/parser/handle_redirections.c \
-			src/parser/parser_nodes.c
+			src/parser/parser_nodes.c \
+			src/parser/checker_functions.c \
+			src/parser/assignment_functions.c
 
 SIGNAL = src/signals/signal_reception.c
 

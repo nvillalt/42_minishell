@@ -3,51 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 20:08:32 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:11:31 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static char *erase_quotes(char *str, int num)
+static char	*erase_quotes(char *s, int num)
 {
 	char	*final;
 	int		flag;
 	int		i;
 	int		j;
 
-	final = ft_calloc(sizeof(char), num + 1);
-	if (!final)
-		return (NULL);
 	i = 0;
-	flag = 0;
 	j = 0;
-	while (str[i] != '\0')
+	final = init_quoteless_line(num);
+	while (s[i] != '\0')
 	{
-		if (str[i] == 34 && str[i + 1] == 34
-			|| str[i] == 39 && str[i + 1] == 39)
+		flag = 0;
+		while ((s[i] == 34 && s[i + 1] == 34) || (s[i] == 39 && s[i + 1] == 39))
 			i += 2;
-		if (str[i] == 34 || str[i] == 39 && !flag)
+		if (s[i] == 34 || s[i] == 39)
 		{
-			flag = str[i];
+			flag = s[i++];
+			while (s[i] != flag && s[i])
+				final[j++] = s[i++];
+		}
+		else if (s[i] != 34 && s[i] != 39)
+			final[j++] = s[i];
+		if (s[i] != '\0')
 			i++;
-			while (str[i] != flag && str[i])
-			{
-				final[j] = str[i];
-				i++;
-				j++;
-			}
-			flag = 0;
-		}
-		if (!flag && (str[i] != 34 && str[i] != 39))
-		{
-			final[j] = str[i];
-			j++;
-		}
-		i++;
 	}
 	return (final);
 }

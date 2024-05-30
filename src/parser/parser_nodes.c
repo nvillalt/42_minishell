@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:09:30 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 13:56:08 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:39:08 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_redir(t_redir **node, int type)
 
 int	add_redir(t_redir **redir_list, t_redir *new)
 {
-	t_redir *head;
+	t_redir	*head;
 
 	if (!redir_list || !new)
 		return (0);
@@ -63,7 +63,7 @@ int	add_redir(t_redir **redir_list, t_redir *new)
 
 int	add_process(t_parse **process_list, t_parse *new)
 {
-	t_parse *head;
+	t_parse	*head;
 
 	if (!process_list || !new)
 		return (0);
@@ -83,44 +83,44 @@ int	add_process(t_parse **process_list, t_parse *new)
 	return (1);
 }
 
-static int	free_redir(t_redir **redir_list)
-{
-	t_redir *aux;
-	t_redir *next;
+// static int	free_redir(t_redir **redir_list)
+// {
+// 	t_redir	*aux;
+// 	t_redir	*next;
 
-	aux = *redir_list;
-	while (aux->next != NULL)
-	{
-		next = aux->next;
-		if (aux->doc)
-			free(aux->doc);
-		else if (aux->heredoc_file)
-			free(aux->heredoc_file);
-		free(aux);
-		aux = next;
-	}
-	free(aux);
-	*redir_list = NULL;
-	return (1);
-}
+// 	aux = *redir_list;
+// 	while (aux->next != NULL)
+// 	{
+// 		next = aux->next;
+// 		if (aux->doc)
+// 			free(aux->doc);
+// 		else if (aux->heredoc_file)
+// 			free(aux->heredoc_file);
+// 		free(aux);
+// 		aux = next;
+// 	}
+// 	free(aux);
+// 	*redir_list = NULL;
+// 	return (1);
+// }
 
-int	free_process(t_parse **process_list)
-{
-	t_parse *aux;
-	t_parse *next;
+// int	free_process(t_parse **process_list)
+// {
+// 	t_parse *aux;
+// 	t_parse *next;
 
-	aux = *process_list;
-	while (aux->next != NULL)
-	{
-		next = aux->next;
-		if (aux->cmd)
-			free_matrix(aux->cmd);
-		if (aux->redirec_head)
-			free_redir(&aux->redirec_head);
-		free(aux);
-		aux = next;
-	}
-	free(aux);
-	*process_list = NULL;
-	return (1);   
-}
+// 	aux = *process_list;
+// 	while (aux->next != NULL)
+// 	{
+// 		next = aux->next;
+// 		if (aux->cmd)
+// 			free_matrix(aux->cmd);
+// 		if (aux->redirec_head)
+// 			free_redir(&aux->redirec_head);
+// 		free(aux);
+// 		aux = next;
+// 	}
+// 	free(aux);
+// 	*process_list = NULL;
+// 	return (1);   
+// }

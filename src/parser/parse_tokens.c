@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 13:55:24 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:38:28 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	assign_builtins(t_utils *utils)
 {
-	t_parse *p;
+	t_parse	*p;
 
 	p = utils->process;
 	while (p && p->cmd)
@@ -41,19 +41,6 @@ static void	assign_builtins(t_utils *utils)
 	}
 }
 
-int	count_array(char **arr)
-{
-	int	i;
-	
-	i = 0;
-	if (arr != NULL)
-	{
-		while (arr[i])
-			i++;
-	}
-	return (i);
-}
-
 static void	divide_commands(t_parse **node, int i)
 {
 	char	**aux;
@@ -64,7 +51,7 @@ static void	divide_commands(t_parse **node, int i)
 	j = 0;
 	k = 0;
 	aux = ft_split((*node)->cmd[i], ' ');
-	ret = ft_calloc(sizeof(char *), count_array(aux) + count_array((*node)->cmd) + 1);
+	ret = ft_calloc(sizeof(char *), count(aux) + count((*node)->cmd) + 1);
 	if (!ret)
 		return ;
 	if (i != 0)
@@ -75,12 +62,7 @@ static void	divide_commands(t_parse **node, int i)
 			j++;
 		}
 	}
-	while (aux[k])
-	{
-		ret[j] = ft_strdup(aux[k]);
-		j++;
-		k++;
-	}
+	dup_matrix(ret, aux, j, k);
 	free_matrix((*node)->cmd);
 	free_matrix(aux);
 	(*node)->cmd = ret;
@@ -95,11 +77,7 @@ static int	assign_process(t_parse **node, char *str, int expand)
 	i = 0;
 	j = -1;
 	if ((*node)->cmd == NULL)
-	{
-		(*node)->cmd = ft_calloc(sizeof(char *), 2);
-		if (!(*node)->cmd)
-			return (0);
-	}
+		init_process_cmd(node);
 	else
 	{
 		while ((*node)->cmd[i])
@@ -113,7 +91,8 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		(*node)->cmd = temp;
 	}
 	(*node)->cmd[i] = clean_quotes(str);
-	if (expand == EXPAND && ((*node)->cmd[i][0] != 39 || (*node)->cmd[i][0] != 34))
+	if (expand == EXPAND && ((*node)->cmd[i][0] != 39
+		|| (*node)->cmd[i][0] != 34))
 		divide_commands(node, i);
 	return (1);
 }
@@ -135,7 +114,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 			handle_redirection(&i, &node->redirec, &node->redirec_head);
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
-		else /* if (ft_strcmp(i->str, "|")) */
+		else
 			assign_process(&node, i->str, i->expand);
 		if (i->next == NULL)
 			break ;
@@ -146,7 +125,6 @@ static int	create_process(t_parse **process_list, t_token **move)
 	*move = i;
 	return (1);
 }
-
 
 int	parse_tokens(t_utils *utils)
 {

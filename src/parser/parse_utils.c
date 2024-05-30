@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/26 20:32:35 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:27:14 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	is_token(char c)
-{
-	if (!c)
-		return (0);
-	if (c == '>' || c == '<' || c == '|')
-		return (1);
-	return (0);
-}
-
-int	is_whitespace(char c)
-{
-	if (c == '\0')
-		return (0);
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (1);
-	return (0);
-}
 
 int	whitespace_cmp(char *input)
 {

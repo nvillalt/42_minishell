@@ -36,8 +36,6 @@ int		add_process(t_parse **process_list, t_parse *new);
 int		free_process(t_parse **process_list);
 
 // parse_utils.c
-int		is_token(char c);
-int		is_whitespace(char c);
 int		check_quotes(char *line, t_utils *utils);
 int		assert_quotes(char *input);
 int		whitespace_cmp(char *c);
@@ -49,5 +47,16 @@ int		handle_redirection(t_token **iterate, t_redir **redir_list, t_redir **redir
 
 // parse_tokens.c
 int		parse_tokens(t_utils *utils);
+
+// checker_functions.c
+int		is_token(char c);
+int		is_whitespace(char c);
+int     count(char **arr);
+
+// assignment_functions.c
+void    dup_matrix(char **ret, char **aux, int j, int k);
+int     init_process_cmd(t_parse **node);
+int 	skip_two_quotes(char *str, int i);
+char	*init_quoteless_line(int num);
 
 #endif
