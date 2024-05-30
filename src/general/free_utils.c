@@ -42,6 +42,8 @@ void	free_parse_list(t_parse	*process)
 	{
 		if (process->cmd)
 			free_matrix(process->cmd); //No se libera bien hasta hacer una reserva correcta
+		if (process->redirec_head)
+			free_redir_list(process);
 		temp = process;
 		process = process->next;
 		free(temp);
@@ -66,7 +68,10 @@ void	free_lists(t_utils	*utils)
 {
 	utils->process->redirec = utils->process->redirec_head;
 	if (utils->process->redirec)
+	{
 		free_redir_list(utils->process);
+		utils->process->redirec = NULL; // Revisar que esto no rompe nada
+	}
 	if (utils->process)
 	{
 		free_parse_list(utils->process);

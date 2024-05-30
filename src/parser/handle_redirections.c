@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/24 17:34:36 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:03:39 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	create_redir(t_redir **redir_list, char *document, int type, t_redir 
 {
 	t_redir	*new;
 
-	if (!init_redir(&new, type) && redir_list != NULL)
+	if (!init_redir(&new, type) && redir_list != NULL)q
 		return (0);
 	if (type == GREAT || type == MINUS || type == APPEND)
 		new->doc = clean_quotes(document);

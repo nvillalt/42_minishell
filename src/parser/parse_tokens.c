@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/29 20:28:52 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:55:24 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	assign_builtins(t_utils *utils)
 			p->built_in = UNSET;
 		else if (!ft_strncmp(p->cmd[0], "cd", 2) && ft_strlen(p->cmd[0]) == 2)
 			p->built_in = CD;
-		else if (!ft_strcmp(p->cmd[0], "exit") && ft_strlen(p->cmd[0]) == 4) // Ojo con esto, revisar la norma luego
+		else if (!ft_strcmp(p->cmd[0], "exit") && ft_strlen(p->cmd[0]) == 4)
 			p->built_in = EXIT;
 		else if (!ft_strncmp(p->cmd[0], "export", 6)
 			&& ft_strlen(p->cmd[0]) == 6)
@@ -135,7 +135,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 			handle_redirection(&i, &node->redirec, &node->redirec_head);
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
-		else if (ft_strcmp(i->str, "|"))
+		else /* if (ft_strcmp(i->str, "|")) */
 			assign_process(&node, i->str, i->expand);
 		if (i->next == NULL)
 			break ;

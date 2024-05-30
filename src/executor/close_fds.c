@@ -2,7 +2,6 @@
 
 void	unlink_files(t_parse *process)
 {
-
 	while (process)
 	{
 		process->redirec = process->redirec_head;
