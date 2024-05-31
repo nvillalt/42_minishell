@@ -20,4 +20,13 @@ void	exit_process_custom(t_utils *utils, unsigned char status);
 int		env_varlen(char *str);
 char	*ft_getenv(char **env, char *var);
 char	**change_pwd_error(char **env, char *cmd);
+int		get_env_index(char **env, char *var);
+char	**free_str_matrix_cderror(char *str, char **matrix, char *perror_msg);
+int		multiple_argc_error(char **env);
+char	**handle_newvar(char **env, char **cmd, int i, int setvar);
+char	**create_new_env(char **env, char *cmd);
+int		get_cmd_flag(char **env, char *cmd, int cmd_len, int plus_flag);
+void	print_no_value(char **env, int *i, int *j);
+char	**join_var(char **env, char *cmd);
+int		no_env_error(void);
 #endif

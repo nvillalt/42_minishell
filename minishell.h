@@ -47,6 +47,7 @@ void	exit_process_path(t_utils *utils, t_parse *process);
 int		change_status(t_utils *utils, int status);
 void	exit_init_void(char **matrix);
 int		free_matrix_return(char **matrix);
+char	**free_str_matrix(char *str, char **matrix);
 //printf double array
 void	print_env(char **env);
 int     count_matrix(char **cmds);

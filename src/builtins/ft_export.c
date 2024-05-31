@@ -1,20 +1,5 @@
 #include "../../minishell.h"
 
-static void print_no_value(char **env, int *i, int *j)
-{
-	printf("%c", env[*i][*j]);
-	(*j)++;
-	printf("%c", '\"');
-	while(env[*i][*j])
-	{
-		printf("%c", env[*i][*j]);
-		(*j)++;
-	}
-	printf("%c", '\"');
-	printf("\n");
-	(*i)++;
-}
-
 static void	print_export_env(char **env)
 {
 	int	i;
@@ -90,6 +75,15 @@ static int	sort_export_env(char **env)
 	return (FUNC_SUCCESS);
 }
 
+static int	handle_export_single_argc(char **export_env)
+{
+	if (!sort_export_env(export_env))
+		return (1);
+	print_export_env(export_env);
+	free_matrix(export_env);
+	return (0);
+}
+
 int	ft_export(t_utils *utils, char **cmd)
 {
 	int		num;
@@ -102,16 +96,11 @@ int	ft_export(t_utils *utils, char **cmd)
 		return (1);
 	num = count_matrix(cmd);
 	if (!num)
-	{
-		ft_putendl_fd("minishell: env: No such file or directory", STDERR_FILENO);
-		return (127);
-	}
+		return (no_env_error());
 	if (num == 1)
 	{
-		if(!sort_export_env(export_env))
+		if (handle_export_single_argc(export_env) == 1)
 			return (1);
-		print_export_env(export_env);
-		free_matrix(export_env);
 	}
 	else if (num > 1)
 	{

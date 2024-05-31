@@ -29,6 +29,7 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/change_pwd.c \
 						src/builtins/export_utils.c \
 						src/builtins/unset_var_env.c \
+						src/builtins/cd_utils.c \
 
 EXECUTOR = src/executor/executor.c \
 					src/executor/dirty_parse.c \
@@ -70,7 +71,8 @@ GENERAL = src/general/main.c \
 			src/general/ft_puterror.c \
 			src/general/exit_utils.c \
 			src/general/set_oldpwd.c \
-			src/general/update_shlvl.c
+			src/general/update_shlvl.c \
+			src/general/free_strings.c 
 
 MALLOC_DEBUG = src/debug/malloc_debug.c
 

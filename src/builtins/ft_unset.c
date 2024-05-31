@@ -36,10 +36,7 @@ int	ft_unset(t_utils *utils, char **cmd)
 		return (0);
 	old_env = env_dup(utils->env);
 	if (!old_env)
-	{
-		perror("minishell");
-		return (1);
-	}
+		return(perror("minishell"), 1);
     index_var = 1;
     new_env = NULL;
     while(cmd[index_var])
