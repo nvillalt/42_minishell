@@ -53,10 +53,7 @@ static int	create_heredoc_loop(t_parse *process, t_utils *utils)
 			if (process->redirec->redir_type == HEREDOC)
 			{
 				if (!exec_heredoc(utils, process, &temp_num))
-				{
-					rl_catch_signals = 1;
 					return (FUNC_FAILURE);
-				}
 				temp_num++;
 			}
 			process->redirec = process->redirec->next;
@@ -69,11 +66,9 @@ static int	create_heredoc_loop(t_parse *process, t_utils *utils)
 int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 {
 	heredoc_signals();
-	rl_catch_signals = 0;
 	if (!create_heredoc_loop(process, utils))
 		return (FUNC_FAILURE);
 	close_fds(process, utils);
-	rl_catch_signals = 1;
 	set_signals();
 	return (FUNC_SUCCESS);
 }

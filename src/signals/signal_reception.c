@@ -13,9 +13,9 @@ static void	exec_sigint(int signal)
 
 static void	heredoc_sigint(int signal)
 {
-	g_sigint = 1;
-	write(STDERR_FILENO, "^C", 2);
+	rl_on_new_line();
 	ioctl(0, TIOCSTI, "\n");
+	g_sigint = SIGINT;
 }
 
 void	set_signals(void)
