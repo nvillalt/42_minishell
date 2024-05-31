@@ -18,7 +18,7 @@ char	**create_new_env(char **env, char *cmd)
 	}
 	new_env[i] = ft_strdup(cmd);
 	if (!new_env[i])
-			return (free_matrix(env), free_matrix(new_env), perror("minishell"), NULL);
+		return (free_matrix(env), free_matrix(new_env), perror("minishell"), NULL);
 	free_matrix(env);
 	return (new_env);
 }

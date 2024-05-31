@@ -20,7 +20,7 @@ static char	**create_mini_env(void)
 	env[1] = ft_strdup("SHLVL=1");
 	if(!env[1])
 		exit_init_void(env);
-	env[2] = ft_strdup("_=/usr/bin/env");
+	env[2] = ft_strdup("_=./minishell");
 	if(!env[2])
 		exit_init_void(env);
 	return (env);

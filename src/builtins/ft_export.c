@@ -8,6 +8,10 @@ static void	print_export_env(char **env)
 	i = 0;
 	while(env[i])
 	{
+		if (env[i] && ft_strncmp_varlen("_", env[i]) == 0)
+			i++;
+		if (!env[i])
+			break;
 		j = 0;
 		printf("declare -x ");
 		while(env[i][j] && env[i][j] != '=')
@@ -32,10 +36,7 @@ static int	swap_lines(char **str1, char **str2)
 
 	temp1 = ft_strdup(*str1);
 	if (!temp1)
-	{
-		perror("minishell");
-		return (0);
-	}
+		return (perror("minishell"), 0);
 	temp2 = ft_strdup(*str2);
 	if (!temp2)
 	{
