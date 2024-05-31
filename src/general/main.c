@@ -56,7 +56,7 @@ int	prompt_loop(t_utils *utils)
 		if (!input)
 		{
 			printf("exit\n"); // poner el mensaje con señal
-			free_matrix(utils->env);
+			exit_process_custom(utils, 0);
 			exit (0);
 		}
 		if (!*input)
@@ -118,6 +118,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	}
 	prompt_loop(&utils);
-	free_utils(&utils);
+	free_utils(&utils); //esto creo que no toca
 	return (0);
 }

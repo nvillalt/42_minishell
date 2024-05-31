@@ -29,5 +29,6 @@ void	exit_process_custom(t_utils *utils, unsigned char status)
 	close_all_redirs(utils);
 	close_fds(utils->process, utils);
 	free_utils(utils);
+	rl_clear_history();
 	exit(status);
 }
