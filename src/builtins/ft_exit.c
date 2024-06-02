@@ -30,7 +30,7 @@ void	exit_with_number(t_utils *utils, char *cmd)
 	int status;
 
 	if (utils->process->next == NULL)
-		printf("exit\n");
+		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!check_number_cmd(cmd))
 		print_buexit_error(cmd, utils);
 	status = ft_atoi(cmd);
