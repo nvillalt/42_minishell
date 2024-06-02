@@ -14,34 +14,26 @@ void	free_matrix(char **matrix)
 	return ;
 }
 
-void	free_redir_list(t_parse *process) //Libera todos los redir de todos los nodos de parse
-{
-	t_redir	*temp;
-
-	while(process)
-	{
-		while(process->redirec)
-		{
-			if (process->redirec->doc)
-				free(process->redirec->doc);
-			if (process->redirec->heredoc_file)
-				free(process->redirec->heredoc_file);
-			temp = process->redirec;
-			process->redirec = process->redirec->next;
-			free(temp);
-		}
-		process = process->next;
-	}
-}
-
 void	free_parse_list(t_parse	*process)
 {
 	t_parse	*temp;
+	t_redir	*redir_temp;
 
 	while(process)
 	{
 		if(process->cmd)
-			free_matrix(process->cmd); //No se libera bien hasta hacer una reserva correcta
+			free_matrix(process->cmd);
+		process->redirec = process->redirec_head;
+		while(process->redirec)
+		{
+			redir_temp = process->redirec;
+			if (process->redirec->doc)
+				free(process->redirec->doc);
+			if (process->redirec->heredoc_file)
+				free(process->redirec->heredoc_file);
+			process->redirec = process->redirec->next;
+			free(redir_temp);
+		}
 		temp = process;
 		process = process->next;
 		free(temp);
@@ -54,8 +46,6 @@ void	free_utils(t_utils *utils)
 		free_matrix(utils->env);
 	if (utils->path)
 		free_matrix(utils->path);
-	if (utils->process->redirec)
-		free_redir_list(utils->process);
 	if (utils->process)
 		free_parse_list(utils->process);
 	if (utils->pid_array)
@@ -65,8 +55,6 @@ void	free_utils(t_utils *utils)
 void	free_lists(t_utils	*utils)
 {
 	utils->process->redirec = utils->process->redirec_head;
-	if (utils->process->redirec)
-		free_redir_list(utils->process);
 	if (utils->process)
 	{
 		free_parse_list(utils->process);
