@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/02 11:15:02 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:20:06 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strjoin_expand(char *s1, char *s2)
 	size_t	k;
 
 	if (!s1 || !s2)
-		return (NULL);
+		s1 = ft_strdup("");
 	i = 0;
 	k = 0;
 	ptr = (char *)ft_calloc((ft_strlen_gnl(s1)

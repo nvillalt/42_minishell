@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/02 11:55:12 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:35:57 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,26 @@ static int	check_valid_symbol(char *str)
 	}
 	return (1);
 }
-
+// echo "$USER"'$HOME'$USER"$HOME"
 int expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
 {
 	char	*aux;
 	char	*tmp;
 	int		j;
 
-	j = i; // Entro con 0, j = 0
+	aux = NULL;
+	tmp = NULL;
+	j = i;
 	i++;
-	while (s[i] != 34) // Me quedo con todo el trozo hasta el siguiente "
+	while (s[i] != 34)
 		i++;
 	i++;
-	aux = ft_substr(s, j, i - j); // Ahora opero dentro de la string que me queda, que está entre ""
-	*ret = var_expanded(aux, exp_utils);
+	aux = ft_substr(s, j, i - j);
+	tmp = var_expanded(aux, exp_utils);
+	aux = ft_strjoin_expand(*ret, tmp);
+	*ret = aux;
+	if (tmp)
+		free(tmp);
 	return (i);
 }
 
@@ -61,6 +67,8 @@ int	handle_sgl_quote(char *s, char **ret, int i)
 	char	*tmp;
 	int		j;
 
+	aux = NULL;
+	tmp = NULL;
 	j = i;
 	i++;
 	while (s[i] != 39)
@@ -68,10 +76,53 @@ int	handle_sgl_quote(char *s, char **ret, int i)
 	i++;
 	aux = ft_substr(s, j, i -j);
 	tmp = ft_strjoin_expand(*ret, aux);
-	printf("tmp -> %s\n", tmp);
 	if (aux)
 		free(aux);
 	*ret = tmp;
+	return (i);
+}
+int	expand_dollar(char *s, t_expand *exp_utils, char **ret, int i)
+{
+	char	*aux;
+	char	*tmp;
+	int		j;
+
+	aux = NULL;
+	tmp = NULL;
+	j = i;
+	i++;
+	while (ft_isalnum(s[i]))
+		i++;
+	aux = ft_substr(s, j, i - j);
+	tmp = var_expanded(aux, exp_utils);
+	aux = ft_strjoin_expand(*ret, tmp);
+	*ret = aux;
+	if (tmp)
+		free(tmp);
+	return (i);
+}
+
+static int	not_expand(char *s, char **ret, int i)
+{
+	char	*aux;
+	char	*tmp;
+	int		j;
+
+	aux = NULL;
+	tmp = NULL;
+	j = i;
+	if (s[i])
+	{
+		while (s[i] != 34 && s[i] != 39 && s[i] != '$' && s[i] != '\0')
+		{
+			i++;
+		}
+		aux = ft_substr(s, j, i - j);
+		tmp = ft_strjoin_expand(*ret, aux);
+		if (aux)
+			free(aux);
+		*ret = tmp;
+	}
 	return (i);
 }
 
@@ -81,6 +132,7 @@ static char	*check_expansion(char *str, t_expand *exp_utils, t_token *tmp)
 	char	*ret;
 
 	i = 0;
+	ret = NULL;
 	while (str[i])
 	{
 		if (str[i] == 34)
@@ -90,52 +142,17 @@ static char	*check_expansion(char *str, t_expand *exp_utils, t_token *tmp)
 		}
 		else if (str[i] == 39)
 			i = handle_sgl_quote(str, &ret, i);
-		// else if (str[i] == '$')
-		// {
-		// 	i = expand_dollar(str, exp_utils, &ret, i);
-		// 	tmp->expand = EXPAND;
-		// }
-		// else
-		// 	i = not_expand(str, &ret, i);
+		else if (str[i] == '$')
+		{
+			i = expand_dollar(str, exp_utils, &ret, i);
+			tmp->expand = EXPAND;
+		}
+		else
+			i = not_expand(str, &ret, i);
 	}
-	printf("Ret: %s\n", ret);
 	free(str);
 	return (ret);
 }
-
-// static char	*expand_env_var(char *str, t_expand *exp_utils, t_token *tmp)
-// {
-// 	int	i;
-// 	int	flag;
-
-// 	i = -1;
-// 	flag = 0;
-// 	while (str[++i])
-// 	{
-// 		if (str[i] == 34 && !flag)
-// 		{
-// 			flag = str[i];
-// 			i++;
-// 			while (str[i] != flag)
-// 				i++;
-// 			flag = 0;
-// 		}
-// 		if (str[i] == 39 && !flag)
-// 		{
-// 			flag = str[i];
-// 			i++;
-// 			while (str[i] != flag)
-// 			{
-// 				if (str[i] =='$')
-// 					return (str);
-// 				i++;
-// 			}
-// 			flag = 0;
-// 		}
-// 	}
-// 	tmp->expand = EXPAND;
-// 	return (var_expanded(str, exp_utils));
-// }
 
 static int	check_dollar(char *str)
 {
