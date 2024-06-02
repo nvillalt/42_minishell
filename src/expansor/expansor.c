@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 20:01:28 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 11:46:48 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,13 @@ int expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
 	char	*tmp;
 	int		j;
 
-	j = i;
-	while (s[i] != 34 && s[i] != '$')
-	{
+	j = i; // Entro con 0, j = 0
+	i++;
+	while (s[i] != 34) // Me quedo con todo el trozo hasta el siguiente "
 		i++;
-		aux = ft_substr(s, j, i - j);
-		if (!tmp)
-			tmp = ft_strdup(aux);
-		else if (tmp)	
-	}
-	printf("Aux: %s\n", aux);
-	if (s[i] == '$')
-		i = get_mid(s, i, );
+	i++;
+	aux = ft_substr(s, j, i - j); // Ahora opero dentro de la string que me queda, que está entre ""
+	*ret = var_expanded(aux, exp_utils);
 	return (i);
 }
 
@@ -73,18 +68,18 @@ static char	*check_expansion(char *str, t_expand *exp_utils, t_token *tmp)
 			i = expand_dbl_quote(str, exp_utils, &ret, i);
 			tmp->expand = EXPAND;
 		}
-		else if (str[i] == 39)
-			i = handle_sgl_quote(str, &ret, i);
-		else if (str[i] == '$')
-		{
-			i = expand_dollar(str, exp_utils, &ret, i);
-			tmp->expand = EXPAND;
-		}
-		else
-			i = not_expand(str, &ret, i);
+		// else if (str[i] == 39)
+		// 	i = handle_sgl_quote(str, &ret, i);
+		// else if (str[i] == '$')
+		// {
+		// 	i = expand_dollar(str, exp_utils, &ret, i);
+		// 	tmp->expand = EXPAND;
+		// }
+		// else
+		// 	i = not_expand(str, &ret, i);
 	}
 	printf("Ret: %s\n", ret);
-	//free(str);
+	free(str);
 	return (ret);
 }
 

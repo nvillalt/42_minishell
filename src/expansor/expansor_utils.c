@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 18:11:13 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 11:15:02 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
