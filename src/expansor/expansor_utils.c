@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/02 12:20:06 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:17:07 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,44 @@ char	*ft_strjoin_expand(char *s1, char *s2)
 	}
 	free(s1);
 	return (ptr);
+}
+
+int	check_dollar(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
+{
+	if (s1 != NULL && tmp != NULL)
+	{
+		if ((!ft_strncmp(s1, ">>", 2) && !ft_strncmp(tmp->str, "<<", 2))
+			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(tmp->str, "<", 1)
+			|| !ft_strncmp(s1, ">", 1) && !ft_strncmp(tmp->str, ">", 1))
+		{
+			ft_putendl_fd("syntax error near unexpected token `>>'", 2);
+			utils->status = 2;
+			return (0);
+		}
+		else if (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, ">>", 2)
+			|| (!ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, ">", 1))
+			|| (!ft_strncmp(s1, "<", 1) && !ft_strncmp(tmp->str, "<", 1))
+			|| (!ft_strncmp(s1, "<<", 2) && !ft_strncmp(tmp->str, "|", 1))
+			|| (!ft_strncmp(s1, "<", 2) && !ft_strncmp(tmp->str, "|", 1)))
+		{
+			ft_putendl_fd("syntax error near unexpected token `<<'", 2);
+			utils->status = 2;
+			return (0);
+		}
+	}
+	return (1);
 }

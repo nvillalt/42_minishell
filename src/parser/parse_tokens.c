@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 18:06:28 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:22:19 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"../../minishell.h"
+#include "../../minishell.h"
 
 static void	assign_builtins(t_utils *utils)
 {
 	t_parse	*p;
 
 	p = utils->process;
-	while (p && p->cmd)
+	while (p && p->cmd && p->cmd[0])
 	{
 		if (!ft_strncmp(p->cmd[0], "echo", 4) && ft_strlen(p->cmd[0]) == 4)
 			p->built_in = ECHO;

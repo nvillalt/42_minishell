@@ -60,7 +60,9 @@ SIGNAL = src/signals/signal_reception.c
 
 EXPAND = src/expansor/expansor.c \
 			src/expansor/expansor_builder.c \
-			src/expansor/expansor_utils.c
+			src/expansor/expansor_utils.c \
+			src/expansor/expanding_env.c \
+			src/expansor/builder_utils.c
 
 GENERAL = src/general/main.c \
 			src/general/error_management.c \

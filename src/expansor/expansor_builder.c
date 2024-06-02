@@ -3,137 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   expansor_builder.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 18:10:37 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:17:33 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	get_mid(char *str, int i, char **s2, t_expand *exp_utils)
+int	expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
 {
-	char	*tmp;
-	int		j;
-
-	if (str[i] == '$' && str[i + 1] == '?')
-	{
-		*s2 = ft_itoa(exp_utils->status);
-		return (2);
-	}
-	else if (str[i] == '$' && str[i + 1] == '\0')
-	{
-		*s2 = ft_strdup("$");
-		return (1);
-	}
-	else if (str[i] == '$')
-		i++;
-	j = i;
-	while (ft_isalnum(str[i]))
-		i++;
-	tmp = ft_substr(str, j, i - j);
-	*s2 = expand_env(tmp, exp_utils->env);
-	free(tmp);
-	return (i);
-}
-
-int	get_beginning(char *str, int i, char **s1)
-{
-	if (str[0] == '$')
-		*s1 = ft_strdup("");
-	else if (str[0] != '$')
-	{
-		while (str[i] != '$')
-			i++;
-		*s1 = ft_substr(str, 0, i);
-	}
-	return (i);
-}
-
-int	get_end(char *str, int i, char **s1, t_expand *exp_utils)
-{
-	int		j;
 	char	*aux;
 	char	*tmp;
+	int		j;
 
-	j = i;
+	aux = NULL;
 	tmp = NULL;
-	if (str[i] == '\0')
-		*s1 = ft_strdup("");
-	while (str[j] != '\0')
-	{
-		if (str[j] == '$')
-			j = get_mid(str, j, &aux, exp_utils);
-		else if (str[j] != '$')
-		{
-			i = j;
-			while (str[j] != '\0' && str[j] != '$')
-				j++;
-			aux = ft_substr(str, i, j - i);
-		}
-		if (!tmp)
-			tmp = ft_strdup(aux);
-		else if (tmp)
-			tmp = ft_strjoin_expand(tmp, aux);
-		free(aux);
-	}
-	if (tmp != NULL)
-		*s1 = tmp;
+	j = i;
+	i++;
+	while (s[i] != 34)
+		i++;
+	i++;
+	aux = ft_substr(s, j, i - j);
+	tmp = var_expanded(aux, exp_utils);
+	aux = ft_strjoin_expand(*ret, tmp);
+	*ret = aux;
+	if (tmp)
+		free(tmp);
 	return (i);
 }
 
-char	*expand_env(char *var, char **env)
+int	handle_sgl_quote(char *s, char **ret, int i)
 {
-	int		i;
-	int		len;
-	int		env_len;
+	char	*aux;
+	char	*tmp;
+	int		j;
 
-	i = 0;
-	len = ft_strlen(var);
-	while (env[i])
-	{
-		if (ft_strchr(env[i], '='))
-			env_len = ft_strlen(ft_strchr(env[i], '=')) - ft_strlen(env[i]);
-		if (env_len < 0)
-			env_len *= -1;
-		if (!ft_strncmp(var, env[i], env_len) && (env_len == len))
-		{
-			if (ft_strchr(env[i], '=') == NULL)
-				return (ft_strdup(""));
-			else if (ft_strchr(env[i], '=') != NULL)
-				return (ft_strdup(ft_strchr(env[i], '=') + 1));
-			break ;
-		}
+	aux = NULL;
+	tmp = NULL;
+	j = i;
+	i++;
+	while (s[i] != 39)
 		i++;
-	}
-	return (ft_strdup(""));
+	i++;
+	aux = ft_substr(s, j, i - j);
+	tmp = ft_strjoin_expand(*ret, aux);
+	if (aux)
+		free(aux);
+	*ret = tmp;
+	return (i);
 }
 
-char	*var_expanded(char *str, t_expand *exp_utils)
+int	expand_dollar(char *s, t_expand *exp_utils, char **ret, int i)
 {
-	char	*s1;
-	char	*s2;
-	char	*ret;
-	int		i;
+	char	*aux;
+	char	*tmp;
+	int		j;
 
-	s1 = NULL;
-	s2 = NULL;
-	ret = NULL;
-	i = 0;
-	i = get_beginning(str, i, &s1);
-	i = get_mid(str, i, &s2, exp_utils);
-	ret = ft_strjoin(s1, s2);
-	if (s1 != NULL)
-		free(s1);
-	if (s2)
-		free(s2);
-	i = get_end(str, i, &s1, exp_utils);
-	s2 = ft_strjoin(ret, s1);
-	if (ret)
-		free(ret);
-	if (s1)
-		free(s1);
-	free(str);
-	return (s2);
+	aux = NULL;
+	tmp = NULL;
+	j = i;
+	i++;
+	while (ft_isalnum(s[i]))
+		i++;
+	if (s[i] == '?')
+		i++;
+	aux = ft_substr(s, j, i - j);
+	tmp = var_expanded(aux, exp_utils);
+	aux = ft_strjoin_expand(*ret, tmp);
+	*ret = aux;
+	if (tmp)
+		free(tmp);
+	return (i);
+}
+
+int	not_expand(char *s, char **ret, int i)
+{
+	char	*aux;
+	char	*tmp;
+	int		j;
+
+	aux = NULL;
+	tmp = NULL;
+	j = i;
+	if (s[i])
+	{
+		while (s[i] != 34 && s[i] != 39 && s[i] != '$' && s[i] != '\0')
+		{
+			i++;
+		}
+		aux = ft_substr(s, j, i - j);
+		tmp = ft_strjoin_expand(*ret, aux);
+		if (aux)
+			free(aux);
+		*ret = tmp;
+	}
+	return (i);
 }
