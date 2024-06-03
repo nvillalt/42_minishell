@@ -64,26 +64,22 @@ int	prompt_loop(t_utils *utils)
 		{
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
-				utils->status = 1; //AL LORO CON EL NUMERO
+				utils->status = 1;
 			else
 			{
 				aux = trim_spaces(input);
 				free(input);
 				get_tokens(aux, utils);
 				free(aux);
-				if (utils->token_list != NULL)
+				if (utils->token_list != NULL && expansor(utils))
 				{
-					expansor(utils);
-					if (utils->token_list != NULL)
-					{
-						parse_tokens(utils);
-						executor(utils, utils->process);
-						free_to_prompt(utils);
-						if (utils->status == 130 && g_sigint == 0)
-							printf("\n");
-						else if (utils->status == 131)
-							printf("Quit\n");
-					}
+					parse_tokens(utils);
+					executor(utils, utils->process);
+					free_to_prompt(utils);
+					if (utils->status == 130 && g_sigint == 0)
+						printf("\n");
+					else if (utils->status == 131)
+						printf("Quit\n");
 				}
 			}
 		}

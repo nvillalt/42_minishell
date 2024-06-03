@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:12:02 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:58:41 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,17 +100,17 @@ int	get_tokens(char	*aux, t_utils *utils)
 	if (aux == NULL)
 		return (0);
 	i = 0;
-	j = 0;
 	while (aux[i])
 	{
 		j = get_substr(aux, i);
 		if ((!new_token(&token) && utils->token_list != NULL))
 			return (clear_token_list(&utils->token_list));
-		if (!(temp = ft_substr(aux, i, (j - i))))
-			return (perror("minishell"), 0);
+		temp = ft_substr(aux, i, (j - i));
+		if (!temp)
+			return (free_tokens(&utils->token_list, NULL, 2));
 		if (check_symbol(temp, utils) == 1)
 			token->str = temp;
-		if (!add_token(&utils->token_list, token) || token->str == NULL)
+		if (!add_token(&utils->token_list, token) || !token->str)
 			return (free_tokens(&utils->token_list, temp, 1));
 		while (is_whitespace(aux[j]))
 			j++;

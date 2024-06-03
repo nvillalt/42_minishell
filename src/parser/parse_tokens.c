@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/02 13:22:19 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:11:11 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,21 @@ static int	create_process(t_parse **process_list, t_token **move)
 
 	node = NULL;
 	if (!init_process(&node) && process_list != NULL)
-		return (0);
+		return (perror("minishell"), 0);
 	i = *move;
 	while (i)
-	{
+	{ // Pasar a una función
 		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<")
 			|| !ft_strcmp(i->str, ">|") || !ft_strcmp(i->str, "|>")
 			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
-			handle_redirection(&i, &node->redirec, &node->redirec_head);
+		{
+			if (!handle_redirection(&i, &node->redirec, &node->redirec_head))
+				return (FUNC_FAILURE);
+		}
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
-		else
-			assign_process(&node, i->str, i->expand);
+		else if (!assign_process(&node, i->str, i->expand))
+			return (FUNC_FAILURE);
 		if (i->next == NULL)
 			break ;
 		i = i->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/16 19:25:42 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:59:01 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ int	free_tokens(t_token **token_list, char *temp, int n)
 	{
 		clear_token_list(token_list);
 		free(temp);
-		return (2);
+		return (0);
+	}
+	else if (n == 2)
+	{
+		clear_token_list(token_list);
+		perror("minishell");
+		return (0);
 	}
 	return (0);
 }
@@ -39,7 +45,7 @@ int	clear_token_list(t_token **token_list)
 	}
 	free(aux);
 	*token_list = NULL;
-	return (2);
+	return (0);
 }
 
 int	new_token(t_token **new)
