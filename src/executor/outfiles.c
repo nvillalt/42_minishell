@@ -1,4 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   outfiles.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:55:38 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:56:59 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
+
+static int	open_great(int last_outfile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->doc,
+			O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1)
+			return (-2);
+		else
+			exit_process(utils);
+	}
+	last_outfile_fd = process->redirec->fd;
+	return (last_outfile_fd);
+}
+
+static int	open_append(int last_outfile_fd, t_utils *utils, t_parse *process)
+{
+	process->redirec->fd = open(process->redirec->doc,
+			O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (process->redirec->fd == -1)
+	{
+		ft_puterror(process->redirec->doc);
+		if (utils->parent_builtin == 1)
+			return (FUNC_FAILURE);
+		else
+			exit_process(utils);
+	}
+	last_outfile_fd = process->redirec->fd;
+	return (last_outfile_fd);
+}
 
 static int	open_outfiles(t_utils *utils, t_parse *process)
 {
@@ -9,31 +53,9 @@ static int	open_outfiles(t_utils *utils, t_parse *process)
 	while (process->redirec)
 	{
 		if (process->redirec->redir_type == GREAT)
-		{
-			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == -1)
-					return (-2);
-				else
-					exit_process(utils);
-			}
-			last_outfile_fd = process->redirec->fd;
-		}
+			last_outfile_fd = open_great(last_outfile_fd, utils, process);
 		if (process->redirec->redir_type == APPEND)
-		{
-			process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
-			if (process->redirec->fd == -1)
-			{
-				ft_puterror(process->redirec->doc);
-				if (utils->parent_builtin == 1)
-					return (FUNC_FAILURE);
-				else
-					exit_process(utils);
-			}
-			last_outfile_fd = process->redirec->fd;
-		}
+			last_outfile_fd = open_append(last_outfile_fd, utils, process);
 		process->redirec = process->redirec->next;
 	}
 	return (last_outfile_fd);
@@ -56,6 +78,6 @@ int	redirec_outfile(t_utils *utils, t_parse *process)
 		else
 			exit_process(utils);
 	}
-	close_fds(utils->process, utils); 
+	close_fds(utils->process, utils);
 	return (FUNC_SUCCESS);
 }

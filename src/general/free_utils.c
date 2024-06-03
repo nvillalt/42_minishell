@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 17:28:55 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 18:01:28 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	free_matrix(char **matrix)
@@ -5,7 +17,7 @@ void	free_matrix(char **matrix)
 	int	i;
 
 	i = 0;
-	while(matrix[i] != NULL)
+	while (matrix[i] != NULL)
 	{
 		free(matrix[i]);
 		i++;
@@ -19,7 +31,7 @@ void	free_parse_list(t_parse	*process)
 	t_parse	*temp;
 	t_redir	*redir_temp;
 
-	while(process)
+	while (process)
 	{
 		if(process->cmd)
 			free_matrix(process->cmd); //No se libera bien hasta hacer una reserva correcta

@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset_var_env.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:00:43 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:01:25 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-static char **allocate_newenv(char **dup, char **env, int index_jump, int env_len)
+static char	**allocate_newenv(char **dup, char **env,
+	int index_jump, int env_len)
 {
 	int	i;
 	int	j;
@@ -9,7 +22,7 @@ static char **allocate_newenv(char **dup, char **env, int index_jump, int env_le
 	j = 0;
 	if (index_jump == 0)
 		i++;
-	while(i < env_len)
+	while (i < env_len)
 	{
 		dup[j] = ft_strdup(env[i]);
 		if (!dup[j])
@@ -38,7 +51,7 @@ char	**unset_var_env(char **env, int index_jump)
 	j = 0;
 	while (env[i] != NULL)
 		i++;
-	dup = ft_calloc(sizeof(char *), i + 1); //NO SUMAMOS 1 PORQUE EN REALIDAD VAMOS A SALTARNOS UNA LÍNEA
+	dup = ft_calloc(sizeof(char *), i + 1);
 	if (!dup)
 	{
 		free_matrix(env);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 15:23:46 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 15:33:18 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include    "../../minishell.h"
 
 static char	*search_for_home(char **env)
@@ -6,13 +18,13 @@ static char	*search_for_home(char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] && ft_strncmp(env[i], "HOME=", 5) != 0)
+	while (env[i] && ft_strncmp(env[i], "HOME=", 5) != 0)
 		i++;
 	if (!env[i])
 	{
-		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-		free_matrix(env);
-		return(NULL);
+		ft_putendl_fd ("minishell: cd: HOME not set", STDERR_FILENO);
+		free_matrix (env);
+		return (NULL);
 	}
 	if (!env[i][5])
 		return (NULL);
@@ -23,43 +35,27 @@ static char	*search_for_home(char **env)
 static char	**change_to_directory(char **env, char *cmd)
 {
 	char	*cwd;
-	/*
-	if (ft_strlen(cmd) > PATH_MAX) // AL LORO
-	{
-		perror(NULL);
-		free(env);
-		return (NULL);
-	}
-	*/
+
 	env = change_old_pwd(env);
 	if (!env)
 		return (NULL);
 	if (chdir(cmd) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		perror(cmd);
-		free_matrix(env);
-		return (NULL);
-	}
+		return (free_str_matrix_cderror(NULL, env, cmd));
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+		ft_putstr_fd(CD_ERR, STDERR_FILENO);
+		ft_putstr_fd(CWD_ERR, STDERR_FILENO);
+		ft_putendl_fd (FILE_ERR, STDERR_FILENO);
 		env = change_pwd_error(env, cmd);
 		if (!env)
-		{
-			free(cwd);
-			return (NULL);
-		}
+			return (free(cwd), NULL);
 	}
 	else
 	{
 		env = change_pwd(env);
 		if (!env)
-		{
-			free(cwd);
-			return (NULL);
-		}
+			return (free(cwd), NULL);
 	}
 	free(cwd);
 	return (env);
@@ -72,28 +68,31 @@ static char	**change_to_home(char **env)
 
 	home = search_for_home(env);
 	if (!home)
-	{
-		free_matrix(env);
-		return (NULL);
-	}
+		return (free_matrix(env), NULL);
 	env = change_old_pwd(env);
 	if (!env)
 		return (NULL);
 	if (chdir(home) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		perror(home);
-		free_matrix(env);
-		return (NULL);
-	}
+		return (free_str_matrix_cderror(NULL, env, home));
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
+	{
+		ft_putstr_fd(CD_ERR, STDERR_FILENO);
+		ft_putstr_fd(CWD_ERR, STDERR_FILENO);
+		ft_putendl_fd (FILE_ERR, STDERR_FILENO);
+	}
 	env = change_pwd(env);
 	free(cwd);
 	if (!env)
 		return (NULL);
 	return (env);
+}
+
+static int	return_success_cd(char **env, t_utils *utils)
+{
+	free_matrix(utils->env);
+	utils->env = env;
+	return (0);
 }
 
 int	ft_cd(t_utils *utils, char **cmd)
@@ -104,11 +103,8 @@ int	ft_cd(t_utils *utils, char **cmd)
 	i = 0;
 	env = env_dup(utils->env);
 	if (!env)
-	{
-		perror("minishell");
-		return (1);
-	}
-	while(cmd[i])
+		return (perror("minishell"), 1);
+	while (cmd[i])
 		i++;
 	if (i == 1)
 	{
@@ -123,12 +119,6 @@ int	ft_cd(t_utils *utils, char **cmd)
 			return (1);
 	}
 	else
-	{
-		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
-		free_matrix(env);
-		return (1);
-	}
-	free_matrix(utils->env);
-	utils->env = env;
-	return (0);
+		return (multiple_argc_error(env));
+	return (return_success_cd(env, utils));
 }

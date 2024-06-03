@@ -28,10 +28,11 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/export_to_env.c \
 						src/builtins/change_pwd.c \
 						src/builtins/export_utils.c \
+						src/builtins/export_utils2.c \
 						src/builtins/unset_var_env.c \
+						src/builtins/cd_utils.c 
 
 EXECUTOR = src/executor/executor.c \
-					src/executor/dirty_parse.c \
 					src/executor/get_cmd_path.c \
 					src/executor/heredocs.c \
 					src/executor/close_fds.c \
@@ -43,7 +44,12 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/exec_cmd.c \
 					src/executor/execute_last_process.c \
 					src/executor/execute_mid_process.c \
-					src/executor/exec_builtins.c 
+					src/executor/exec_builtins.c \
+					src/executor/heredoc_utils.c \
+					src/executor/heredoc_utils_2.c \
+					src/executor/open_heredoc.c \
+					src/executor/expand_heredoc.c \
+					src/executor/create_buffer_heredoc.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c \
@@ -62,7 +68,11 @@ GENERAL = src/general/main.c \
 			src/general/error_management.c \
 			src/general/free_utils.c \
 			src/general/general_utils.c \
-			src/general/ft_puterror.c
+			src/general/ft_puterror.c \
+			src/general/exit_utils.c \
+			src/general/set_oldpwd.c \
+			src/general/update_shlvl.c \
+			src/general/free_strings.c 
 
 MALLOC_DEBUG = src/debug/malloc_debug.c
 

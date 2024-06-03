@@ -29,7 +29,7 @@ extern int	g_sigint;
 char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
 t_utils	init_utils(void);
-
+int		ft_strncmp_varlen(char *cmd, char *env_line);
 // error_management
 int		error_message(t_utils *utils);
 
@@ -37,8 +37,21 @@ int		error_message(t_utils *utils);
 void 	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 void	free_lists(t_utils	*utils);
+char	*free_puterror(char *str, char *str2, t_utils *utils, int status);
+int		ft_puterror(char *cmd);
+void	free_ptrs(void *ptr1, void *ptr2);
+char	*updt_status_return(t_utils *utils, int status);
+int		free_puterror_int(char *str, char *str2, t_utils *utils, int status);
+void	exit_matrix_str(char *str, char **matrix, char *error_str, t_utils *utils);
+void	exit_process_path(t_utils *utils, t_parse *process);
+int		change_status(t_utils *utils, int status);
+void	exit_init_void(char **matrix);
+int		free_matrix_return(char **matrix);
+char	**free_str_matrix(char *str, char **matrix);
 //printf double array
 void	print_env(char **env);
-int		ft_puterror(char *cmd);
 int     count_matrix(char **cmds);
+//init
+char	**set_oldpwd(char **env);
+int		update_shlvl(t_utils *utils);
 #endif
