@@ -55,7 +55,7 @@ int	prompt_loop(t_utils *utils)
 		input = readline("minishell:");
 		if (!input)
 		{
-			ft_putendl_fd("exit", STDERR_FILENO); // poner el mensaje con señal
+			ft_putendl_fd("exit", STDERR_FILENO);
 			exit_process_custom(utils, 0);
 			exit (0);
 		}

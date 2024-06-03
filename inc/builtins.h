@@ -1,6 +1,11 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# define QUOTES_ERR "minishell: export: `': not a valid identifier"
+# define CD_ERR "cd: error retrieving current directory: "
+# define CWD_ERR "getcwd: cannot access parent directories: "
+# define FILE_ERR "No such file or directory"
+
 int		ft_echo(char **str);
 int		ft_pwd(char **env);
 int		ft_env(char **env, char **argv);
@@ -15,7 +20,7 @@ int		is_export_format(char *cmd);
 char	**unset_var_env(char **env, int index_jump);
 char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
-int		is_cmd_on_env(char **env, char *cmd);
+int		cmd_on_env(char **env, char *cmd);
 void	exit_process_custom(t_utils *utils, unsigned char status);
 int		env_varlen(char *str);
 char	*ft_getenv(char **env, char *var);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 15:51:46 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 15:53:08 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static void	print_export_env(char **env)
@@ -6,15 +18,15 @@ static void	print_export_env(char **env)
 	int	j;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		if (env[i] && ft_strncmp_varlen("_", env[i]) == 0)
 			i++;
 		if (!env[i])
-			break;
+			break ;
 		j = 0;
 		printf("declare -x ");
-		while(env[i][j] && env[i][j] != '=')
+		while (env[i][j] && env[i][j] != '=')
 		{
 			printf("%c", env[i][j]);
 			j++;
@@ -57,14 +69,14 @@ static int	sort_export_env(char **env)
 	size_t	j;
 
 	i = 0;
-	while(env[i + 1] != NULL)
+	while (env[i + 1] != NULL)
 	{
 		j = 0;
 		while (env[i][j] == env[i + 1][j])
 			j++;
 		if (env[i][j] > env[i + 1][j])
 		{
-			if(!swap_lines(&env[i], &env[i + 1]))
+			if (!swap_lines(&env[i], &env[i + 1]))
 			{
 				free_matrix(env);
 				return (FUNC_FAILURE);
@@ -72,7 +84,7 @@ static int	sort_export_env(char **env)
 			i = -1;
 		}
 		i++;
-	} 
+	}
 	return (FUNC_SUCCESS);
 }
 
@@ -92,7 +104,7 @@ int	ft_export(t_utils *utils, char **cmd)
 	char	**export_env;
 
 	error_flag = 0;
-	export_env = env_dup(utils->env); //AL LORO CON ESTE DUPLICADO
+	export_env = env_dup(utils->env);
 	if (!export_env)
 		return (1);
 	num = count_matrix(cmd);

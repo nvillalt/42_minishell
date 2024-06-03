@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   change_pwd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 15:14:24 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 15:14:47 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 char	*ft_getenv(char **env, char *var)
@@ -103,7 +115,7 @@ char	**change_pwd_error(char **env, char *cmd)
 		return (NULL);
 	cmd = add_slash(cmd);
 	if (!cmd)
-		return(free(current_pwd), NULL);
+		return (free(current_pwd), NULL);
 	new_pwd = ft_strjoin(current_pwd, cmd);
 	free_ptrs(current_pwd, cmd);
 	if (!new_pwd)
