@@ -15,7 +15,7 @@ int		is_export_format(char *cmd);
 char	**unset_var_env(char **env, int index_jump);
 char	**change_var(char **env, char *cmd);
 char	**add_to_env(char **env, char *cmd);
-int		cmd_on_env(char **env, char *cmd);
+int		is_cmd_on_env(char **env, char *cmd);
 void	exit_process_custom(t_utils *utils, unsigned char status);
 int		env_varlen(char *str);
 char	*ft_getenv(char **env, char *var);
@@ -29,4 +29,5 @@ int		get_cmd_flag(char **env, char *cmd, int cmd_len, int plus_flag);
 void	print_no_value(char **env, int *i, int *j);
 char	**join_var(char **env, char *cmd);
 int		no_env_error(void);
+char	*delete_plus(char *cmd);
 #endif

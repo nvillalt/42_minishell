@@ -10,21 +10,37 @@ int	is_export_format(char *cmd)
 	i++;
 	while (cmd[i] && cmd[i] != '=' && ft_isalnum(cmd[i]))
 		i++;
+	if (cmd[i] == '+' && cmd[i + 1] == '=')
+		return (2);
 	if (cmd[i] == 0 || cmd[i] == '=')
 		return (1);
 	else
 		return (0);
 }
+
 char	**add_to_env(char **env, char *cmd)
 {
-	if(!is_export_format(cmd))
+	int		export_format;
+	char	*new_cmd;
+
+	export_format = is_export_format(cmd);
+	if(!export_format)
 	{
 		ft_putstr_fd("bash: export: \'", STDERR_FILENO); //Cambiar
 		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putendl_fd("\': not a valid identifier", STDERR_FILENO);
 		return (env);
 	}
+	if (export_format == 2)
+	{
+		new_cmd = delete_plus(cmd);
+		if (!new_cmd)
+			return (NULL);
+		cmd = new_cmd;
+	}
 	env = create_new_env(env, cmd);
+	if (!env)
+		return (NULL);
 	return (env);
 }
 
@@ -35,7 +51,6 @@ int	get_cmd_flag(char **env, char *cmd, int cmd_len, int plus_flag)
 
 	i = 0;
 	j = 0;
-
 	while(env[i])
 	{
 		j = 0;

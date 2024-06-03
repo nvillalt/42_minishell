@@ -85,6 +85,7 @@ char	**handle_newvar(char **env, char **cmd, int i, int setvar)
 		if (!env)
 			return (NULL);
 	}
+	return (env);
 }
 
 char    **export_to_env(char **env, char **cmd, int *error_flag)

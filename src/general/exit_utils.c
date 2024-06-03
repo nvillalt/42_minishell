@@ -25,7 +25,7 @@ int	change_status(t_utils *utils, int status)
 
 void	exit_init_void(char **matrix)
 {
-	if (matrix);
+	if (matrix)
 		free_matrix(matrix);
 	ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
 	exit (1);
