@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 16:20:15 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:20:16 by fmoran-m         ###   ########.fr       */
+/*   Created: 2024/06/03 15:23:20 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 15:23:30 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	exec_cmd(t_utils *utils, t_parse *current_process)
+char	*delete_plus(char *cmd)
 {
-	char	*path;
+	int		new_cmd_len;
+	char	*new_cmd;
+	int		j;
+	int		i;
 
-	path = get_cmd_path(utils, current_process);
-	if (execve(path, current_process->cmd, utils->env) == -1)
+	i = 0;
+	j = 0;
+	new_cmd_len = ft_strlen(cmd) - 1;
+	new_cmd = ft_calloc(new_cmd_len + 1, sizeof(char));
+	if (!new_cmd)
+		return (NULL);
+	while (cmd[i])
 	{
-		ft_putstr_fd(current_process->cmd[0], STDERR_FILENO);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
-		close_fds(utils->process, utils);
-		free_utils(utils);
-		exit(127);
+		if (cmd[i] == '+')
+			i++;
+		new_cmd[j] = cmd[i];
+		j++;
+		i++;
 	}
+	return (new_cmd);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_first_process.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:22:00 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:22:13 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static void	execute_first_process(t_utils *utils, t_parse *process)
@@ -11,7 +23,7 @@ static void	execute_first_process(t_utils *utils, t_parse *process)
 			exit_process(utils);
 	}
 	close_redir_fd(&utils->main_pipe[1]);
-	if (process->cmd && process->cmd[0]) //Cuando llegue el parseo bueno es posible que toque cambiarlo
+	if (process->cmd && process->cmd[0])
 		exec_cmd(utils, process);
 	else
 		exit_process_noerror(utils);
@@ -22,11 +34,7 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 	if (process->next)
 	{
 		if (pipe(utils->main_pipe) == -1)
-		{
-			perror("minishell");
-			utils->status = 1;
-			return(FUNC_FAILURE);
-		}
+			return (free_puterror_int(NULL, NULL, utils, 1));
 	}
 	if (process->built_in)
 	{
@@ -37,11 +45,7 @@ int	create_first_child(t_utils *utils, t_parse *process, int process_index)
 	{
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
-		{
-			perror("minishell");
-			utils->status = 1;
-			return(FUNC_FAILURE);
-		}
+			return (free_puterror_int(NULL, NULL, utils, 1));
 		if (utils->pid_array[process_index] == 0)
 			execute_first_process(utils, process);
 	}

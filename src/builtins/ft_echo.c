@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 21:35:04 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/04/09 20:47:36 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:34:41 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ static int	count_argc(char **str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
-	return(i);
+	return (i);
 }
 
 static int	control_n(char **str, int i, int *n_flag)
 {
 	int	j;
-	
+
 	j = 2;
 	while (str[i] && ft_strncmp(str[i], "-n", 2) == 0)
 	{
-		while(str[i][j] && str[i][j] == 'n')
+		while (str[i][j] && str[i][j] == 'n')
 		{
 			j++;
 		}
-		if(str[i][j])
+		if (str[i][j])
 			break ;
 		else
 		{
@@ -60,7 +60,7 @@ int	ft_echo(char **str)
 	}
 	argc = count_argc(str);
 	i = control_n(str, i, &n_flag);
-	while(i < argc - 1)
+	while (i < argc - 1)
 	{
 		printf("%s ", str[i]);
 		i++;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   close_fds.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:09:34 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:10:54 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	unlink_files(t_parse *process)
@@ -5,10 +17,10 @@ void	unlink_files(t_parse *process)
 	while (process)
 	{
 		process->redirec = process->redirec_head;
-		while(process->redirec)
+		while (process->redirec)
 		{
 			if (process->redirec->heredoc_file)
-				unlink(process->redirec->heredoc_file);
+				unlink (process->redirec->heredoc_file);
 			process->redirec = process->redirec->next;
 		}
 		process = process->next;
@@ -32,16 +44,16 @@ void	close_all_redirs(t_utils *utils)
 	close_redir_fd(&utils->saved_stdout);
 }
 
-void	close_fds(t_parse *process, t_utils *utils) 
+void	close_fds(t_parse *process, t_utils *utils)
 {
-	while(process)
+	while (process)
 	{
 		process->redirec = process->redirec_head;
-		while(process->redirec)
+		while (process->redirec)
 		{
-			if(process->redirec->fd != -1)
+			if (process->redirec->fd != -1)
 			{
-				close(process->redirec->fd);
+				close (process->redirec->fd);
 				process->redirec->fd = -1;
 			}
 			process->redirec = process->redirec->next;
