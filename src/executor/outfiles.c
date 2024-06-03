@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   outfiles.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:55:38 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:56:59 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	open_great(int last_outfile_fd, t_utils *utils, t_parse *process)
 {
-	process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	process->redirec->fd = open(process->redirec->doc,
+			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (process->redirec->fd == -1)
 	{
 		ft_puterror(process->redirec->doc);
-		if (utils->parent_builtin == 1) //CUIDADO CON QUE NO SEA -1
+		if (utils->parent_builtin == 1)
 			return (-2);
 		else
 			exit_process(utils);
@@ -17,7 +30,8 @@ static int	open_great(int last_outfile_fd, t_utils *utils, t_parse *process)
 
 static int	open_append(int last_outfile_fd, t_utils *utils, t_parse *process)
 {
-	process->redirec->fd = open(process->redirec->doc, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	process->redirec->fd = open(process->redirec->doc,
+			O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (process->redirec->fd == -1)
 	{
 		ft_puterror(process->redirec->doc);
@@ -64,6 +78,6 @@ int	redirec_outfile(t_utils *utils, t_parse *process)
 		else
 			exit_process(utils);
 	}
-	close_fds(utils->process, utils); 
+	close_fds(utils->process, utils);
 	return (FUNC_SUCCESS);
 }

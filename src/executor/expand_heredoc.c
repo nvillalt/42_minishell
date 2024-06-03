@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:27:47 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:29:56 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 int	get_val_from_env(char **env, char *key, char **val)
@@ -21,11 +33,11 @@ static char	*update_buffer(char *buffer, char **env, t_utils *utils, int i)
 	key = get_keyhd(buffer, i, utils);
 	if (!key)
 		return (NULL);
-	if  (*key == '$')
+	if (*key == '$')
 	{
 		val = ft_strdup(key);
 		if (!val)
-			return(free_puterror(NULL, key, utils, 1));
+			return (free_puterror(NULL, key, utils, 1));
 	}
 	else
 	{
@@ -33,7 +45,7 @@ static char	*update_buffer(char *buffer, char **env, t_utils *utils, int i)
 			return (free_puterror(NULL, key, utils, 1));
 		buffer = create_new_buffer(buffer, val, key, &i);
 		if (!buffer)
-			return(updt_status_return(utils, 1));
+			return (updt_status_return(utils, 1));
 	}
 	free_ptrs(key, val);
 	return (buffer);
@@ -65,7 +77,7 @@ char	*get_keyhd(char *buffer, int i, t_utils *utils)
 	int		start;
 	char	*key;
 
-	while(buffer[i] && buffer[i] == '$')
+	while (buffer[i] && buffer[i] == '$')
 		i++;
 	i--;
 	start = i + 1;
@@ -73,14 +85,14 @@ char	*get_keyhd(char *buffer, int i, t_utils *utils)
 	while (buffer[i] && ft_isalnum(buffer[i]))
 		i++;
 	if (start == i)
-    {
-        key = ft_strdup("$");
-        if (!key)
-            return (free_puterror(NULL, NULL, utils, 1));
-    }
+	{
+		key = ft_strdup("$");
+		if (!key)
+			return (free_puterror(NULL, NULL, utils, 1));
+	}
 	key = ft_substr(buffer, start, i - start);
 	if (!key)
-        return (free_puterror(NULL, NULL, utils, 1));
+		return (free_puterror(NULL, NULL, utils, 1));
 	return (key);
 }
 

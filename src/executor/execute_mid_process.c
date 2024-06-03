@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_mid_process.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:22:45 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:22:58 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static void	execute_mid_process(t_utils *utils, t_parse *process)
@@ -20,7 +32,7 @@ static void	execute_mid_process(t_utils *utils, t_parse *process)
 	close_redir_fd(&utils->aux_pipe[1]);
 	if (process->built_in)
 	{
-		status = handle_builtins(utils, process); // AL LORO MENSAJES DE ERROR
+		status = handle_builtins(utils, process);
 		exit_process_custom(utils, status);
 	}
 	else if (process->cmd && process->cmd[0])

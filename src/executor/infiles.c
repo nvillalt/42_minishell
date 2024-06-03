@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   infiles.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:53:53 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:54:34 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	open_minus(int last_infile_fd, t_utils *utils, t_parse *process)
@@ -64,6 +76,6 @@ int	redirec_infile(t_utils *utils, t_parse *process)
 		else
 			exit_process(utils);
 	}
-	close_fds(utils->process, utils); 
-	return(FUNC_SUCCESS);
+	close_fds(utils->process, utils);
+	return (FUNC_SUCCESS);
 }

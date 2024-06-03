@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_builtins.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:18:48 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:19:37 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	restore_fds(t_utils *utils)
@@ -49,6 +61,7 @@ static void	set_child_builtin(t_utils *utils, t_parse *process, int redir_out)
 	status = handle_builtins(utils, process);
 	exit_process_custom(utils, status);
 }
+
 static int	set_parent_builtin(t_utils *utils, t_parse *process, int redir_out)
 {
 	unsigned char	status;
@@ -64,7 +77,7 @@ static int	set_parent_builtin(t_utils *utils, t_parse *process, int redir_out)
 	if (redirec_infile(utils, process) == -2)
 		return (change_status(utils, 1));
 	if (redirec_outfile(utils, process) == -2)
-		return(change_status(utils, 1));
+		return (change_status(utils, 1));
 	status = handle_builtins(utils, process);
 	utils->status = status;
 	if (!restore_fds(utils))
@@ -81,7 +94,7 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 	{
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
-			return(FUNC_FAILURE);
+			return (FUNC_FAILURE);
 		if (utils->pid_array[process_index] == 0)
 			set_child_builtin(utils, process, redir_out);
 	}

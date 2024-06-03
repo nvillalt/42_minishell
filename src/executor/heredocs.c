@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredocs.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:52:14 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:53:09 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	write_here_doc(t_parse *process, t_utils *utils)
@@ -8,7 +20,7 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 
 	init_values_hd(&buffer, &limiter_len, &buffer_len, process);
 	while (ft_strncmp_heredoc(buffer, process->redirec->doc, limiter_len)
-			|| limiter_len != buffer_len)
+		|| limiter_len != buffer_len)
 	{
 		buffer = init_buffer(buffer);
 		if (!buffer)
@@ -30,10 +42,10 @@ static int	write_here_doc(t_parse *process, t_utils *utils)
 
 static int	exec_heredoc(t_utils *utils, t_parse *process, int *temp_num)
 {
-	if(!open_here_doc(process->redirec, temp_num))
+	if (!open_here_doc(process->redirec, temp_num))
 	{
 		utils->status = 1;
-		return(FUNC_FAILURE);
+		return (FUNC_FAILURE);
 	}
 	if (!write_here_doc(process, utils))
 		return (FUNC_FAILURE);
@@ -46,9 +58,9 @@ static int	create_heredoc_loop(t_parse *process, t_utils *utils)
 	int	temp_num;
 
 	temp_num = 1;
-	while(process)
+	while (process)
 	{
-		while(process->redirec)
+		while (process->redirec)
 		{
 			if (process->redirec->redir_type == HEREDOC)
 			{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:31:18 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:31:50 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	ft_isrelative(char *cmd)
@@ -5,13 +17,13 @@ static int	ft_isrelative(char *cmd)
 	int	i;
 
 	i = 0;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		if (cmd[i] == '/')
 			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 static char	*find_env_path(char **env)
@@ -51,7 +63,7 @@ static char	*get_def_path(char **path, char *command, t_utils *utils)
 		}
 	}
 	free(command);
-	if (!found) //CUIDADO CON ESTO
+	if (!found)
 		return (NULL);
 	return (search);
 }

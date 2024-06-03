@@ -1,43 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   childs.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:08:12 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:09:12 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
-/*
-static char	**create_cmd_no_builtin(char **cmd) 
-{
-	char	**new_cmd;
 
-	new_cmd = env_dup(cmd + 1);
-	if (!new_cmd)
-		return (NULL);
-	free_matrix(cmd);
-	return (new_cmd);
-}
-
-static int	clean_env_builtin(t_parse *process)
-{
-	while (process)
-	{
-		if (process->built_in == ENV && count_matrix(process->cmd) > 1)
-		{
-			process->cmd = create_cmd_no_builtin(process->cmd);
-			if (!process->cmd)
-				return (FUNC_FAILURE);
-			process->built_in = 0;
-		}
-		process = process->next;
-	}
-	return (FUNC_SUCCESS);
-}
-*/
 static int	get_cmd_num(t_parse *process)
 {
 	int	cmd_num;
 
 	cmd_num = 0;
-	while(process)
+	while (process)
 	{
 		cmd_num++;
 		process = process->next;
 	}
-	return(cmd_num);
+	return (cmd_num);
 }
 
 static void	catch_signal_status(t_utils *utils, int status)
@@ -61,7 +46,7 @@ static int	wait_all_process(t_utils *utils)
 
 	i = 0;
 	cmd_num = get_cmd_num(utils->process);
-	while(i < (cmd_num - utils->builtin_counter))
+	while (i < (cmd_num - utils->builtin_counter))
 	{
 		pid = wait(&status);
 		if (pid == -1)
@@ -82,7 +67,7 @@ int	execute_childs(t_utils *utils, t_parse *process)
 		return (FUNC_FAILURE);
 	process_index++;
 	process = process->next;
-	while(process && process->next != NULL)
+	while (process && process->next != NULL)
 	{
 		if (!create_mid_child(utils, process, process_index))
 			return (FUNC_FAILURE);

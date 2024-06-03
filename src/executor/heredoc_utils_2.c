@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_utils_2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 16:32:24 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 16:32:38 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static char	*join_str(char *join, char const *s1, char const *s2)
@@ -55,7 +67,7 @@ char	*append_newline(int *buffer_len, char *buffer, t_utils *utils)
 	char	*temp;
 
 	*buffer_len = ft_strlen(buffer);
-	temp = ft_strjoin_hd(buffer, "\n") ;
+	temp = ft_strjoin_hd(buffer, "\n");
 	if (!temp)
 		return (free_puterror(NULL, buffer, utils, 1));
 	free(buffer);

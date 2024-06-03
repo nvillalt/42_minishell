@@ -33,7 +33,6 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/cd_utils.c 
 
 EXECUTOR = src/executor/executor.c \
-					src/executor/dirty_parse.c \
 					src/executor/get_cmd_path.c \
 					src/executor/heredocs.c \
 					src/executor/close_fds.c \
