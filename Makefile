@@ -62,7 +62,9 @@ PARSER = src/parser/parse_utils.c \
 			src/parser/checker_functions.c \
 			src/parser/assignment_functions.c
 
-SIGNAL = src/signals/signal_reception.c
+SIGNAL = src/signals/signal_reception.c \
+			src/signals/heredoc_signal.c \
+			src/signals/sigint_signal.c
 
 EXPAND = src/expansor/expansor.c \
 			src/expansor/expansor_builder.c \
