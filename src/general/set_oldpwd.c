@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_oldpwd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 17:30:59 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 17:31:22 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static char	**replace_oldpwd(char **env, int i)
@@ -31,7 +43,7 @@ static char	**create_oldpwd(char **env, int i)
 	if (!new_env[i])
 		return (NULL);
 	free_matrix(env);
-	return(new_env);
+	return (new_env);
 }
 
 char	**set_oldpwd(char **env)
@@ -39,7 +51,7 @@ char	**set_oldpwd(char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] && ft_strncmp_varlen("OLDPWD", env[i]))
+	while (env[i] && ft_strncmp_varlen("OLDPWD", env[i]))
 		i++;
 	if (env[i])
 	{

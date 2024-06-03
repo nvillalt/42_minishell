@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   general_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 17:29:41 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 17:30:45 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 char	**env_dup(char **env)
@@ -12,7 +24,7 @@ char	**env_dup(char **env)
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while(env[i] != NULL)
+	while (env[i] != NULL)
 	{
 		dup[i] = ft_strdup(env[i]);
 		if (!dup[i])
@@ -27,7 +39,7 @@ char	**env_dup(char **env)
 
 void	print_env(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i] != NULL)
@@ -42,7 +54,7 @@ int	count_matrix(char **cmds)
 	int	i;
 
 	i = 0;
-	while(cmds[i])
+	while (cmds[i])
 		i++;
 	return (i);
 }
@@ -54,10 +66,10 @@ int	ft_strncmp_varlen(char *cmd, char *env_line)
 
 	cmd_len = ft_strlen(cmd);
 	var_len = 0;
-	while(env_line[var_len] && env_line[var_len] != '=')
+	while (env_line[var_len] && env_line[var_len] != '=')
 		var_len++;
 	if (ft_strncmp(cmd, env_line, cmd_len) == 0 && cmd_len == var_len)
-		return(0);
-	else	
+		return (0);
+	else
 		return (1);
 }

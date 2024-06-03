@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_shlvl.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 17:31:44 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 17:32:31 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 static int	create_new_shlvl(t_utils *utils)
@@ -6,13 +18,13 @@ static int	create_new_shlvl(t_utils *utils)
 	char	**new_env;
 
 	i = 0;
-	while(utils->env[i])
+	while (utils->env[i])
 		i++;
 	new_env = ft_calloc(i + 2, sizeof(char *));
 	if (!new_env)
 		return (0);
 	i = 0;
-	while(utils->env[i])
+	while (utils->env[i])
 	{
 		new_env[i] = ft_strdup(utils->env[i]);
 		if (!new_env[i])
@@ -35,7 +47,7 @@ static int	set_unassigned_shlvl(t_utils *utils, char *shlvl, int i)
 	if (!new_shlvl)
 		return (0);
 	i = 0;
-	while(utils->env[i] != shlvl)
+	while (utils->env[i] != shlvl)
 		i++;
 	free(utils->env[i]);
 	utils->env[i] = new_shlvl;
@@ -57,7 +69,7 @@ static int	increment_shlvl(t_utils *utils, char *shlvl, int i)
 	if (!new_shlvl)
 		return (0);
 	i = 0;
-	while(utils->env[i] != shlvl)
+	while (utils->env[i] != shlvl)
 		i++;
 	free(utils->env[i]);
 	utils->env[i] = new_shlvl;
@@ -70,17 +82,17 @@ int	update_shlvl(t_utils *utils)
 	char	*shlvl;
 
 	i = 0;
-	while(utils->env[i] && ft_strncmp_varlen("SHLVL", utils->env[i]))
+	while (utils->env[i] && ft_strncmp_varlen("SHLVL", utils->env[i]))
 		i++;
 	if (!utils->env[i])
 		return (create_new_shlvl(utils));
 	shlvl = utils->env[i];
 	i = 0;
-	while(shlvl[i] && shlvl[i] != '=')
+	while (shlvl[i] && shlvl[i] != '=')
 		i++;
 	i++;
 	if (!shlvl[i])
-		return(set_unassigned_shlvl(utils, shlvl, i));
+		return (set_unassigned_shlvl(utils, shlvl, i));
 	else
-		return(increment_shlvl(utils, shlvl, i));
+		return (increment_shlvl(utils, shlvl, i));
 }

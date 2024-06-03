@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 17:24:19 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/03 17:24:34 by fmoran-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-void	exit_matrix_str(char *str, char **matrix, char *error_str, t_utils *utils)
+void	exit_matrix_str(char *str, char **matrix,
+	char *error_str, t_utils *utils)
 {
 	if (str)
 		free(str);
