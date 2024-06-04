@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:14:24 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 15:14:47 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:30:43 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**change_old_pwd(char **env)
 			return (env);
 		cwd = ft_strdup(temp_cwd);
 		if (!cwd)
-			return (NULL);
+			return (free_matrix(env), perror("minishell"), NULL);
 	}
 	temp = ft_strjoin("OLDPWD=", cwd);
 	if (!temp)
@@ -106,25 +106,29 @@ char	**change_pwd_error(char **env, char *cmd)
 	char	*temp;
 	char	*current_pwd;
 	char	*ptr_current_pwd;
+	int		i;
 
+	i = 0;
 	ptr_current_pwd = ft_getenv(env, "PWD");
 	if (!ptr_current_pwd)
 		return (env);
 	current_pwd = ft_strdup(ptr_current_pwd);
 	if (!current_pwd)
-		return (NULL);
+		return (free_matrix(env), NULL);
 	cmd = add_slash(cmd);
 	if (!cmd)
-		return (free(current_pwd), NULL);
+		return (free_matrix(env), free(current_pwd), NULL);
 	new_pwd = ft_strjoin(current_pwd, cmd);
 	free_ptrs(current_pwd, cmd);
 	if (!new_pwd)
-		return (NULL);
+		return (free_matrix(env), NULL);
 	temp = ft_strjoin("PWD=", new_pwd);
 	free(new_pwd);
 	if (!temp)
 		return (free_str_matrix(NULL, env));
-	free(ptr_current_pwd);
-	ptr_current_pwd = temp;
+	while(env[i] && ft_strncmp_varlen("PWD", env[i]))
+		i++;
+	free(env[i]);
+	env[i] = temp;
 	return (env);
 }

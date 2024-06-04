@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:13:36 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 15:13:40 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:05:10 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,4 @@ int	multiple_argc_error(char **env)
 	if (env)
 		free_matrix(env);
 	return (1);
-}
-
-int	no_env_error(void)
-{
-	ft_putendl_fd("minishell: env: No such file or directory", STDERR_FILENO);
-	return (127);
 }

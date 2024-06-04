@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:23:46 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 15:33:18 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:38:44 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static char	*search_for_home(char **env)
 	if (!env[i])
 	{
 		ft_putendl_fd ("minishell: cd: HOME not set", STDERR_FILENO);
-		free_matrix (env);
 		return (NULL);
 	}
 	if (!env[i][5])
