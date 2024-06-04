@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:32:26 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:24:35 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_expand	*init_exp(t_utils *utils);
 char		*ft_strjoin_expand(char *s1, char *s2);
 int			check_dollar(char *str);
 int			check_valid_redir(char *s1, t_token *tmp, t_utils *utils);
-int			free_expansor_to_prompt(t_expand *exp_utils, char *error_msg);
+int			free_expansor(t_token **token_list, t_expand *exp_utils);
 
 
 # endif

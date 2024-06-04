@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:19:16 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:19:19 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:27:36 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	get_beginning(char *str, int i, char **s1)
 {
 	if (str[0] == '$')
 		*s1 = ft_strdup("");
-	else if (str[0] != '$')
+	else if (str[0] != '$' && str[i])
 	{
-		while (str[i] != '$')
+		while (str[i] != '$' && str[i])
 			i++;
 		*s1 = ft_substr(str, 0, i);
 	}

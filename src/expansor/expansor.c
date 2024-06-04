@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:54:33 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:24:40 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	expansor(t_utils *utils)
 		{
 			tmp->str = check_expansion(tmp->str, exp_utils, tmp);
 			if (!tmp->str)
-				return (free_expansor(&utils->token_list, exp_utils, "minishell"));
+				return (free_expansor(&utils->token_list, exp_utils));
 		}
 		if (tmp->str && tmp->next == NULL)
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:54:23 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:25:10 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 	return (1);
 }
 
-int	free_expansor(t_token **token_list, t_expand *exp_utils, char *error)
+int	free_expansor(t_token **token_list, t_expand *exp_utils)
 {
 	if (token_list)
 		clear_token_list(token_list);
-	free(exp_utils);
-	perror(error);
+	if (exp_utils)
+		free(exp_utils);
+	perror("minishell");
 	return (0);
 }
