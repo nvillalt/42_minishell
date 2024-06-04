@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:24:40 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:33:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_valid_symbol(char *str)
 			if (str[i] == '$' && str[i + 1] == '$')
 				return (0);
 			if (str[i] == '-' || str[i] == '!' || str[i] == '?'
-				|| str[i] == '\\' || str[i] == '/' || str[i] == '('
+				|| str[i] == '\\' || str[i] == '('
 				|| str[i] == ')')
 				return (0);
 			i++;

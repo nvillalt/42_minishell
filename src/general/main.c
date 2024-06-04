@@ -64,7 +64,7 @@ int	prompt_loop(t_utils *utils)
 		{
 			add_history(input);
 			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
-				utils->status = 1;
+				free(input);
 			else
 			{
 				aux = trim_spaces(input);
