@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:33:13 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:57:11 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	expansor(t_utils *utils)
 	while (tmp->str)
 	{
 		if (!check_valid_redir(tmp->str, tmp->next, utils))
-			return (clear_token_list(&utils->token_list), 0);
+			return (clear_token_list(&utils->token_list, TOKEN_ERR));
 		if (check_valid_symbol(tmp->str) && check_dollar(tmp->str))
 		{
 			tmp->str = check_expansion(tmp->str, exp_utils, tmp);

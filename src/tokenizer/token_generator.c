@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_generator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:58:41 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:53:45 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	get_tokens(char	*aux, t_utils *utils)
 	{
 		j = get_substr(aux, i);
 		if ((!new_token(&token) && utils->token_list != NULL))
-			return (clear_token_list(&utils->token_list));
+			return (clear_token_list(&utils->token_list, TOKEN_ERR));
 		temp = ft_substr(aux, i, (j - i));
 		if (!temp)
 			return (free_tokens(&utils->token_list, NULL, 2));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 21:11:11 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:54:07 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,6 @@ int	parse_tokens(t_utils *utils)
 			move = move->next;
 	}
 	assign_builtins(utils);
-	clear_token_list(&utils->token_list);
-	return (0);
+	clear_token_list(&utils->token_list, TOKEN_OK);
+	return (1);
 }
