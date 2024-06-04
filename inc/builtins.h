@@ -34,4 +34,5 @@ int		get_cmd_flag(char **env, char *cmd, int cmd_len, int plus_flag);
 void	print_no_value(char **env, int *i, int *j);
 char	**join_var(char **env, char *cmd);
 char	*delete_plus(char *cmd);
+int     var_home_exist(char **env);
 #endif

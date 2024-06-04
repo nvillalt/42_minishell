@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:23:46 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 19:38:44 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:56:01 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,11 @@ int	ft_cd(t_utils *utils, char **cmd)
 	{
 		env = change_to_home(env);
 		if (!env)
+		{
+			if (!var_home_exist(utils->env))
+				return (0);
 			return (1);
+		}
 	}
 	else if (i == 2)
 	{

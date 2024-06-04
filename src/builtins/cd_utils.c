@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:13:36 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 18:05:10 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:55:25 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,19 @@ int	multiple_argc_error(char **env)
 	ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 	if (env)
 		free_matrix(env);
+	return (1);
+}
+
+int	var_home_exist(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] && ft_strncmp(env[i], "HOME=", 5) != 0)
+		i++;
+	if (!env[i])
+		return (1);
+	if (!env[i][5])
+		return (0);
 	return (1);
 }
