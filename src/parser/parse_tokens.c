@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:54:07 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 08:33:26 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ static int	create_process(t_parse **process_list, t_token **move)
 		return (perror("minishell"), 0);
 	i = *move;
 	while (i)
-	{ // Pasar a una función
-		if (!ft_strcmp(i->str, "<") || !ft_strcmp(i->str, "<<")
-			|| !ft_strcmp(i->str, ">|") || !ft_strcmp(i->str, "|>")
-			|| !ft_strcmp(i->str, ">") || !ft_strcmp(i->str, ">>"))
+	{
+		if (validate_redir(i->str))
 		{
 			if (!handle_redirection(&i, &node->redirec, &node->redirec_head))
 				return (FUNC_FAILURE);

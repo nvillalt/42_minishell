@@ -52,6 +52,7 @@ int		parse_tokens(t_utils *utils);
 int		is_token(char c);
 int		is_whitespace(char c);
 int     count(char **arr);
+int	validate_redir(char *s);
 
 // assignment_functions.c
 void    dup_matrix(char **ret, char **aux, int j, int k);

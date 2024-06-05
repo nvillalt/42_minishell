@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:23:47 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 14:39:18 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 08:39:44 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ int	is_whitespace(char c)
 	if (c == '\0')
 		return (0);
 	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
+}
+
+int	validate_redir(char *s)
+{
+	if ((!ft_strncmp(s, "<", 1) && ft_strlen(s) == ft_strlen("<"))
+		|| (!ft_strncmp(s, "<<", 2) && ft_strlen(s) == ft_strlen("<<"))
+		|| (!ft_strncmp(s, ">|", 2) && ft_strlen(s) == ft_strlen(">|")) 
+		|| (!ft_strncmp(s, "|>", 2) && ft_strlen(s) == ft_strlen("|>"))
+		|| (!ft_strncmp(s, ">", 1) && ft_strlen(s) == ft_strlen(">"))
+		|| (!ft_strncmp(s, ">>", 2) && ft_strlen(s) == ft_strlen(">>")))
 		return (1);
 	return (0);
 }
