@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:51:46 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 15:53:08 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:05:20 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ int	ft_export(t_utils *utils, char **cmd)
 	if (!export_env)
 		return (1);
 	num = count_matrix(cmd);
-	if (!num)
-		return (no_env_error());
 	if (num == 1)
 	{
 		if (handle_export_single_argc(export_env) == 1)

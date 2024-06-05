@@ -39,8 +39,6 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/executor_frees.c \
 					src/executor/execute_first_process.c \
 					src/executor/childs.c \
-					src/executor/infiles.c \
-					src/executor/outfiles.c \
 					src/executor/exec_cmd.c \
 					src/executor/execute_last_process.c \
 					src/executor/execute_mid_process.c \
@@ -49,7 +47,9 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/heredoc_utils_2.c \
 					src/executor/open_heredoc.c \
 					src/executor/expand_heredoc.c \
-					src/executor/create_buffer_heredoc.c
+					src/executor/create_buffer_heredoc.c \
+					src/executor/open_files.c \
+					src/executor/redir_files.c
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c 
@@ -62,7 +62,9 @@ PARSER = src/parser/parse_utils.c \
 			src/parser/checker_functions.c \
 			src/parser/assignment_functions.c
 
-SIGNAL = src/signals/signal_reception.c
+SIGNAL = src/signals/signal_reception.c \
+			src/signals/heredoc_signal.c \
+			src/signals/sigint_signal.c
 
 EXPAND = src/expansor/expansor.c \
 			src/expansor/expansor_builder.c \
