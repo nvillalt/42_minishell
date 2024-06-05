@@ -87,23 +87,23 @@ char	**change_var(char **env, char *cmd)
 	return (env);
 }
 
-char	**handle_newvar(char **env, char **cmd, int i, int setvar)
+char	**handle_newvar(char **env, char *cmd, int setvar, int *error_flag)
 {
 	if (setvar == 1)
 	{
-		env = change_var(env, cmd[i]);
+		env = change_var(env, cmd);
 		if (!env)
 			return (NULL);
 	}
 	else if (setvar == 2)
 	{
-		env = join_var(env, cmd[i]);
+		env = join_var(env, cmd);
 		if (!env)
 			return (NULL);
 	}
 	else
 	{
-		env = add_to_env(env, cmd[i]);
+		env = add_to_env(env, cmd, error_flag);
 		if (!env)
 			return (NULL);
 	}
@@ -128,7 +128,7 @@ char	**export_to_env(char **env, char **cmd, int *error_flag)
 			setvar = cmd_on_env(env, cmd[i]);
 			if (setvar == -1)
 				return (free_matrix(env), NULL);
-			env = handle_newvar(env, cmd, i, setvar);
+			env = handle_newvar(env, cmd[i], setvar, error_flag);
 			if (!env)
 				return (NULL);
 		}

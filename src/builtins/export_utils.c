@@ -30,7 +30,7 @@ int	is_export_format(char *cmd)
 		return (0);
 }
 
-char	**add_to_env(char **env, char *cmd)
+char	**add_to_env(char **env, char *cmd, int *error_flag)
 {
 	int		export_format;
 	char	*new_cmd;
@@ -41,6 +41,7 @@ char	**add_to_env(char **env, char *cmd)
 		ft_putstr_fd ("bash: export: \'", STDERR_FILENO);
 		ft_putstr_fd (cmd, STDERR_FILENO);
 		ft_putendl_fd ("\': not a valid identifier", STDERR_FILENO);
+		*error_flag = 1;
 		return (env);
 	}
 	if (export_format == 2)
