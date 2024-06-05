@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:22:45 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:22:58 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:35:00 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,31 @@
 static void	execute_mid_process(t_utils *utils, t_parse *process)
 {
 	unsigned char	status;
+	int				last_infile;
+	int				last_outfile;
 
+	last_infile = -1;
+	last_outfile = -1;
 	set_child_signals();
 	close_redir_fd(&utils->aux_pipe[0]);
-	if (!redirec_infile(utils, process))
+	open_files(utils, process, &last_infile, &last_outfile);
+	if (last_infile == -1)
 	{
 		if (dup2(utils->main_pipe[0], STDIN_FILENO) == -1)
 			exit_process(utils);
 	}
+	else
+		redirec_infile(last_infile, utils);
 	close_redir_fd(&utils->main_pipe[0]);
-	if (!redirec_outfile(utils, process))
+	if (last_outfile == -1)
 	{
 		if (dup2(utils->aux_pipe[1], STDOUT_FILENO) == -1)
 			exit_process(utils);
 	}
+	else
+		redirec_outfile(last_outfile, utils);
 	close_redir_fd(&utils->aux_pipe[1]);
+	close_fds(utils->process, utils);
 	if (process->built_in)
 	{
 		status = handle_builtins(utils, process);

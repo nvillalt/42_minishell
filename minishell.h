@@ -43,7 +43,7 @@ void	free_ptrs(void *ptr1, void *ptr2);
 char	*updt_status_return(t_utils *utils, int status);
 int		free_puterror_int(char *str, char *str2, t_utils *utils, int status);
 void	exit_matrix_str(char *str, char **matrix, char *error_str, t_utils *utils);
-void	exit_process_path(t_utils *utils, t_parse *process);
+void	exit_process_path(t_utils *utils, t_parse *process, int status);
 int		change_status(t_utils *utils, int status);
 void	exit_init_void(char **matrix);
 int		free_matrix_return(char **matrix);

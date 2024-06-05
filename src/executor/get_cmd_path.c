@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:31:18 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:31:50 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:16:30 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ char	*get_cmd_path(t_utils *utils, t_parse *process)
 	if (access(process->cmd[0], X_OK) == 0)
 		return (process->cmd[0]);
 	if (access(process->cmd[0], X_OK) == -1 && ft_isrelative(process->cmd[0]))
-		exit_process_path(utils, process);
+		exit_process_path(utils, process, 126);
 	path_oneline = find_env_path(utils->env);
 	if (!path_oneline)
-		exit_process_path(utils, process);
+		exit_process_path(utils, process, 127);
 	path_oneline = ft_strdup(path_oneline);
 	if (!path_oneline)
 		exit_matrix_str(NULL, NULL, "minishell", utils);

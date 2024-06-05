@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:22:23 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:22:32 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:08:58 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,24 @@
 static void	execute_last_process(t_utils *utils, t_parse *process)
 {
 	unsigned char	status;
+	int				last_infile;
+	int				last_outfile;
 
+	last_infile = -1;
+	last_outfile = -1;
 	set_child_signals();
 	close_redir_fd(&utils->main_pipe[1]);
-	if (!redirec_infile(utils, process))
+	open_files(utils, process, &last_infile, &last_outfile);
+	if (last_infile == -1)
 	{
 		if (dup2(utils->main_pipe[0], STDIN_FILENO) == -1)
 			exit_process(utils);
 	}
+	else
+		redirec_infile(last_infile, utils);
 	close_redir_fd(&utils->main_pipe[0]);
-	redirec_outfile(utils, process);
+	redirec_outfile(last_outfile, utils);
+	close_fds(utils->process, utils);
 	if (process->built_in)
 	{
 		status = handle_builtins(utils, process);

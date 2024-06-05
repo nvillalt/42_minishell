@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:16 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 15:20:34 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:24:18 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ int	cmd_on_env(char **env, char *cmd)
 	i = 0;
 	cmd_len = 0;
 	plus_flag = 0;
+	if (*cmd == '=')
+	{
+		ft_putstr_fd("bash: export: `", STDERR_FILENO);
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (-1);
+	}
 	while (cmd[cmd_len] && cmd[cmd_len] != '=')
 		cmd_len++;
 	if (cmd[cmd_len] == '=' && cmd[cmd_len - 1] == '+' && cmd_len > 1)
@@ -119,6 +126,8 @@ char	**export_to_env(char **env, char **cmd, int *error_flag)
 		else
 		{
 			setvar = cmd_on_env(env, cmd[i]);
+			if (setvar == -1)
+				return (free_matrix(env), NULL);
 			env = handle_newvar(env, cmd, i, setvar);
 			if (!env)
 				return (NULL);
