@@ -16,8 +16,6 @@ void			unlink_files(t_parse *process);
 void			exit_process_noerror(t_utils *utils);
 void			close_redir_fd(int *pipe_fd);
 void			close_all_redirs(t_utils *utils);
-int				redirec_infile(t_utils *utils, t_parse *process);
-int				redirec_outfile(t_utils *utils, t_parse *process);
 int				create_first_child(t_utils *utils, t_parse *process, int process_index);
 void 			exec_cmd(t_utils *utils, t_parse *current_process);
 int				create_last_child(t_utils *utils, t_parse *process, int process_index);
@@ -35,4 +33,7 @@ int				open_here_doc(t_redir *redirec, int *temp_num);
 char			*check_expansor_hd(t_parse *process, char *buffer, t_utils *utils);
 char			*get_keyhd(char *buffer, int i, t_utils *utils);
 char			*create_new_buffer(char *buffer, char *val, char *key, int *i);
+void            open_files(t_utils *utils, t_parse *process, int *last_infile, int *last_outfile);
+int             redirec_infile(int last_infile, t_utils *utils);
+int             redirec_outfile(int last_outfile, t_utils *utils);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:18:48 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:19:37 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:05:24 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,37 @@ unsigned char	handle_builtins(t_utils *utils, t_parse *process)
 	return (status);
 }
 
-static void	set_child_builtin(t_utils *utils, t_parse *process, int redir_out)
+static void	set_child_builtin(t_utils *utils, t_parse *process)
 {
 	unsigned char	status;
+	int				last_infile;
+	int				last_outfile;
 
 	set_child_signals();
+	last_infile = -1;
+	last_outfile = -1;
 	close_redir_fd(&utils->main_pipe[0]);
-	redirec_infile(utils, process);
-	redir_out = redirec_outfile(utils, process);
-	if (redir_out == 0 && process->next)
+	open_files(utils, process, &last_infile, &last_outfile);
+	redirec_infile(last_infile, utils);
+	if (last_outfile == -1 && process->next)
 	{
 		if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
 			exit_process(utils);
 	}
 	close_redir_fd(&utils->main_pipe[1]);
+	close_fds(utils->process, utils);
 	status = handle_builtins(utils, process);
 	exit_process_custom(utils, status);
 }
 
-static int	set_parent_builtin(t_utils *utils, t_parse *process, int redir_out)
+static int	set_parent_builtin(t_utils *utils, t_parse *process)
 {
 	unsigned char	status;
+	int				last_infile;
+	int				last_outfile;
 
+	last_infile = -1;
+	last_outfile = -1;
 	utils->parent_builtin = 1;
 	utils->saved_stdin = dup(STDIN_FILENO);
 	if (utils->saved_stdin == -1)
@@ -74,9 +83,10 @@ static int	set_parent_builtin(t_utils *utils, t_parse *process, int redir_out)
 	if (utils->saved_stdout == -1)
 		return (free_puterror_int(NULL, NULL, utils, 1));
 	utils->builtin_counter = 1;
-	if (redirec_infile(utils, process) == -2)
+	open_files(utils, process, &last_infile, &last_outfile);
+	if (!redirec_infile(last_infile, utils))
 		return (change_status(utils, 1));
-	if (redirec_outfile(utils, process) == -2)
+	if (!redirec_outfile(last_outfile, utils))
 		return (change_status(utils, 1));
 	status = handle_builtins(utils, process);
 	utils->status = status;
@@ -88,19 +98,17 @@ static int	set_parent_builtin(t_utils *utils, t_parse *process, int redir_out)
 
 int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 {
-	int				redir_out;
-
 	if (process->next || process_index != 0)
 	{
 		utils->pid_array[process_index] = fork();
 		if (utils->pid_array[process_index] == -1)
 			return (FUNC_FAILURE);
 		if (utils->pid_array[process_index] == 0)
-			set_child_builtin(utils, process, redir_out);
+			set_child_builtin(utils, process);
 	}
 	else
 	{
-		if (!set_parent_builtin(utils, process, redir_out))
+		if (!set_parent_builtin(utils, process))
 			return (FUNC_FAILURE);
 	}
 	return (FUNC_SUCCESS);
