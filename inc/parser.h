@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 17:52:28 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/06/05 20:20:41 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -22,9 +34,6 @@
 # define NOT_EXPAND 0
 # define EXPAND 1
 
-// get_path.c
-char	**get_path(char **env);
-
 // handle_quotes.c
 char	*clean_quotes(char *str);
 
@@ -33,7 +42,6 @@ int		init_process(t_parse **process);
 int		init_redir(t_redir **node, int type);
 int		add_redir(t_redir **redir_list, t_redir *new);
 int		add_process(t_parse **process_list, t_parse *new);
-int		free_process(t_parse **process_list);
 
 // parse_utils.c
 int		check_quotes(char *line, t_utils *utils);
@@ -44,15 +52,16 @@ int		initial_pipe(char *input, t_utils *utils);
 // handle_redirections.c
 int		check_redirections(char *input);
 int		handle_redirection(t_token **iterate, t_redir **redir_list, t_redir **redir_head);
+int     syntax_error(char *input, t_utils *utils);
 
 // parse_tokens.c
 int		parse_tokens(t_utils *utils);
 
 // checker_functions.c
 int		is_token(char c);
-int		is_whitespace(char c);
+int     is_whitespace(char c);
 int     count(char **arr);
-int	validate_redir(char *s);
+int     validate_redir(char *s);
 
 // assignment_functions.c
 void    dup_matrix(char **ret, char **aux, int j, int k);

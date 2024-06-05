@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:57:11 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:10:15 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static char	*check_expansion(char *str, t_expand *exp_utils, t_token *tmp)
 		{
 			i = expand_dbl_quote(str, exp_utils, &ret, i);
 			tmp->expand = EXPAND;
+			tmp->dbl_quote = YES;
 		}
 		else if (str[i] == 39)
 			i = handle_sgl_quote(str, &ret, i);

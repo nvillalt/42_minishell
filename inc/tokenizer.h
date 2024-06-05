@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:31:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:53:17 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:44:58 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # define TOKEN_ERR 1
 # define TOKEN_OK 2
+
+# define YES 1
+# define NO 0
 
 // token_list.c
 int		new_token(t_token **new);

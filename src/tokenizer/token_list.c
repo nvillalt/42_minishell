@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:54:42 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:47:28 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	new_token(t_token **new)
 	(*new)->str = NULL;
 	(*new)->next = NULL;
 	(*new)->expand = NOT_EXPAND;
+	(*new)->dbl_quote = NO;
 	return (1);
 }
 

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:24:35 by nvillalt         ###   ########.fr       */
+/*   Created: 2024/06/05 20:23:04 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/06/05 20:24:51 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#ifndef EXPANSOR_H
+# define EXPANSOR_H
 
 # include "structs.h"
 
@@ -49,5 +49,4 @@ int			check_dollar(char *str);
 int			check_valid_redir(char *s1, t_token *tmp, t_utils *utils);
 int			free_expansor(t_token **token_list, t_expand *exp_utils);
 
-
-# endif
+#endif

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:23:47 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 08:39:44 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:18:10 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	validate_redir(char *s)
 {
 	if ((!ft_strncmp(s, "<", 1) && ft_strlen(s) == ft_strlen("<"))
 		|| (!ft_strncmp(s, "<<", 2) && ft_strlen(s) == ft_strlen("<<"))
-		|| (!ft_strncmp(s, ">|", 2) && ft_strlen(s) == ft_strlen(">|")) 
+		|| (!ft_strncmp(s, ">|", 2) && ft_strlen(s) == ft_strlen(">|"))
 		|| (!ft_strncmp(s, "|>", 2) && ft_strlen(s) == ft_strlen("|>"))
 		|| (!ft_strncmp(s, ">", 1) && ft_strlen(s) == ft_strlen(">"))
 		|| (!ft_strncmp(s, ">>", 2) && ft_strlen(s) == ft_strlen(">>")))

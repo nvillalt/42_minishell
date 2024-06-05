@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 08:33:26 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:11:04 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	divide_commands(t_parse **node, int i)
 	(*node)->cmd = ret;
 }
 
-static int	assign_process(t_parse **node, char *str, int expand)
+static int	assign_process(t_parse **node, char *str, int expand, int quote)
 {
 	char	**temp;
 	int		i;
@@ -80,7 +80,7 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		init_process_cmd(node);
 	else
 	{
-		while ((*node)->cmd[i])
+		while ((*node)->cmd[i] != NULL)
 			i++;
 		temp = ft_calloc(sizeof(char *), i + 2);
 		if (!temp)
@@ -91,8 +91,7 @@ static int	assign_process(t_parse **node, char *str, int expand)
 		(*node)->cmd = temp;
 	}
 	(*node)->cmd[i] = clean_quotes(str);
-	if (expand == EXPAND && ((*node)->cmd[i][0] != 39
-		|| (*node)->cmd[i][0] != 34))
+	if (expand == EXPAND && quote == NO && (*node)->cmd[i][0] != 0)
 		divide_commands(node, i);
 	return (1);
 }
@@ -102,7 +101,6 @@ static int	create_process(t_parse **process_list, t_token **move)
 	t_parse	*node;
 	t_token	*i;
 
-	node = NULL;
 	if (!init_process(&node) && process_list != NULL)
 		return (perror("minishell"), 0);
 	i = *move;
@@ -115,7 +113,7 @@ static int	create_process(t_parse **process_list, t_token **move)
 		}
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
-		else if (!assign_process(&node, i->str, i->expand))
+		else if (!assign_process(&node, i->str, i->expand, i->dbl_quote))
 			return (FUNC_FAILURE);
 		if (i->next == NULL)
 			break ;

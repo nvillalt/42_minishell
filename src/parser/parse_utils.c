@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:23:21 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:46:25 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:55:34 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	initial_pipe(char *input, t_utils *utils)
 	else if (input[len - 1] == '>' || input[len - 1] == '<')
 	{
 		ft_putstr_fd("minishell:", 2);
-		ft_putendl_fd("syntax error near end of line `newline'", 2);
+		ft_putendl_fd("syntax error near unexpected token `>'", 2);
 		utils->status = 2;
 		return (0);
 	}

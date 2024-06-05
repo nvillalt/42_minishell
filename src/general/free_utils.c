@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:28:55 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 18:01:28 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:19:52 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	free_parse_list(t_parse	*process)
 
 	while (process)
 	{
-		if(process->cmd)
-			free_matrix(process->cmd); //No se libera bien hasta hacer una reserva correcta
+		if (process->cmd)
+			free_matrix(process->cmd);
 		process->redirec = process->redirec_head;
-		while(process->redirec)
+		while (process->redirec)
 		{
 			redir_temp = process->redirec;
 			if (process->redirec->doc)

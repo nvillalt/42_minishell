@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 20:24:02 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/06/05 20:24:04 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
@@ -25,6 +37,7 @@ typedef struct s_token
 	char			*str;
 	struct s_token	*next;
 	int				expand;
+	int				dbl_quote;
 }	t_token;
 
 typedef struct s_utils

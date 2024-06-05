@@ -6,11 +6,58 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:14:09 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/05/30 18:04:24 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:54:15 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static int	count_symbols(char *input, int i, t_utils *utils)
+{
+	int	count;
+
+	count = 0;
+	while (input[i] == '<' || input[i] == '>')
+	{
+		i++;
+		count++;
+	}
+	if (count > 2)
+	{
+		utils->status = 2;
+		ft_putstr_fd("minishell:", 2);
+		ft_putendl_fd("syntax error near unexpected token `>>'", 2);
+		return (0);
+	}
+	return (1);
+}
+
+int	syntax_error(char *input, t_utils *utils)
+{
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	while (input[i])
+	{
+		if ((input[i] == 34 || input [i] == 39) && flag == 0)
+		{
+			flag = input[i];
+			i++;
+			while (input[i] != flag)
+				i++;
+			flag = 0;
+		}
+		if ((input[i] == '<' || input[i] == '>') && !flag)
+		{
+			if (!count_symbols(input, i, utils))
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 int	check_redirections(char *input)
 {

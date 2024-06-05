@@ -63,7 +63,8 @@ int	prompt_loop(t_utils *utils)
 		else
 		{
 			add_history(input);
-			if (!check_quotes(input, utils) || !initial_pipe(input, utils))
+			if (!check_quotes(input, utils) || !initial_pipe(input, utils)
+				|| !syntax_error(input, utils))
 				free(input);
 			else
 			{
