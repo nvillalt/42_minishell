@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:39:26 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 17:10:13 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:24:18 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static char	**create_mini_env(void)
 {
 	char	**env;
 	char	*new_cwd;
-	char	*join;
-	char	*cwd;
 
 	env = ft_calloc(4, sizeof(char *));
 	if (!env)
@@ -121,7 +119,10 @@ int	main(int argc, char **argv, char **envp)
 	t_utils	utils;
 
 	if (argc != 1 || argv[argc] != NULL)
-		return (0);
+	{
+		ft_putendl_fd("error: execute without arguments", STDERR_FILENO);
+		return (1);
+	}
 	utils = init_utils();
 	if (!*envp)
 	 	utils.env = create_mini_env();

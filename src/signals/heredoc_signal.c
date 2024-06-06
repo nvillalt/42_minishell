@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_signals.c                                  :+:      :+:    :+:   */
+/*   heredoc_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:42:59 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 18:46:15 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:29:55 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	heredoc_sigint(int signal)
 {
 	rl_on_new_line();
 	ioctl(0, TIOCSTI, "\n");
-	g_sigint = SIGINT;
+	g_sigint = signal;
 }
 
 void	heredoc_signals(void)

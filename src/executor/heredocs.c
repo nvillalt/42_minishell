@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:52:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:53:09 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:22:11 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	create_multiple_heredocs(t_utils *utils, t_parse *process)
 	heredoc_signals();
 	if (!create_heredoc_loop(process, utils))
 		return (FUNC_FAILURE);
-	close_fds(process, utils);
+	close_fds(process);
 	set_signals();
 	return (FUNC_SUCCESS);
 }

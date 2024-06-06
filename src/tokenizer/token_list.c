@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:14:29 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:23:56 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	clear_token_list(t_token **token_list, int n, t_utils *utils)
 	}
 	free(aux);
 	*token_list = NULL;
-	if (TOKEN_ERR)
+	if (TOKEN_ERR == n)
 	{
 		utils->status = 1;
 		return (0);

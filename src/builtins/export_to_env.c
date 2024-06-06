@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_to_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:16 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 19:24:18 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:16:33 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	**create_new_env(char **env, char *cmd)
 int	cmd_on_env(char **env, char *cmd)
 {
 	int	i;
-	int	j;
 	int	cmd_len;
 	int	plus_flag;
 

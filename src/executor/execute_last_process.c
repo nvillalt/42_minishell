@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_last_process.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:22:23 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/06 14:17:52 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:21:52 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	execute_last_process(t_utils *utils, t_parse *process)
 		redirec_infile(last_infile, utils);
 	close_redir_fd(&utils->main_pipe[0]);
 	redirec_outfile(last_outfile, utils);
-	close_fds(utils->process, utils);
+	close_fds(utils->process);
 	if (process->built_in)
 	{
 		status = handle_builtins(utils, process);

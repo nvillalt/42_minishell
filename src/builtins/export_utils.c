@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:21:06 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 19:07:17 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:06 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	**join_var(char **env, char *cmd)
 	int		i;
 	char	*temp;
 	int		var_len;
-	char	*cmd_value;
 
 	var_len = 0;
 	while (cmd[var_len] && cmd[var_len] != '+')

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:52:27 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 17:04:37 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:47 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int				executor(t_utils *utils, t_parse *process);
 char			*get_cmd_path(t_utils *utils, t_parse *process);
 int				create_multiple_heredocs(t_utils *utils, t_parse *process);
-void			close_fds(t_parse *process, t_utils *utils);
+void			close_fds(t_parse *process);
 int				execute_childs(t_utils *utils, t_parse *process);
 void			free_to_prompt(t_utils *utils);
 void			exit_process(t_utils *utils);

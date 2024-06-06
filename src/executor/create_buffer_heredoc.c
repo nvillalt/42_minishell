@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_buffer_heredoc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:11:34 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:13:40 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:23:01 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*create_new_buffer(char *buffer, char *val, char *key, int *i)
 	char	*new_buffer;
 	char	*bef_exp;
 	char	*after_exp;
-	char	*temp;
 
 	bef_exp = get_bef_exp_str(buffer, *i);
 	if (!bef_exp)

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:08:07 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 20:17:49 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:29:06 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*clean_quotes(char	*str)
 	i = 0;
 	j = 0;
 	flag = 0;
-	if (str[0] == 34 && str[1] == 34 && str[2] == '\0'
-		|| str[0] == 39 && str[1] == 39 && str[2] == '\0')
+	if ((str[0] == 34 && str[1] == 34 && str[2] == '\0')
+		|| (str[0] == 39 && str[1] == 39 && str[2] == '\0'))
 		return (ft_strdup(""));
 	while (str[i])
 	{

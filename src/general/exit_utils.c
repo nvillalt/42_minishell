@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:24:19 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 12:33:38 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:24:54 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exit_process_path(t_utils *utils, t_parse *process, int status)
 
 int	change_status(t_utils *utils, int status)
 {
-	utils->status = 1;
+	utils->status = status;
 	return (FUNC_FAILURE);
 }
 

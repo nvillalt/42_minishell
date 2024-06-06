@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:09:34 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:10:54 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:59 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	close_all_redirs(t_utils *utils)
 	close_redir_fd(&utils->saved_stdout);
 }
 
-void	close_fds(t_parse *process, t_utils *utils)
+void	close_fds(t_parse *process)
 {
 	while (process)
 	{

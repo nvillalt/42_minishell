@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:48:36 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:58:49 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:46:10 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <errno.h> //Se puede usar?
+# include <errno.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>

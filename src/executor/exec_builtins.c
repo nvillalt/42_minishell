@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:18:48 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/06 15:06:35 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:22:08 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	set_child_builtin(t_utils *utils, t_parse *process)
 	else
 		redirec_outfile(last_outfile, utils);
 	close_redir_fd(&utils->main_pipe[1]);
-	close_fds(utils->process, utils);
+	close_fds(utils->process);
 	status = handle_builtins(utils, process);
 	exit_process_custom(utils, status);
 }

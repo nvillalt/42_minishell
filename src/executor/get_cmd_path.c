@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:31:18 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 13:16:30 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:26 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	ft_isrelative(char *cmd)
 
 static char	*find_env_path(char **env)
 {
-	char	*str;
 	int		i;
 
 	i = 0;

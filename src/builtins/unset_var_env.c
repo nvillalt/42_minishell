@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_var_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:00:43 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:01:25 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:18 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static char	**allocate_newenv(char **dup, char **env,
 char	**unset_var_env(char **env, int index_jump)
 {
 	char	**dup;
-	size_t	env_len;
 	int		i;
 	int		j;
 

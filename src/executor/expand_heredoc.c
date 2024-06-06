@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:27:47 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 16:29:56 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:22:27 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	get_val_from_env(char **env, char *key, char **val)
 
 static char	*update_buffer(char *buffer, char **env, t_utils *utils, int i)
 {
-	int		j;
 	char	*val;
 	char	*key;
 
