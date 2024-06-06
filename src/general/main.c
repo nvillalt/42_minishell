@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
-	if (argc != 1 || argv[argc] != NULL)
+	if (argc != 1 || argv[1] != NULL)
 	{
 		ft_putendl_fd("error: execute without arguments", STDERR_FILENO);
 		return (1);

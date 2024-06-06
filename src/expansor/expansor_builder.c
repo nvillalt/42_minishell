@@ -27,7 +27,7 @@ int	handle_printing_dollar(t_exp *exp_utils, int i, char **s, int flag)
 	else if (flag == 3)
 	{
 		*s = ft_strdup("$");
-		return (i += 2);
+		return (i += 1);
 	}
 	return (1);
 }
