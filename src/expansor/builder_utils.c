@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builder_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/02 13:20:14 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:42:35 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	join_aux_to_tmp(char **tmp, char *aux)
 	else
 	{
 		new_tmp = ft_strjoin_expand(*tmp, aux);
-		free(*tmp);
 		*tmp = new_tmp;
 	}
 }

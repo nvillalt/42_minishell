@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:57:37 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:40:14 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,22 @@ char	*ft_strjoin_expand(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		s1 = ft_strdup("");
-	i = 0;
+	i = -1;
 	k = 0;
 	ptr = (char *)ft_calloc((ft_strlen_gnl(s1)
 				+ ft_strlen_gnl(s2) + 1), sizeof(char));
 	if (!ptr)
 		return (NULL);
-	while (s1[i])
-	{
+	while (s1[++i])
 		ptr[i] = s1[i];
-		i++;
-	}
 	while (s2[k])
 	{
 		ptr[i] = s2[k];
 		i++;
 		k++;
 	}
-	free(s1);
+	if (s1 != NULL)
+		free(s1);
 	return (ptr);
 }
 
