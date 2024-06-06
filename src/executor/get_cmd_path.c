@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static int	ft_isrelative(char *cmd)
+static int	ft_ispath(char *cmd)
 {
 	int	i;
 
@@ -76,8 +76,8 @@ char	*get_cmd_path(t_utils *utils, t_parse *process)
 
 	if (access(process->cmd[0], X_OK) == 0)
 		return (process->cmd[0]);
-	if (access(process->cmd[0], X_OK) == -1 && ft_isrelative(process->cmd[0]))
-		exit_process_path(utils, process, 126);
+	if (access(process->cmd[0], X_OK) == -1 && ft_ispath(process->cmd[0]))
+		exit_process_path(utils, process, 127);
 	path_oneline = get_env_path(utils, process);
 	path = ft_split(path_oneline, ':');
 	free(path_oneline);
