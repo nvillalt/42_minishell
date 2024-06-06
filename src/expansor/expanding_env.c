@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:19:16 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 19:13:16 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:58:31 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,11 @@ int	get_mid(char *str, int i, char **s2, t_expand *exp_utils)
 	int		j;
 
 	if (str[i] == '$' && str[i + 1] == '?')
-	{
-		*s2 = ft_itoa(exp_utils->status);
-		i += 2;
-		return (i);
-	}
+		return (handle_printing_dollar(exp_utils, i, s2, 1));
 	else if (str[i] == '$' && str[i + 1] == '\0')
-	{
-		*s2 = ft_strdup("$");
-		return (1);
-	}
+		return (handle_printing_dollar(exp_utils, i, s2, 2));
+	else if (str[i] == '$' && !ft_isalnum(str[i + 1]))
+		return (handle_printing_dollar(exp_utils, i, s2, 3));
 	else if (str[i] == '$')
 		i++;
 	j = i;

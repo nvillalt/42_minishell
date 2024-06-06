@@ -6,11 +6,30 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/03 20:31:53 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:57:30 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	handle_printing_dollar(t_expand *exp_utils, int i, char **s, int flag)
+{
+	if (flag == 1)
+	{
+		*s = ft_itoa(exp_utils->status);
+		return (i +=2);
+	}
+	else if (flag == 2)
+	{
+		*s = ft_strdup("$");
+		return (i += 1);
+	}
+	else if (flag == 3)
+	{
+		*s = ft_strdup("$");
+		return (i += 2);
+	}
+}
 
 int	expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
 {

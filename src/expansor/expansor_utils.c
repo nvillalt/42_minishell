@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 15:40:14 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:54:05 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_expand	*init_exp(t_utils *utils)
 	exp_utils = ft_calloc(sizeof(t_expand), 1);
 	if (!exp_utils)
 		return (NULL);
+	exp_utils->str = utils->token_list->str;
 	exp_utils->status = utils->status;
 	exp_utils->env = utils->env;
 	return (exp_utils);

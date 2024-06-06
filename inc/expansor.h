@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:23:04 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 20:24:51 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:57:46 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_expand
 {
 	int		status;
 	char	**env;
+	char	*str;
 }	t_expand;
 
 // expansor.c
@@ -29,6 +30,7 @@ int		not_expand(char *s, char **ret, int i);
 int		expand_dollar(char *s, t_expand *exp_utils, char **ret, int i);
 int		handle_sgl_quote(char *s, char **ret, int i);
 int		expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i);
+int		handle_printing_dollar(t_expand *exp_utils, int i, char **s, int flag);
 
 // builder_utils.c
 void	join_aux_to_tmp(char **tmp, char *aux);
