@@ -1,4 +1,14 @@
-# RUN PROJECT: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/06/06 18:59:09 by nvillalt          #+#    #+#              #
+#    Updated: 2024/06/06 19:00:24 by nvillalt         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = minishell
 
@@ -83,18 +93,10 @@ GENERAL = src/general/main.c \
 			src/general/exit_utils.c \
 			src/general/set_oldpwd.c \
 			src/general/update_shlvl.c \
-			src/general/free_strings.c 
+			src/general/free_strings.c \
+			src/general/init_shell.c 
 
 MALLOC_DEBUG = src/debug/malloc_debug.c
-
-VALGRIND			= valgrind
-#VALGRIND_OPT		+= --suppressions=readline.supp
-VALGRIND_OPT		+= --trace-children=yes
-VALGRIND_OPT		+= --track-origins=yes
-VALGRIND_OPT		+= --track-fds=yes
-VALGRIND_OPT		+= --leak-check=full
-VALGRIND_OPT		+= --show-leak-kinds=all
-EXC_NAME			= $(dir $(NAME))$(notdir $(NAME))
 
 OBJS = ${BUILT_INS:.c=.o} ${EXECUTOR:.c=.o} ${TOKENIZER:.c=.o} ${GENERAL:.c=.o} ${PARSER:.c=.o} ${SIGNAL:.c=.o} ${EXPAND:.c=.o}
 OBJ.DEBUG = $(MALLOC_DEBUG:.c=.o)
@@ -125,8 +127,4 @@ fclean: clean
 
 re: fclean all
 
-valgrind:
-					@echo -e '\033[33m$(VALGRIND) \033[36m$(VALGRIND_OPT) \033[0m-- $(EXC_NAME)'
-					@$(VALGRIND) $(VALGRIND_OPT) -- $(EXC_NAME)
-
-.PHONY = all clean fclean re bonus debug valgrind madebug
+.PHONY = all clean fclean re bonus debug madebug

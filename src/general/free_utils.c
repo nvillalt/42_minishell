@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:28:55 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/05 20:19:52 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:57:32 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ void	free_lists(t_utils	*utils)
 		free(utils->pid_array);
 		utils->pid_array = NULL;
 	}
+}
+
+void	ctrl_d_signal_exit(t_utils *utils)
+{
+	ft_putendl_fd("exit", STDERR_FILENO);
+	exit_process_custom(utils, 0);
+	exit (0);
 }

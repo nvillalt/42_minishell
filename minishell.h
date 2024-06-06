@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:48:36 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 17:46:10 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:53:17 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@
 
 extern int	g_sigint;
 
-// utils
 char	**env_dup(char **env);
-int		prompt_loop(t_utils *utils);
 t_utils	init_utils(void);
+char	**create_mini_env(void);
 int		ft_strncmp_varlen(char *cmd, char *env_line);
+int		handle_env(t_utils *utils, char **envp);
 
-// free_functions
 void	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 void	free_lists(t_utils	*utils);
@@ -57,12 +56,11 @@ int		change_status(t_utils *utils, int status);
 void	exit_init_void(char **matrix);
 int		free_matrix_return(char **matrix);
 char	**free_str_matrix(char *str, char **matrix);
+void	ctrl_d_signal_exit(t_utils *utils);
 
-//printf double array
 void	print_env(char **env);
 int		count_matrix(char **cmds);
 
-//init
 char	**set_oldpwd(char **env);
 int		update_shlvl(t_utils *utils);
 
