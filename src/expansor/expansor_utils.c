@@ -6,17 +6,17 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 15:54:05 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:12:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_expand	*init_exp(t_utils *utils)
+t_exp	*init_exp(t_utils *utils)
 {
-	t_expand	*exp_utils;
+	t_exp	*exp_utils;
 
-	exp_utils = ft_calloc(sizeof(t_expand), 1);
+	exp_utils = ft_calloc(sizeof(t_exp), 1);
 	if (!exp_utils)
 		return (NULL);
 	exp_utils->str = utils->token_list->str;
@@ -92,10 +92,10 @@ int	check_valid_redir(char *s1, t_token *tmp, t_utils *utils)
 	return (1);
 }
 
-int	free_expansor(t_token **token_list, t_expand *exp_utils)
+int	free_expansor(t_token **token_list, t_exp *exp_utils, t_utils *utils)
 {
 	if (token_list)
-		clear_token_list(token_list, TOKEN_ERR);
+		clear_token_list(token_list, TOKEN_ERR, utils);
 	if (exp_utils)
 		free(exp_utils);
 	perror("minishell");

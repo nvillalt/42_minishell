@@ -6,13 +6,13 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 15:42:35 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:06:23 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	process_dollar(char *str, int j, char **aux, t_expand *exp_utils)
+int	process_dollar(char *str, int j, char **aux, t_exp *exp_utils)
 {
 	return (get_mid(str, j, aux, exp_utils));
 }

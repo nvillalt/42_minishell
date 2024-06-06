@@ -6,30 +6,30 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:03:58 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 19:47:28 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:14:29 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	free_tokens(t_token **token_list, char *temp, int n)
+int	free_tokens(t_token **token_list, char *temp, int n, t_utils *utils)
 {
 	if (n == 1)
 	{
-		clear_token_list(token_list, TOKEN_ERR);
+		clear_token_list(token_list, TOKEN_ERR, utils);
 		free(temp);
 		return (0);
 	}
 	else if (n == 2)
 	{
-		clear_token_list(token_list, TOKEN_ERR);
+		clear_token_list(token_list, TOKEN_ERR, utils);
 		perror("minishell");
 		return (0);
 	}
 	return (0);
 }
 
-int	clear_token_list(t_token **token_list, int n)
+int	clear_token_list(t_token **token_list, int n, t_utils *utils)
 {
 	t_token	*aux;
 	t_token	*next;
@@ -46,7 +46,10 @@ int	clear_token_list(t_token **token_list, int n)
 	free(aux);
 	*token_list = NULL;
 	if (TOKEN_ERR)
+	{
+		utils->status = 1;
 		return (0);
+	}
 	return (1);
 }
 

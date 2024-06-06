@@ -6,13 +6,13 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:19:16 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 15:58:31 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:06:24 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	get_mid(char *str, int i, char **s2, t_expand *exp_utils)
+int	get_mid(char *str, int i, char **s2, t_exp *exp_utils)
 {
 	char	*tmp;
 	int		j;
@@ -47,7 +47,7 @@ int	get_beginning(char *str, int i, char **s1)
 	return (i);
 }
 
-int	get_end(char *str, int i, char **s1, t_expand *exp_utils)
+int	get_end(char *str, int i, char **s1, t_exp *exp_utils)
 {
 	int		j;
 	char	*aux;
@@ -101,7 +101,7 @@ char	*expand_env(char *var, char **env)
 	return (ft_strdup(""));
 }
 
-char	*var_expanded(char *str, t_expand *exp_utils)
+char	*var_expanded(char *str, t_exp *exp_utils)
 {
 	char	*s1;
 	char	*s2;

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 20:11:04 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:12:31 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,6 @@ int	parse_tokens(t_utils *utils)
 			move = move->next;
 	}
 	assign_builtins(utils);
-	clear_token_list(&utils->token_list, TOKEN_OK);
+	clear_token_list(&utils->token_list, TOKEN_OK, utils);
 	return (1);
 }

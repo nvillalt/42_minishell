@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_generator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/04 23:53:45 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:14:53 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ int	get_tokens(char	*aux, t_utils *utils)
 	{
 		j = get_substr(aux, i);
 		if ((!new_token(&token) && utils->token_list != NULL))
-			return (clear_token_list(&utils->token_list, TOKEN_ERR));
+			return (clear_token_list(&utils->token_list, TOKEN_ERR, utils));
 		temp = ft_substr(aux, i, (j - i));
 		if (!temp)
-			return (free_tokens(&utils->token_list, NULL, 2));
+			return (free_tokens(&utils->token_list, NULL, 2, utils));
 		if (check_symbol(temp, utils) == 1)
 			token->str = temp;
 		if (!add_token(&utils->token_list, token) || !token->str)
-			return (free_tokens(&utils->token_list, temp, 1));
+			return (free_tokens(&utils->token_list, temp, 1, utils));
 		while (is_whitespace(aux[j]))
 			j++;
 		i = j;

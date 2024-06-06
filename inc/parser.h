@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 17:52:28 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 20:20:41 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:04:40 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,22 @@ int		initial_pipe(char *input, t_utils *utils);
 
 // handle_redirections.c
 int		check_redirections(char *input);
-int		handle_redirection(t_token **iterate, t_redir **redir_list, t_redir **redir_head);
-int     syntax_error(char *input, t_utils *utils);
+int		handle_redirection(t_token **iterate,
+			t_redir **redir_list, t_redir **redir_head);
+int		syntax_error(char *input, t_utils *utils);
 
 // parse_tokens.c
 int		parse_tokens(t_utils *utils);
 
 // checker_functions.c
 int		is_token(char c);
-int     is_whitespace(char c);
-int     count(char **arr);
-int     validate_redir(char *s);
+int		is_whitespace(char c);
+int		count(char **arr);
+int		validate_redir(char *s);
 
 // assignment_functions.c
-void    dup_matrix(char **ret, char **aux, int j, int k);
-int     init_process_cmd(t_parse **node);
+void	dup_matrix(char **ret, char **aux, int j, int k);
+int		init_process_cmd(t_parse **node);
 char	*init_quoteless_line(int num);
 
 #endif

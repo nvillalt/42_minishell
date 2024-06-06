@@ -6,18 +6,18 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 15:57:30 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:06:27 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	handle_printing_dollar(t_expand *exp_utils, int i, char **s, int flag)
+int	handle_printing_dollar(t_exp *exp_utils, int i, char **s, int flag)
 {
 	if (flag == 1)
 	{
 		*s = ft_itoa(exp_utils->status);
-		return (i +=2);
+		return (i += 2);
 	}
 	else if (flag == 2)
 	{
@@ -31,7 +31,7 @@ int	handle_printing_dollar(t_expand *exp_utils, int i, char **s, int flag)
 	}
 }
 
-int	expand_dbl_quote(char *s, t_expand *exp_utils, char **ret, int i)
+int	expand_dbl_quote(char *s, t_exp *exp_utils, char **ret, int i)
 {
 	char	*aux;
 	char	*tmp;
@@ -74,7 +74,7 @@ int	handle_sgl_quote(char *s, char **ret, int i)
 	return (i);
 }
 
-int	expand_dollar(char *s, t_expand *exp_utils, char **ret, int i)
+int	expand_dollar(char *s, t_exp *exp_utils, char **ret, int i)
 {
 	char	*aux;
 	char	*tmp;
@@ -97,7 +97,7 @@ int	expand_dollar(char *s, t_expand *exp_utils, char **ret, int i)
 	return (i);
 }
 
-int	not_expand(char *s, char **ret, int i)
+int	not_exp(char *s, char **ret, int i)
 {
 	char	*aux;
 	char	*tmp;
