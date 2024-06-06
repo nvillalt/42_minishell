@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:12:26 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:17:23 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	expansor(t_utils *utils)
 		{
 			tmp->str = check_expansion(tmp->str, exp_utils, tmp);
 			if (!tmp->str)
-				return (free_expansor(&utils->token_list, exp_utils));
+				return (free_expansor(&utils->token_list, exp_utils, utils));
 		}
 		if (tmp->str && tmp->next == NULL)
 			break ;

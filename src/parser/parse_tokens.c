@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:12:31 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:19:37 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	assign_process(t_parse **node, char *str, int expand, int quote)
 	return (1);
 }
 
-static int	create_process(t_parse **process_list, t_token **move)
+static int	create_process(t_parse **process_list, t_token **move, t_utils *utils)
 {
 	t_parse	*node;
 	t_token	*i;
@@ -109,12 +109,12 @@ static int	create_process(t_parse **process_list, t_token **move)
 		if (validate_redir(i->str))
 		{
 			if (!handle_redirection(&i, &node->redirec, &node->redirec_head))
-				return (FUNC_FAILURE);
+				return (clear_token_list(&utils->token_list, TOKEN_ERR, utils));
 		}
 		else if (!ft_strcmp(i->str, "|"))
 			break ;
 		else if (!assign_process(&node, i->str, i->expand, i->dbl_quote))
-			return (FUNC_FAILURE);
+			return (clear_token_list(&utils->token_list, TOKEN_ERR, utils));
 		if (i->next == NULL)
 			break ;
 		i = i->next;
@@ -132,7 +132,7 @@ int	parse_tokens(t_utils *utils)
 	move = utils->token_list;
 	while (move->str)
 	{
-		create_process(&utils->process, &move);
+		create_process(&utils->process, &move, utils);
 		if (move->str && move->next == NULL)
 			break ;
 		if (move->str)
