@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:24:02 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/05 20:24:04 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:14:06 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,18 @@ typedef struct s_utils
 	int		saved_stdout;
 }	t_utils;
 
+struct s_pwderror
+{
+	char	*new_pwd;
+	char	*temp;
+	char	*current_pwd;
+	char	*ptr_current_pwd;
+	int		i;
+};
+
+typedef struct s_cdvars
+{
+	int		i;
+	char	**env;
+}	t_cdvars;
 #endif

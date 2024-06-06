@@ -36,4 +36,7 @@ char			*create_new_buffer(char *buffer, char *val, char *key, int *i);
 void            open_files(t_utils *utils, t_parse *process, int *last_infile, int *last_outfile);
 int             redirec_infile(int last_infile, t_utils *utils);
 int             redirec_outfile(int last_outfile, t_utils *utils);
+void            open_outfiles(t_parse *process, t_utils *utils, int *last_outfile);
+void            open_infiles(t_parse *process, t_utils *utils, int *last_infile);
+void            init_parent_builtin(t_utils *utils, int *last_infile, int *last_outfile);
 #endif

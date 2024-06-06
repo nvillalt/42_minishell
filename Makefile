@@ -30,7 +30,8 @@ BUILT_INS = src/builtins/ft_echo.c \
 						src/builtins/export_utils.c \
 						src/builtins/export_utils2.c \
 						src/builtins/unset_var_env.c \
-						src/builtins/cd_utils.c 
+						src/builtins/cd_utils.c \
+						src/builtins/cd_utils2.c 
 
 EXECUTOR = src/executor/executor.c \
 					src/executor/get_cmd_path.c \
@@ -49,7 +50,10 @@ EXECUTOR = src/executor/executor.c \
 					src/executor/expand_heredoc.c \
 					src/executor/create_buffer_heredoc.c \
 					src/executor/open_files.c \
-					src/executor/redir_files.c
+					src/executor/redir_files.c \
+					src/executor/open_infiles.c \
+					src/executor/open_outfiles.c \
+					src/executor/init_parent_builtin.c 
 
 TOKENIZER =	src/tokenizer/token_generator.c \
 			src/tokenizer/token_list.c 
@@ -73,7 +77,6 @@ EXPAND = src/expansor/expansor.c \
 			src/expansor/builder_utils.c
 
 GENERAL = src/general/main.c \
-			src/general/error_management.c \
 			src/general/free_utils.c \
 			src/general/general_utils.c \
 			src/general/ft_puterror.c \

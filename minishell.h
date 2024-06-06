@@ -30,8 +30,6 @@ char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
 t_utils	init_utils(void);
 int		ft_strncmp_varlen(char *cmd, char *env_line);
-// error_management
-int		error_message(t_utils *utils);
 
 // free_functions
 void 	free_matrix(char **matrix);

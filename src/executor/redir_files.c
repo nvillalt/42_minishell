@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:46:29 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/05 17:10:38 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:35:47 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	redirec_infile(int last_infile, t_utils *utils)
 	}
 	return (FUNC_SUCCESS);
 }
+
 int	redirec_outfile(int last_outfile, t_utils *utils)
 {
 	if (last_outfile >= 0)

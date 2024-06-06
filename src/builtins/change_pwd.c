@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:14:24 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 17:30:43 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:56:30 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,33 +102,29 @@ static char	*add_slash(char *current_pwd)
 
 char	**change_pwd_error(char **env, char *cmd)
 {
-	char	*new_pwd;
-	char	*temp;
-	char	*current_pwd;
-	char	*ptr_current_pwd;
-	int		i;
+	struct s_pwderror	pwd;
 
-	i = 0;
-	ptr_current_pwd = ft_getenv(env, "PWD");
-	if (!ptr_current_pwd)
+	pwd.i = 0;
+	pwd.ptr_current_pwd = ft_getenv(env, "PWD");
+	if (!pwd.ptr_current_pwd)
 		return (env);
-	current_pwd = ft_strdup(ptr_current_pwd);
-	if (!current_pwd)
+	pwd.current_pwd = ft_strdup(pwd.ptr_current_pwd);
+	if (!pwd.current_pwd)
 		return (free_matrix(env), NULL);
 	cmd = add_slash(cmd);
 	if (!cmd)
-		return (free_matrix(env), free(current_pwd), NULL);
-	new_pwd = ft_strjoin(current_pwd, cmd);
-	free_ptrs(current_pwd, cmd);
-	if (!new_pwd)
+		return (free_matrix(env), free(pwd.current_pwd), NULL);
+	pwd.new_pwd = ft_strjoin(pwd.current_pwd, cmd);
+	free_ptrs(pwd.current_pwd, cmd);
+	if (!pwd.new_pwd)
 		return (free_matrix(env), NULL);
-	temp = ft_strjoin("PWD=", new_pwd);
-	free(new_pwd);
-	if (!temp)
+	pwd.temp = ft_strjoin("PWD=", pwd.new_pwd);
+	free(pwd.new_pwd);
+	if (!pwd.temp)
 		return (free_str_matrix(NULL, env));
-	while(env[i] && ft_strncmp_varlen("PWD", env[i]))
-		i++;
-	free(env[i]);
-	env[i] = temp;
+	while (env[pwd.i] && ft_strncmp_varlen("PWD", env[pwd.i]))
+		pwd.i++;
+	free(env[pwd.i]);
+	env[pwd.i] = pwd.temp;
 	return (env);
 }
