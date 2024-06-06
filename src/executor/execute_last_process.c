@@ -6,11 +6,20 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:22:23 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/05 17:08:58 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:17:52 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void	init_exec_process(t_utils *utils, int *last_infile,
+	int *last_outfile)
+{
+	*last_infile = -1;
+	*last_outfile = -1;
+	set_child_signals();
+	close_redir_fd(&utils->main_pipe[1]);
+}
 
 static void	execute_last_process(t_utils *utils, t_parse *process)
 {
@@ -18,10 +27,7 @@ static void	execute_last_process(t_utils *utils, t_parse *process)
 	int				last_infile;
 	int				last_outfile;
 
-	last_infile = -1;
-	last_outfile = -1;
-	set_child_signals();
-	close_redir_fd(&utils->main_pipe[1]);
+	init_exec_process(utils, &last_infile, &last_outfile);
 	open_files(utils, process, &last_infile, &last_outfile);
 	if (last_infile == -1)
 	{

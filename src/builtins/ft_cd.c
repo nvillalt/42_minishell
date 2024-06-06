@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:23:46 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/04 19:56:01 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:20:41 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,32 +96,29 @@ static int	return_success_cd(char **env, t_utils *utils)
 
 int	ft_cd(t_utils *utils, char **cmd)
 {
-	int		i;
-	char	**env;
+	t_cdvars	vars;
 
-	i = 0;
-	env = env_dup(utils->env);
-	if (!env)
+	init_cdvars(&vars, utils);
+	if (!vars.env)
 		return (perror("minishell"), 1);
-	while (cmd[i])
-		i++;
-	if (i == 1)
+	vars.i = count_matrix(cmd);
+	if (vars.i == 1)
 	{
-		env = change_to_home(env);
-		if (!env)
+		vars.env = change_to_home(vars.env);
+		if (!vars.env)
 		{
 			if (!var_home_exist(utils->env))
 				return (0);
 			return (1);
 		}
 	}
-	else if (i == 2)
+	else if (vars.i == 2)
 	{
-		env = change_to_directory(env, cmd[1]);
-		if (!env)
+		vars.env = change_to_directory(vars.env, cmd[1]);
+		if (!vars.env)
 			return (1);
 	}
 	else
-		return (multiple_argc_error(env));
-	return (return_success_cd(env, utils));
+		return (multiple_argc_error(vars.env));
+	return (return_success_cd(vars.env, utils));
 }

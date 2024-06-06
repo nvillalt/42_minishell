@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:18:48 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/05 17:05:24 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:06:35 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ static int	set_parent_builtin(t_utils *utils, t_parse *process)
 	int				last_infile;
 	int				last_outfile;
 
-	last_infile = -1;
-	last_outfile = -1;
-	utils->parent_builtin = 1;
+	init_parent_builtin(utils, &last_infile, &last_outfile);
 	utils->saved_stdin = dup(STDIN_FILENO);
 	if (utils->saved_stdin == -1)
 		return (free_puterror_int(NULL, NULL, utils, 1));
