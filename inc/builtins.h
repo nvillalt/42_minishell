@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/06 16:51:27 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/06/06 16:52:15 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
@@ -15,7 +27,7 @@ void	ft_exit(char **cmd, t_utils *utils);
 int		ft_export(t_utils *utils, char **cmd);
 char	**change_old_pwd(char **env);
 char	**change_pwd(char **env);
-char    **export_to_env(char **env, char **cmd, int *error_flag);
+char	**export_to_env(char **env, char **cmd, int *error_flag);
 int		is_export_format(char *cmd);
 char	**unset_var_env(char **env, int index_jump);
 char	**change_var(char **env, char *cmd);
@@ -34,6 +46,6 @@ int		get_cmd_flag(char **env, char *cmd, int cmd_len, int plus_flag);
 void	print_no_value(char **env, int *i, int *j);
 char	**join_var(char **env, char *cmd);
 char	*delete_plus(char *cmd);
-int     var_home_exist(char **env);
+int		var_home_exist(char **env);
 void	init_cdvars(t_cdvars *vars, t_utils *utils);
 #endif
