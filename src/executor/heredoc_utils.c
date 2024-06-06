@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:34:25 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/03 17:13:07 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:04:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	control_eof_hd(t_parse *process, t_utils *utils)
 {
 	close_fds(process, utils);
-	ft_putendl_fd(EOF_ERR_HD, STDERR_FILENO);
+	ft_putstr_fd("minishell:", STDERR_FILENO);
+	ft_putendl_fd(EOFERR, STDERR_FILENO);
 	utils->status = 0;
 	return (1);
 }

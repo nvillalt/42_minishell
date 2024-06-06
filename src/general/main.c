@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:39:26 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:39:29 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:10:13 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	prompt_loop(t_utils *utils)
 	return (1);
 }
 
-int handle_env(t_utils *utils, char **envp)
+static int handle_env(t_utils *utils, char **envp)
 {
 	utils->env = env_dup(envp);
 	if (!utils->env)

@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:06:27 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:00:03 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	handle_printing_dollar(t_exp *exp_utils, int i, char **s, int flag)
 		*s = ft_strdup("$");
 		return (i += 2);
 	}
+	return (1);
 }
 
 int	expand_dbl_quote(char *s, t_exp *exp_utils, char **ret, int i)
