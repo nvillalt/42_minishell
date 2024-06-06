@@ -13,7 +13,7 @@
 #include "../../minishell.h"
 
 static int	write_here_doc(t_parse *process, t_utils *utils)
-{	
+{
 	char	*buffer;
 	int		limiter_len;
 	int		buffer_len;

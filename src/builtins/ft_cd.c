@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include    "../../minishell.h"
+#include "../../minishell.h"
 
 static char	*search_for_home(char **env)
 {

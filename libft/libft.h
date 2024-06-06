@@ -23,7 +23,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}t_list;
+}	t_list;
 
 void		ft_bzero(void *ptr, size_t n);
 void		ft_putchar_fd(char c, int fd);
