@@ -10,7 +10,7 @@ CC = cc
 
 LM = make -C
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 RLIB = -lreadline
 
