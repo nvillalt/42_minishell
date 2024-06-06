@@ -56,11 +56,13 @@ static void	set_child_builtin(t_utils *utils, t_parse *process)
 	close_redir_fd(&utils->main_pipe[0]);
 	open_files(utils, process, &last_infile, &last_outfile);
 	redirec_infile(last_infile, utils);
-	if (last_outfile == -1 && process->next)
+	if (last_outfile == -1)
 	{
 		if (dup2(utils->main_pipe[1], STDOUT_FILENO) == -1)
 			exit_process(utils);
 	}
+	else
+		redirec_outfile(last_outfile, utils);
 	close_redir_fd(&utils->main_pipe[1]);
 	close_fds(utils->process, utils);
 	status = handle_builtins(utils, process);
@@ -84,6 +86,8 @@ static int	set_parent_builtin(t_utils *utils, t_parse *process)
 		return (free_puterror_int(NULL, NULL, utils, 1));
 	utils->builtin_counter = 1;
 	open_files(utils, process, &last_infile, &last_outfile);
+	if (last_infile == -2 || last_outfile == -2)
+		return (FUNC_FAILURE);
 	if (!redirec_infile(last_infile, utils))
 		return (change_status(utils, 1));
 	if (!redirec_outfile(last_outfile, utils))
@@ -109,7 +113,10 @@ int	exec_builtins(t_utils *utils, t_parse *process, int process_index)
 	else
 	{
 		if (!set_parent_builtin(utils, process))
+		{
+			utils->status = 1;
 			return (FUNC_FAILURE);
+		}
 	}
 	return (FUNC_SUCCESS);
 }

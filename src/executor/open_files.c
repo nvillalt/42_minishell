@@ -19,7 +19,7 @@ static int	open_minus(t_utils *utils, t_parse *process, int last_infile)
 	{
 		ft_puterror(process->redirec->doc);
 		if (utils->parent_builtin == 1)
-			return (-1);
+			return (-2);
 		else
 			exit_process(utils);
 	}
@@ -33,7 +33,7 @@ static int	open_heredoc(t_utils *utils, t_parse *process, int last_infile)
 	{
 		ft_puterror(process->redirec->doc);
 		if (utils->parent_builtin == 1)
-			return (-1);
+			return (-2);
 		else
 			exit_process(utils);
 	}
@@ -49,7 +49,7 @@ static int	open_great(t_utils *utils, t_parse *process, int last_outfile)
 	{
 		ft_puterror(process->redirec->doc);
 		if (utils->parent_builtin == 1)
-			return (-1);
+			return (-2);
 		else
 			exit_process(utils);
 	}
@@ -65,7 +65,7 @@ static int	open_append(t_utils *utils, t_parse *process, int last_outfile)
 	{
 		ft_puterror(process->redirec->doc);
 		if (utils->parent_builtin == 1)
-			return (-1);
+			return (-2);
 		else
 			exit_process(utils);
 	}

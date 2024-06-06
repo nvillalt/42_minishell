@@ -71,6 +71,6 @@ void	ft_exit(char **cmd, t_utils *utils)
 		if (!check_number_cmd(cmd[1]))
 			print_buexit_error(cmd[1], utils);
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-		exit_process_custom(utils, 127);
+		exit_process_custom(utils, 1);
 	}
 }
