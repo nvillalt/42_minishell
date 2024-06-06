@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/06 16:39:26 by nvillalt          #+#    #+#             */
+/*   Updated: 2024/06/06 16:39:29 by nvillalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
+
+int	g_sigint;
 
 static char	**create_mini_env(void)
 {
@@ -88,27 +102,31 @@ int	prompt_loop(t_utils *utils)
 	return (1);
 }
 
-int	g_sigint;
+int handle_env(t_utils *utils, char **envp)
+{
+	utils->env = env_dup(envp);
+	if (!utils->env)
+		exit(1);
+	if(!update_shlvl(utils))
+	{
+		free_matrix(utils->env);
+		ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
+		exit(1);
+	}
+	return (1);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_utils	utils;
 
+	if (argc != 1 || argv[argc] != NULL)
+		return (0);
 	utils = init_utils();
-	 if(!*envp)
+	if (!*envp)
 	 	utils.env = create_mini_env();
-	 else
-	 {
-		utils.env = env_dup(envp);
-		if (!utils.env)
-			exit(1);
-		if(!update_shlvl(&utils))
-		{
-			free_matrix(utils.env);
-			ft_putendl_fd("minishell: Init error", STDOUT_FILENO);
-			exit(1);
-		}
-	}
+	else
+		handle_env(&utils, envp);
 	utils.env = set_oldpwd(utils.env);
 	if (!utils.env)
 	{

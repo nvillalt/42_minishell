@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 19:19:10 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:19:37 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:30:31 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ static int	assign_process(t_parse **node, char *str, int expand, int quote)
 	return (1);
 }
 
-static int	create_process(t_parse **process_list, t_token **move, t_utils *utils)
+static int	create_process(t_parse **p_list, t_token **move, t_utils *utils)
 {
 	t_parse	*node;
 	t_token	*i;
 
-	if (!init_process(&node) && process_list != NULL)
+	if (!init_process(&node) && p_list != NULL)
 		return (perror("minishell"), 0);
 	i = *move;
 	while (i)
@@ -119,7 +119,7 @@ static int	create_process(t_parse **process_list, t_token **move, t_utils *utils
 			break ;
 		i = i->next;
 	}
-	if (!add_process(process_list, node))
+	if (!add_process(p_list, node))
 		return (0);
 	*move = i;
 	return (1);

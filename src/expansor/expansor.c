@@ -6,7 +6,7 @@
 /*   By: nvillalt <nvillalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:04:54 by nvillalt          #+#    #+#             */
-/*   Updated: 2024/06/06 16:17:23 by nvillalt         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:30:00 by nvillalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	*check_expansion(char *str, t_exp *exp_utils, t_token *tmp)
 int	expansor(t_utils *utils)
 {
 	t_token		*tmp;
-	t_exp	*exp_utils;
+	t_exp		*exp_utils;
 	int			i;
 
 	i = 0;

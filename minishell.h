@@ -21,7 +21,6 @@
 # include "inc/signals.h"
 # include "inc/tokenizer.h"
 # include "inc/expansor.h"
-/* ····· general utils & functions ····· */
 
 extern int	g_sigint;
 
@@ -30,6 +29,7 @@ char	**env_dup(char **env);
 int		prompt_loop(t_utils *utils);
 t_utils	init_utils(void);
 int		ft_strncmp_varlen(char *cmd, char *env_line);
+
 // error_management
 int		error_message(t_utils *utils);
 
@@ -48,10 +48,13 @@ int		change_status(t_utils *utils, int status);
 void	exit_init_void(char **matrix);
 int		free_matrix_return(char **matrix);
 char	**free_str_matrix(char *str, char **matrix);
+
 //printf double array
 void	print_env(char **env);
 int     count_matrix(char **cmds);
+
 //init
 char	**set_oldpwd(char **env);
 int		update_shlvl(t_utils *utils);
+
 #endif
