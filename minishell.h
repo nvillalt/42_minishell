@@ -23,7 +23,6 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <limits.h>
 # include <sys/ioctl.h>
 # include "inc/structs.h"
 # include "libft/libft.h"
@@ -41,7 +40,6 @@ t_utils	init_utils(void);
 char	**create_mini_env(void);
 int		ft_strncmp_varlen(char *cmd, char *env_line);
 int		handle_env(t_utils *utils, char **envp);
-
 void	free_matrix(char **matrix);
 void	free_utils(t_utils *utils);
 void	free_lists(t_utils	*utils);
@@ -56,11 +54,8 @@ int		change_status(t_utils *utils, int status);
 void	exit_init_void(char **matrix);
 int		free_matrix_return(char **matrix);
 char	**free_str_matrix(char *str, char **matrix);
-void	ctrl_d_signal_exit(t_utils *utils);
-
 void	print_env(char **env);
 int		count_matrix(char **cmds);
-
 char	**set_oldpwd(char **env);
 int		update_shlvl(t_utils *utils);
 

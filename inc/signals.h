@@ -18,5 +18,6 @@ void	set_child_signals(void);
 void	ignore_signals(void);
 void	set_signals(void);
 void	heredoc_signals(void);
+void	ctrl_d_signal_exit(t_utils *utils);
 
 #endif
