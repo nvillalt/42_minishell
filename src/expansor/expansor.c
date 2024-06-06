@@ -72,9 +72,7 @@ int	expansor(t_utils *utils)
 {
 	t_token		*tmp;
 	t_exp		*exp_utils;
-	int			i;
 
-	i = 0;
 	tmp = utils->token_list;
 	exp_utils = init_exp(utils);
 	while (tmp->str)

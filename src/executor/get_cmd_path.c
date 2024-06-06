@@ -26,18 +26,18 @@ static int	ft_isrelative(char *cmd)
 	return (0);
 }
 
-static char	*find_env_path(char **env)
+static char	*get_env_path(t_utils *utils, t_parse *process)
 {
-	int		i;
+	char	*env_ptr;
+	char	*path_oneline;
 
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (!ft_strncmp(env[i], "PATH=", 5))
-			return (env[i]);
-		i++;
-	}
-	return (NULL);
+	env_ptr = ft_getenv(utils->env, "PATH");
+	if (!env_ptr)
+		exit_process_path(utils, process, 127);
+	path_oneline = ft_strdup(env_ptr);
+	if (!path_oneline)
+		exit_matrix_str(NULL, NULL, "minishell", utils);
+	return (path_oneline);
 }
 
 static char	*get_def_path(char **path, char *command, t_utils *utils)
@@ -78,12 +78,7 @@ char	*get_cmd_path(t_utils *utils, t_parse *process)
 		return (process->cmd[0]);
 	if (access(process->cmd[0], X_OK) == -1 && ft_isrelative(process->cmd[0]))
 		exit_process_path(utils, process, 126);
-	path_oneline = find_env_path(utils->env);
-	if (!path_oneline)
-		exit_process_path(utils, process, 127);
-	path_oneline = ft_strdup(path_oneline);
-	if (!path_oneline)
-		exit_matrix_str(NULL, NULL, "minishell", utils);
+	path_oneline = get_env_path(utils, process);
 	path = ft_split(path_oneline, ':');
 	free(path_oneline);
 	if (!path)

@@ -39,11 +39,9 @@ char	**create_new_env(char **env, char *cmd)
 
 int	cmd_on_env(char **env, char *cmd)
 {
-	int	i;
 	int	cmd_len;
 	int	plus_flag;
 
-	i = 0;
 	cmd_len = 0;
 	plus_flag = 0;
 	if (*cmd == '=')

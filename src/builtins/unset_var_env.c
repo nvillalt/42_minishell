@@ -44,10 +44,8 @@ char	**unset_var_env(char **env, int index_jump)
 {
 	char	**dup;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (env[i] != NULL)
 		i++;
 	dup = ft_calloc(sizeof(char *), i + 1);

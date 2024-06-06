@@ -15,11 +15,9 @@
 char	*ft_getenv(char **env, char *var)
 {
 	int		i;
-	int		varlen;
 	char	*str;
 
 	i = 0;
-	varlen = env_varlen(var);
 	while (env[i] && ft_strncmp_varlen(var, env[i]))
 		i++;
 	if (!env[i])
